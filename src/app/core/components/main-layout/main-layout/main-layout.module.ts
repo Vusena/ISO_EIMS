@@ -40,7 +40,7 @@ import { SuccessComponent } from 'app/core/features/common/success/success.compo
 import { AdminDashboardComponent } from 'app/core/features/admin/admin-dashboard/admin-dashboard.component';
 import { userInfo } from 'os';
 import { UserDashboardComponent } from 'app/core/features/user/user-dashboard/user-dashboard.component';
-import { CustomModalComponent } from 'app/core/features/common/custom-modal/custom-modal.component';
+
 
 
 
@@ -66,7 +66,7 @@ import { CustomModalComponent } from 'app/core/features/common/custom-modal/cust
       SuccessComponent,
       AdminDashboardComponent,
       UserDashboardComponent,
-      CustomModalComponent
+  
     
 
   ],

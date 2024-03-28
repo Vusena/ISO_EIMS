@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { AuthService } from 'app/core/services/auth.service';
 import { HttpService } from 'app/core/services/http.service';
 import { SuccessComponent } from '../../common/success/success.component';
-import { CustomModalComponent } from 'app/core/features/common/custom-modal/custom-modal.component';
+
 import { ViewChild, ElementRef } from '@angular/core';
-import * as $ from 'jquery';
-import { Modal } from 'bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -32,7 +31,6 @@ export class IntergrityAwardAdminComponent {
   missingdetails: string;
   isConfirmed: boolean;
 
-
   integrityAndProfessionalism: boolean = null;
   acceptsResponsibility: boolean = null;
   maintainsOpenCommunications: boolean = null;
@@ -40,18 +38,16 @@ export class IntergrityAwardAdminComponent {
   contributionDescription: string = '';
 
   nomineeError: "";
- 
 
-  @ViewChild('nominateModal') nominateModal: CustomModalComponent;
+    @ViewChild('content') content: TemplateRef<any>;
 
   constructor(private httpService: HttpService, private fb: FormBuilder, private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,private modalService: NgbModal
   ) {
     this.nomineeData = this.fb.group({
       contributionDescription1: ['', Validators.required]
     });
   }
-
 
   onSubmit(event: any): void {
     event.preventDefault();
@@ -143,6 +139,7 @@ export class IntergrityAwardAdminComponent {
             setTimeout(() => {
               this.alertMessage = ''; // Clear the alertMessage
             }, 3000);
+            this.openVerticallyCentered(this.content);
             // this.showModal();
             //  this.successAlert();
             //    setTimeout(() => {
@@ -168,7 +165,6 @@ export class IntergrityAwardAdminComponent {
 
     }
   }
-
   successAlert(): void { }
 
   areAllFieldsFilled(): boolean {
@@ -184,7 +180,6 @@ export class IntergrityAwardAdminComponent {
     return value ? 1 : 2;
   }
   resetForm(): void {
-
     this.integrityAndProfessionalism = null
     this.acceptsResponsibility = null
     this.maintainsOpenCommunications = null
@@ -197,7 +192,9 @@ export class IntergrityAwardAdminComponent {
     this.searchText = ''
 
   }
-
+  openVerticallyCentered(content: TemplateRef<any>) {
+		this.modalService.open(content, { centered: true });
+	}
 
 
   isAdmin(): boolean {

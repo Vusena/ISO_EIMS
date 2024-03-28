@@ -120,7 +120,21 @@
   color: #E12827
 }
 
+.success{
+  font-size: 24px;
+  font-weight: 400;
+  color: #133B3A;
+}
 
+.modal-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  border-bottom: none;
+}
+.modal-footer{
+  border-top: none;
+}
 
   //  SECOND COLUMN  
   

@@ -284,8 +284,8 @@
                 </div>
               </div>
 
-           
-              
+
+
               <form [formGroup]="nomineeData">
                 <div class="row mt-3">
                   <div class="col-12 p-0">
@@ -302,9 +302,31 @@
                 </div>
               </form>
 
-              
-              <!-- <app-custom-modal #nominateModal></app-custom-modal> -->
-              <!-- <button (click)="openModal(nominateModal)">MODAL</button> -->
+
+
+              <ng-template #content let-modal>
+                <div class="modal-header">
+                  <div class="col d-flex justify-content-center">
+                    <p class="success">SUCCESS</p>
+                  </div>
+                  <button type="button" class="btn-close" aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"></button>
+                </div>
+                <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json"
+                  style="height: 150px;">
+                </lottie-player>
+                <div class="col" class="text-center">
+                  <p style="font-size: 15px; font-weight: bold;">Your Nomination has been submitted successfully.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+                </div>
+              </ng-template>
+
+              <!-- <button class="btn btn-outline-primary mb-2 me-2" (click)="openVerticallyCentered(content)">
+                Modal vertically centered
+              </button> -->
+
               <div class="row mt-2 mb-4">
                 <div class="col-6">
                   <button type="button" class="btn btn-rounded" (click)="resetForm()" style="
@@ -318,7 +340,7 @@
                   </button>
                 </div>
                 <div class="col-6">
-                  <button type="button"  class="btn btn-rounded" style="background-color: #e12827; font-size: 14px"
+                  <button type="button" class="btn btn-rounded" style="background-color: #e12827; font-size: 14px"
                     (click)="onNominate()">
                     Nominate
                     <img src="assets/icons/main-layout-icons/submit.svg" class="" alt="Nomibate" />
