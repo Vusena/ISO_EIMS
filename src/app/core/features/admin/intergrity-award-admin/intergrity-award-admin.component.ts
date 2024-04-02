@@ -152,7 +152,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
               this.alertMessage = ''; // Clear the alertMessage
             }, 3000);
             this.openVerticallyCentered(this.content);
-            
+            window.location.reload();
           },
           error: (err) => {
             this.nomineeError = err.error.description;
