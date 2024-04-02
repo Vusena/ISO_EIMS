@@ -357,28 +357,54 @@
         <div class="container card4">
 
           <div class="col-12 p-0 warning mt-4" style="background-color: #fbe4e4;">
-            <div style="background-color: #fbe4e4;" class="p-1">
+            <div style="background-color: #fbe4e4; line-height: normal;" class="">
               <p class="p-0" style="font-size: 15px; font-weight: 600;">
                 <i class="material-icons" style="color: #741110 !important">warning</i>
                 PLEASE NOTE
               </p>
-              <div style="font-size: 12px">
-                1. Users in Nairobi region must nominate members from their
+              <p style="font-size: 12px; white-space: normal;" class="p-0">
+                1.Users in Nairobi region must nominate members from their
                 department only.
-              </div>
-              <div style="font-size: 12px">
-                2. Users from other regions can nominate members from any
+              </p>
+              <p style="font-size: 12px;  white-space: normal;" class="p-0">
+                2.Users from other regions can nominate members from any
                 department within their region only.
-              </div>
-              <div style="font-size: 12px">
-                3. The user cannot nominate themselves.
-              </div>
-              <div style="font-size: 12px">
-                4. The user cannot nominate more than once.
-              </div>
+              </p>
+              <p style="font-size: 12px; white-space: normal;" class="p-0">
+                3.The user cannot nominate themselves.
+              </p>
+              <p style="font-size: 12px; white-space: normal;" class="p-0">
+                4.The user cannot nominate more than once.
+              </p>
             </div>
           </div>
+          <p class="mt-3 mb-2" style="color: #133B3A; font-weight: bold;">Below is the current schedule</p>
+          <form [formGroup]="scheduleForm" >
+            <div class="textfonts p-0">Start Date</div>
+          <mat-form-field appearance="outline" class="p-0 m-0 w-100 custom-mat-form-field ">
+            <input matInput [matDatepicker]="startdate" formControlName="startDate" class="m-0 "
+                style="font-size: 13px; margin-left: 0" />
+          
+            <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
+            <mat-datepicker #startdate></mat-datepicker>
+        </mat-form-field>
 
+        <div class="textfonts p-0">Closing Date</div>
+        <mat-form-field appearance="outline" class="p-0 m-0 w-100 custom-mat-form-field ">
+            <input matInput [matDatepicker]="closingDate" formControlName="closingDate"
+                placeholder="Choose a date" style="font-size: 13px; margin-left: 0" class=""/>
+           
+            <mat-datepicker-toggle matIconSuffix [for]="closingDate"></mat-datepicker-toggle>
+            <mat-datepicker #closingDate></mat-datepicker>
+        </mat-form-field>
+        <div class="d-flex p-0 align-items-center w-100">
+          <img src="assets/icons/main-layout-icons/history.svg" class="pe-1 mt-1" 
+          style="height:20px; " alt="">
+          <p class="flex-grow-1 pt-3 ms-1 fw-semibold"
+            style="font-size: 20px; color: #570c0c !important; font-family: Roboto; ">History</p>
+         
+        </div>
+          </form>
         </div>
       </div>
     </div>

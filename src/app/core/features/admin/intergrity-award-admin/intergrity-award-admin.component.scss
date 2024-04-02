@@ -188,8 +188,9 @@
     height: 675px;
   }
 
- 
-
+  ::ng-deep .custom-mat-form-field {
+    height: 50px !important;
+  }
   
   .xyz {
     width: 30%;

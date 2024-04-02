@@ -1,4 +1,4 @@
-import { Component, TemplateRef, inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
@@ -15,7 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './intergrity-award-admin.component.html',
   styleUrl: './intergrity-award-admin.component.scss'
 })
-export class IntergrityAwardAdminComponent {
+export class IntergrityAwardAdminComponent implements OnInit {
   filteredkrastaff: any[] = [];
   searchText: string = '';
   specificName: string = '';
@@ -38,15 +38,27 @@ export class IntergrityAwardAdminComponent {
   contributionDescription: string = '';
 
   nomineeError: "";
+  currentSchedule: any;
+  startDate: any;
+  closingDate: any;
+  initialStartDate: any;
+  scheduleForm: FormGroup;
 
     @ViewChild('content') content: TemplateRef<any>;
-
-  constructor(private httpService: HttpService, private fb: FormBuilder, private dialog: MatDialog,
+   constructor(private httpService: HttpService, private fb: FormBuilder, private dialog: MatDialog,
     private authService: AuthService,private modalService: NgbModal
   ) {
     this.nomineeData = this.fb.group({
       contributionDescription1: ['', Validators.required]
     });
+  }
+  ngOnInit(): void {
+    this.onDateExtend()
+    this.scheduleForm = this.fb.group({
+      startDate: ['', Validators.required], // You can set initial values here if needed
+      closingDate: ['', Validators.required]
+    });
+    this.getNominee()
   }
 
   onSubmit(event: any): void {
@@ -140,11 +152,7 @@ export class IntergrityAwardAdminComponent {
               this.alertMessage = ''; // Clear the alertMessage
             }, 3000);
             this.openVerticallyCentered(this.content);
-            // this.showModal();
-            //  this.successAlert();
-            //    setTimeout(() => {
-            //     window.location.reload();
-            // }, 3000);
+            
           },
           error: (err) => {
             this.nomineeError = err.error.description;
@@ -165,7 +173,7 @@ export class IntergrityAwardAdminComponent {
 
     }
   }
-  successAlert(): void { }
+ 
 
   areAllFieldsFilled(): boolean {
     return (
@@ -195,6 +203,55 @@ export class IntergrityAwardAdminComponent {
   openVerticallyCentered(content: TemplateRef<any>) {
 		this.modalService.open(content, { centered: true });
 	}
+
+  onDateExtend(): void {
+    this.httpService.get(ApiEndPoints.AWARD_SCHEDULES_SHOW).subscribe({
+      next: (res) => {
+        console.log('This',res)
+        this.currentSchedule=res.data;
+        console.log('currentSchedule', this.currentSchedule)
+        this.startDate = res.data.startDate;
+        this.closingDate = res.data.endDate;
+        // This comes as an array of format YYYY/MM/DD
+        console.log('startDate:', this.startDate);
+        console.log('closingDate:', this.closingDate);
+
+        this.startDate = new Date(res.data.startDate);
+        this.closingDate = new Date(res.data.endDate);
+        this.initialStartDate = this.startDate;
+        console.log('initialStartDate', this.initialStartDate)
+
+        console.log('New startDate:', this.startDate);
+        console.log('New closingDate:', this.closingDate);
+        console.log(this.scheduleForm)
+
+        this.scheduleForm.patchValue({
+          startDate: this.startDate,
+          closingDate: this.closingDate,
+        });
+        // Disable startDate input field
+        this.scheduleForm.get('closingDate').disable();
+      this.scheduleForm.get('startDate').disable();
+      },
+      error: (error) => {
+        console.error("There was an error!", error);
+      },
+    });
+
+   }
+
+ getNominee():void{
+  this.httpService.get(ApiEndPoints.AWARD_NOMINATION_MYNOMINEE).subscribe({
+    next: (res) => {
+     console.log(res)
+   
+    },
+    error: (error) => {
+      console.error("There was an error!", error);
+    },
+  });
+
+ }
 
 
   isAdmin(): boolean {
