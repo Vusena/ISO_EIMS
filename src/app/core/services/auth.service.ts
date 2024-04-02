@@ -36,9 +36,9 @@ export class AuthService {
     }).pipe(
       map( response=> {
         sessionStorage.setItem(Enums.USER, JSON.stringify(response.body));
-        console.log(response.body)
+        // console.log(response.body)
         sessionStorage.setItem(Enums.TOKEN, response.body.token);
-        console.log(response.body.token)
+        // console.log(response.body.token)
         sessionStorage.setItem(Enums.ROLES, JSON.stringify(response.body.data.roles));
 
         

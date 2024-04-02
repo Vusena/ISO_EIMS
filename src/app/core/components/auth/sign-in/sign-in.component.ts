@@ -36,10 +36,10 @@ export class SignInComponent implements OnInit {
     
     const username = this.Form.value.username;
     const password = this.Form.value.password;
-       console.log(username, password)
+      //  console.log(username, password)
      this.authService.login(username, password).subscribe(
       (response) => {
-        console.log('Login Response:', response);
+        // console.log('Login Response:', response);
         this.isLoading = false;
         this.successMessage = "Logging you in, please wait...";
         localStorage.setItem('TOKEN', response.body.token);
@@ -47,18 +47,18 @@ export class SignInComponent implements OnInit {
         localStorage.setItem('ROLES', JSON.stringify(response.body.data.roles.map((role: any) => role.name)));
         // console.log(this.authService.getUserRoles());
         // Navigate to dashboard or any other route upon successful login
-        console.log('USER', response.body.data.staffNo)
-        console.log('ROLES', response.body.data.roles)
-        console.log('Roles:', localStorage.getItem('ROLES'));
+        // console.log('USER', response.body.data.staffNo)
+        // console.log('ROLES', response.body.data.roles)
+        // console.log('Roles:', localStorage.getItem('ROLES'));
         // Navigate to dashboard or any other route upon successful login
 
         const roles = response.body.data.roles.map((role: any) => role.name);
-        console.log(roles)
+        // console.log(roles)
         if (roles.includes('ADMIN')) {
-          console.log('User is an admin.');
+          // console.log('User is an admin.');
           this.router.navigate(['/dashboard']);
         } else {
-          console.log('User is not an admin.');
+          // console.log('User is not an admin.');
           // Assuming 'intergrity-award' is the route for regular users
           this.router.navigate(['/intergrity-award']);
         }

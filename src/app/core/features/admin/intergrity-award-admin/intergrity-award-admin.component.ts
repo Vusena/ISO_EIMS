@@ -30,6 +30,8 @@ export class IntergrityAwardAdminComponent implements OnInit {
   nomineeData: FormGroup;
   missingdetails: string;
   isConfirmed: boolean;
+  nominee:any;
+  nonominee:any;
 
   integrityAndProfessionalism: boolean = null;
   acceptsResponsibility: boolean = null;
@@ -67,13 +69,13 @@ export class IntergrityAwardAdminComponent implements OnInit {
     this.httpService.postData(`${ApiEndPoints.AWARD_NOMINATIONS_SEARCH}`, body,)
       .subscribe({
         next: (res) => {
-          console.log("Response", res)
+          // console.log("Response", res)
           this.krastafflist = res.body.data;
-          console.log('krastafflist', this.krastafflist);
-          console.log('name', this.krastafflist.name)
-          console.log(res.status)
+          // console.log('krastafflist', this.krastafflist);
+          // console.log('name', this.krastafflist.name)
+          // console.log(res.status)
           this.status_code = res.status;
-          console.log('status code ', this.status_code);
+          // console.log('status code ', this.status_code);
 
           if (this.status_code === 200) {
             this.errorMessage = "";
@@ -88,7 +90,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           }
         },
         error: (err) => {
-          console.log(err.error.description);
+          // console.log(err.error.description);
           this.specificName = err.error.data.name;
           this.department = err.error.data.department;
           this.region = err.error.data.region;
@@ -98,7 +100,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           setTimeout(() => {
             this.errorMessage = ''; // Clear the error message after 3 minutes
           }, 3000);
-          console.log(this.errorMessage);
+          // console.log(this.errorMessage);
 
         }
       })
@@ -141,12 +143,12 @@ export class IntergrityAwardAdminComponent implements OnInit {
         description: this.contributionDescription,
         nominee: this.staff_number
       }
-      console.log(nomineeData.nominee)
-      console.log(nomineeData)
+      // console.log(nomineeData.nominee)
+      // console.log(nomineeData)
       this.httpService.postData(`${ApiEndPoints.AWARD_NOMINATION_STORE}`, nomineeData,)
         .subscribe({
           next: (res) => {
-            console.log(res)
+            // console.log(res)
             this.alertMessage = res.body.description
             setTimeout(() => {
               this.alertMessage = ''; // Clear the alertMessage
@@ -156,7 +158,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           },
           error: (err) => {
             this.nomineeError = err.error.description;
-            console.log(this.nomineeError)
+            // console.log(this.nomineeError)
           }
         })
 
@@ -207,23 +209,23 @@ export class IntergrityAwardAdminComponent implements OnInit {
   onDateExtend(): void {
     this.httpService.get(ApiEndPoints.AWARD_SCHEDULES_SHOW).subscribe({
       next: (res) => {
-        console.log('This',res)
+        // console.log('This',res)
         this.currentSchedule=res.data;
-        console.log('currentSchedule', this.currentSchedule)
+        // console.log('currentSchedule', this.currentSchedule)
         this.startDate = res.data.startDate;
         this.closingDate = res.data.endDate;
         // This comes as an array of format YYYY/MM/DD
-        console.log('startDate:', this.startDate);
-        console.log('closingDate:', this.closingDate);
+        // console.log('startDate:', this.startDate);
+        // console.log('closingDate:', this.closingDate);
 
         this.startDate = new Date(res.data.startDate);
         this.closingDate = new Date(res.data.endDate);
         this.initialStartDate = this.startDate;
-        console.log('initialStartDate', this.initialStartDate)
+        // console.log('initialStartDate', this.initialStartDate)
 
-        console.log('New startDate:', this.startDate);
-        console.log('New closingDate:', this.closingDate);
-        console.log(this.scheduleForm)
+        // console.log('New startDate:', this.startDate);
+        // console.log('New closingDate:', this.closingDate);
+        // console.log(this.scheduleForm)
 
         this.scheduleForm.patchValue({
           startDate: this.startDate,
@@ -239,19 +241,30 @@ export class IntergrityAwardAdminComponent implements OnInit {
     });
 
    }
-
  getNominee():void{
   this.httpService.get(ApiEndPoints.AWARD_NOMINATION_MYNOMINEE).subscribe({
     next: (res) => {
-     console.log(res)
-   
+    //  console.log(res,'respo')
+    //  console.log(res.data)
+     this.status_code=res.code
+    //  console.log("code", this.status_code)
+     if (this.status_code == 200) {
+      this.nominee=res.data.nominee
+      // console.log('nominee', this.nominee) 
+    }
     },
     error: (error) => {
-      console.error("There was an error!", error);
+  
+      this.status_code=error.status
+      // console.log( this.status_code, ' this.status_code')
+      if (this.status_code == 400) {
+        this.nonominee = "You haven't nominated anyone yet";
+      }
     },
   });
 
  }
+
 
 
   isAdmin(): boolean {

@@ -312,8 +312,7 @@
                   <button type="button" class="btn-close" aria-label="Close"
                     (click)="modal.dismiss('Cross click')"></button>
                 </div>
-                <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json"
-                  style="height: 150px;">
+                <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
                 </lottie-player>
                 <div class="col" class="text-center">
                   <p style="font-size: 15px; font-weight: bold;">Your Nomination has been submitted successfully.</p>
@@ -379,31 +378,36 @@
             </div>
           </div>
           <p class="mt-3 mb-2" style="color: #133B3A; font-weight: bold;">Below is the current schedule</p>
-          <form [formGroup]="scheduleForm" >
+          <form [formGroup]="scheduleForm">
             <div class="textfonts p-0">Start Date</div>
-          <mat-form-field appearance="outline" class="p-0 m-0 w-100 custom-mat-form-field ">
-            <input matInput [matDatepicker]="startdate" formControlName="startDate" class="m-0 "
+            <mat-form-field appearance="outline" class="p-0 m-0 w-100 custom-mat-form-field ">
+              <input matInput [matDatepicker]="startdate" formControlName="startDate" class="m-0 "
                 style="font-size: 13px; margin-left: 0" />
-          
-            <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
-            <mat-datepicker #startdate></mat-datepicker>
-        </mat-form-field>
 
-        <div class="textfonts p-0">Closing Date</div>
-        <mat-form-field appearance="outline" class="p-0 m-0 w-100 custom-mat-form-field ">
-            <input matInput [matDatepicker]="closingDate" formControlName="closingDate"
-                placeholder="Choose a date" style="font-size: 13px; margin-left: 0" class=""/>
-           
-            <mat-datepicker-toggle matIconSuffix [for]="closingDate"></mat-datepicker-toggle>
-            <mat-datepicker #closingDate></mat-datepicker>
-        </mat-form-field>
-        <div class="d-flex p-0 align-items-center w-100">
-          <img src="assets/icons/main-layout-icons/history.svg" class="pe-1 mt-1" 
-          style="height:20px; " alt="">
-          <p class="flex-grow-1 pt-3 ms-1 fw-semibold"
-            style="font-size: 20px; color: #570c0c !important; font-family: Roboto; ">History</p>
-         
-        </div>
+              <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
+              <mat-datepicker #startdate></mat-datepicker>
+            </mat-form-field>
+
+            <div class="textfonts p-0">Closing Date</div>
+            <mat-form-field appearance="outline" class="p-0 m-0 w-100 custom-mat-form-field ">
+              <input matInput [matDatepicker]="closingDate" formControlName="closingDate" placeholder="Choose a date"
+                style="font-size: 13px; margin-left: 0" class="" />
+
+              <mat-datepicker-toggle matIconSuffix [for]="closingDate"></mat-datepicker-toggle>
+              <mat-datepicker #closingDate></mat-datepicker>
+            </mat-form-field>
+            <div class="d-flex p-0 align-items-center w-100">
+              <img src="assets/icons/main-layout-icons/history.svg" class="pe-1 mt-1" style="height:20px; " alt="">
+              <p class="flex-grow-1 pt-3 ms-1 fw-semibold"
+                style="font-size: 20px; color: #570c0c !important; font-family: Roboto; ">History</p>
+
+            </div>
+            <div *ngIf="nonominee">
+              <p style="font-size: 13px; color: #000000;">{{ nonominee }}</p>
+            </div>
+            <div *ngIf="nominee">
+              <p style="font-size: 13px; color: #000000;">You nominated: {{ nominee }}</p>
+            </div>
           </form>
         </div>
       </div>
