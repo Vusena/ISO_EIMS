@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Environment } from '../environments/environment';
+import { Environment } from 'environments/environment.prod';
 import { AuthService } from './auth.service';
 
 

@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Environment } from 'app/core/environments/environment';
+import { Environment } from 'environments/environment.prod';
+// import { Environment } from 'app/core/environments/environment';
 import { AuthService } from 'app/core/services/auth.service';
 import { Observable, catchError } from 'rxjs';
 

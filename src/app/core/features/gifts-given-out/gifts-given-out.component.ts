@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
-import { Environment } from 'app/core/environments/environment';
+// import { Environment } from 'app/core/environments/environment';
+import { Environment } from 'environments/environment.prod';
+
 import { HttpService } from 'app/core/services/http.service';
 import { Observable } from 'rxjs';
 

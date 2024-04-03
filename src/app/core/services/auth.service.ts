@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndPoints} from '../common/ApiEndPoints'
-import {Environment} from '../environments/environment'
+// import {Environment} from '../environments/environment'
+import {Environment} from 'environments/environment.prod'
+
 import { Observable } from 'rxjs/internal/Observable';
 import { catchError, map, tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
