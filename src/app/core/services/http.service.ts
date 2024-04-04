@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Environment } from 'environments/environment.prod';
+import { environment } from 'environments/environment.prod';
 import { AuthService } from './auth.service';
 
 
@@ -22,7 +22,7 @@ export class HttpService {
   // Global functions to perform crud operations
   // Authentication POST
   post(url: string, body: {}): Observable<any> {
-    return this.http.post(Environment.BASE_URL + url, body, {
+    return this.http.post(environment.BASE_URL + url, body, {
       headers: this.httpHeaders
     }).pipe(catchError(error => {
       return throwError(() => new Error(error))
@@ -31,18 +31,18 @@ export class HttpService {
 
   postData(url: string, body: {}): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
-    return this.http.post(Environment.BASE_URL + url, body, { headers, observe: "response", })
+    return this.http.post(environment.BASE_URL + url, body, { headers, observe: "response", })
   }
 
   // GET
   get(url: string, params?: { [key: string]: string }): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
-    return this.http.get(Environment.BASE_URL + url, { headers })
+    return this.http.get(environment.BASE_URL + url, { headers })
   }
 // GET BY ID
   getById(Id: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
-    return this.http.get(`${Environment.BASE_URL}+${Id}`, { headers });
+    return this.http.get(`${environment.BASE_URL}+${Id}`, { headers });
   }
 
   // SEARCH BY NAME OR PHONE NO
@@ -54,7 +54,7 @@ export class HttpService {
       queryParams = new HttpParams();
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
-    return this.http.get(Environment.BASE_URL + url, { headers, params: queryParams });
+    return this.http.get(environment.BASE_URL + url, { headers, params: queryParams });
   }
 //  GET PAGINATED API
   getAllnominees(url: string, params?: { [key: string]: string }, pageNumber?: number, pageSize?: number): Observable<any> {
@@ -67,11 +67,11 @@ export class HttpService {
       queryParams['page'] = pageNumber;
       queryParams['size'] = pageSize;
     }
-    return this.http.get(Environment.BASE_URL + url, { headers, params: queryParams });
+    return this.http.get(environment.BASE_URL + url, { headers, params: queryParams });
   }
   
   update(url: string, updatedData: any): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
-    return this.http.put(Environment.BASE_URL + url, updatedData, { headers, observe: "response", })
+    return this.http.put(environment.BASE_URL + url, updatedData, { headers, observe: "response", })
   }
 }

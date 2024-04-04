@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndPoints} from '../common/ApiEndPoints'
 // import {Environment} from '../environments/environment'
-import {Environment} from 'environments/environment.prod'
+import {environment} from 'environments/environment.prod'
 
 import { Observable } from 'rxjs/internal/Observable';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { Enums } from '../common/Enum';
 })
 
 export class AuthService {
-  private apiUrl = Environment.BASE_URL;
+  private apiUrl = environment.BASE_URL;
   public redirectUrl = "/dashboard";
 
   

@@ -5,10 +5,11 @@
 //   TOKEN : 'token'
 
 // }
-export const Environment = {
+export const environment = {
   BASE_URL: window["env"]["api"],
   USER : 'user',
   PASSWORD : 'password',
-  TOKEN : 'token'
+  TOKEN : 'token',
+  production:true,
 
 }
