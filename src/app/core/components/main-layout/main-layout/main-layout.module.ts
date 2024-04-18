@@ -40,6 +40,7 @@ import { SuccessComponent } from 'app/core/features/common/success/success.compo
 import { AdminDashboardComponent } from 'app/core/features/admin/admin-dashboard/admin-dashboard.component';
 import { userInfo } from 'os';
 import { UserDashboardComponent } from 'app/core/features/user/user-dashboard/user-dashboard.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -94,7 +95,8 @@ import { UserDashboardComponent } from 'app/core/features/user/user-dashboard/us
     MatTabsModule,
 
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgbModule
   ],
   providers: [
     {

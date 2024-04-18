@@ -11,9 +11,7 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="container card1">
                     <div class="row mb-2">
-                        <div class="col">
-                            <p class="text1">Assign Roles and Privileges</p>
-                        </div>
+                        <p class="text1">Assign Roles and Privileges</p>
                     </div>
 
                     <div class="row mb-2">
@@ -21,13 +19,20 @@
                             <p class="text2">Search User to Assign</p>
                         </div>
                     </div>
-                    <div *ngIf="alertMessage" class="alert alert-success p-0">
-                        <p style="font-size: 12px">{{ alertMessage }}</p>
+
+                    <div>
+                        <ngb-alert [dismissible]="true" *ngIf="alertMessage" type="success"
+                            (closed)="alertMessage = false">
+                            <span style="font-size: 12px">{{ alertMessage }}</span>
+                        </ngb-alert>
+                    </div>
+                    <div>
+                        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger"
+                            (closed)="errorMessage = false">
+                            <span style="font-size: 12px">{{ errorMessage }}</span>
+                        </ngb-alert>
                     </div>
 
-                    <div *ngIf="errorMessage" class="alert alert-danger p-0">
-                        <p style="font-size: 12px">{{ errorMessage }}</p>
-                    </div>
 
                     <div class="row">
                         <div class="col">
@@ -39,7 +44,8 @@
                                 </div>
                             </form>
 
-                            <div class="search-results-container shadow" *ngIf="!isRequestSuccessful && !isUserSelected">
+                            <div class="search-results-container shadow"
+                                *ngIf="!isRequestSuccessful && !isUserSelected">
                                 <div class="line-container">
                                     <ul>
                                         <li *ngFor="let result of filteredResults" class="line-textt"
@@ -56,11 +62,11 @@
                     <div class="row " *ngIf="isUserSelected">
                         <div class="col">
                             <div class="line-container">
-                                <div *ngFor="let member of members" class="line-text d-flex justify-content-between" >
+                                <div *ngFor="let member of members" class="line-text d-flex justify-content-between">
                                     {{ member.firstName }} {{ member.lastName }}
                                     <i class="material-icons delete-icon" (click)="onClearSearchInput()">delete</i>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -94,8 +100,9 @@
                                 <div class="col-6">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="{{ privilege.id }}"
-                                            [checked]="isChecked(privilege)"
-                                            (change)="togglePrivilegeSelection(privilege)" />
+                                            disabled />
+                                        <!-- [checked]="isChecked(privilege)" -->
+                                        <!-- (change)="togglePrivilegeSelection(privilege)" -->
                                         <label class="form-check-label" for="{{ privilege.id }}">
                                             {{ privilege.name }}
                                         </label>
@@ -147,7 +154,7 @@
                         </div>
                         <div class="btn-group" style="background-color: #dfdfdf; border: none; height: 15px">
                             <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
-                            <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
+                            <a href="javascrYear ipt:void(0)" class="btn" style="line-height: 1"></a>
                             <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
                         </div>
                     </div>
@@ -183,10 +190,10 @@
                                         <p class="mb-0">declared</p>
                                     </div>
                                     <div class="col-4 ms-3 p-0 d-flex position-relative"
-                                        style="height: 100px; width: 120px">
+                                        style="height: 80px; width: 95px">
                                         <img class="position-absolute p-0 bottom-0 end-0"
-                                            src="assets/icons/dashboard-icons/individualconflicts-icon.svg"
-                                            alt="Icon" style="height: 100px" />
+                                            src="assets/icons/dashboard-icons/individualconflicts-icon.svg" alt="Icon"
+                                            style="height: 100px" />
                                     </div>
                                 </div>
                             </div>
@@ -215,10 +222,10 @@
                                         <p class="mb-0">declared</p>
                                     </div>
                                     <div class="col-4 ms-3 p-0 d-flex position-relative"
-                                        style="height: 100px; width: 120px">
+                                        style="height: 80px; width: 95px">
                                         <img class="position-absolute p-0 bottom-0 end-0"
-                                            src="assets/icons/dashboard-icons/gifts-given-out.svg"
-                                            alt="Icon" style="height: 100px" />
+                                            src="assets/icons/dashboard-icons/gifts-given-out.svg" alt="Icon"
+                                            style="height: 100px" />
                                     </div>
                                 </div>
                             </div>
@@ -255,7 +262,7 @@
                                         <p class="mb-0">declared</p>
                                     </div>
                                     <div class="col-4 ms-3 p-0 d-flex position-relative"
-                                        style="height: 100px; width: 120px">
+                                        style="height: 80px; width: 95px">
                                         <img class="position-absolute p-0 bottom-0 end-0"
                                             src="assets/icons/dashboard-icons/group-conflict.svg" alt="Icon"
                                             style="height: 100px" />
@@ -291,7 +298,7 @@
                                         <p class="mb-0">declared</p>
                                     </div>
                                     <div class="col-4 ms-3 p-0 d-flex position-relative"
-                                        style="height: 100px; width: 120px">
+                                        style="height: 80px; width: 95px">
                                         <img class="position-absolute p-0 bottom-0 end-0"
                                             src="assets/icons/dashboard-icons/gift-received.svg" alt="Icon"
                                             style="height: 100px" />
@@ -359,8 +366,7 @@
 
                     <div class="row" style="max-height: 40px">
                         <div class="col-1 p-0">
-                            <img src="assets/icons/gift-icon.png"
-                                style="font-size: 20px; padding-right: 3px" />
+                            <img src="assets/icons/gift-icon.png" style="font-size: 20px; padding-right: 3px" />
                         </div>
                         <div class="col-8 p-0">
                             <p style="

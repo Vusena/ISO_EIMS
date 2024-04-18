@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="container align-items-center">
-    <div class="row justify-content-md-center">
+  <div class="container align-items-center ">
+    <div class="row justify-content-md-center hascontent">
       <!-- COLUMN 1 -->
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="container card1">
@@ -12,31 +12,38 @@
             </div>
 
             <div class="col-12 pt-1 ps-3">
-              <p class="" style="
-                  color: #133b3a;
-                  font-size: 15px;
-                  font-weight: 600;
-                  font-family: 'Roboto';
-                ">
+              <p class="" style="color: #133b3a;font-size: 15px;font-weight: 600;font-family: 'Roboto';">
                 Add staff to view their information
               </p>
             </div>
           </div>
 
-          <div *ngIf="errorMessage" class="alert alert-danger px-2 py-1">
-            <p style="font-size: 12px">{{ errorMessage }}</p>
+          <div>
+            <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" (closed)="errorMessage = false">
+              <span style="font-size: 12px">{{ errorMessage }}</span>
+            </ngb-alert>
           </div>
 
-          <div *ngIf="alertMessage" class="alert alert-success px-2 py-1">
-            <p style="font-size: 12px">{{ alertMessage }}</p>
+          <div>
+            <ngb-alert [dismissible]="true" *ngIf="alertMessage" type="success" (closed)="alertMessage = false">
+              <p style="font-size: 12px">{{ alertMessage }}</p>
+            </ngb-alert>
           </div>
+
+          <div>
+            <ngb-alert [dismissible]="true" *ngIf="nomineeError" type="danger" (closed)="nomineeError = false">
+              <p style="font-size: 12px">{{ nomineeError }}</p>
+            </ngb-alert>
+          </div>
+
+          <!-- 
           <div *ngIf="nomineeError" class="alert alert-danger px-2 py-1">
             <p style="font-size: 12px">{{ nomineeError }}</p>
-          </div>
+          </div> -->
 
           <form (submit)="onSubmit($event)">
             <div class="row">
-              <div class="col-12">
+              <div class="col-12 searchh">
                 <div class="search-container">
                   <i style="cursor: pointer" class="material-icons" (click)="onSubmit($event)">search</i>
                   <input type="text" placeholder="Search by P.No" [(ngModel)]="searchText" class="search-bar" />
@@ -309,8 +316,7 @@
                   <div class="col d-flex justify-content-center">
                     <p class="success">SUCCESS</p>
                   </div>
-                  <button type="button" class="btn-close" aria-label="Close"
-                    (click)="modal.dismiss('Cross click')"></button>
+                  <button type="button" class="btn-close" aria-label="Close" (click)="onCloseClick()"></button>
                 </div>
                 <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
                 </lottie-player>
@@ -318,7 +324,7 @@
                   <p style="font-size: 15px; font-weight: bold;">Your Nomination has been submitted successfully.</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+                  <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
                 </div>
               </ng-template>
 
@@ -328,7 +334,7 @@
 
               <div class="row mt-2 mb-4">
                 <div class="col-6">
-                  <button type="button" class="btn btn-rounded" (click)="resetForm()" style="
+                  <button type="button" class="btn btn-rounded nominate-button" (click)="resetForm()" style="
                       background-color: #ffffff;
                       color: #e12827;
                       border: #e12827 1px solid;
@@ -339,10 +345,11 @@
                   </button>
                 </div>
                 <div class="col-6">
-                  <button type="button" class="btn btn-rounded" style="background-color: #e12827; font-size: 14px"
-                    (click)="onNominate()">
-                    Nominate
-                    <img src="assets/icons/main-layout-icons/submit.svg" class="" alt="Nomibate" />
+                  <button type="button" class="btn btn-rounded nominate-button" style="background-color: #e12827;
+                   font-size: 14px" (click)="onNominate()" >
+                    <div *ngIf="isLoading" id="loading"></div>
+                     <span *ngIf="!isLoading">Nominate</span>
+                    <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Nominate" />
                   </button>
                 </div>
               </div>
@@ -361,18 +368,18 @@
                 <i class="material-icons" style="color: #741110 !important">warning</i>
                 PLEASE NOTE
               </p>
-              <p style="font-size: 12px; white-space: normal;" class="p-0">
+              <p style="font-size: 12px; white-space: normal;" class="">
                 1.Users in Nairobi region must nominate members from their
                 department only.
               </p>
-              <p style="font-size: 12px;  white-space: normal;" class="p-0">
+              <p style="font-size: 12px;  white-space: normal;" class="">
                 2.Users from other regions can nominate members from any
                 department within their region only.
               </p>
-              <p style="font-size: 12px; white-space: normal;" class="p-0">
+              <p style="font-size: 12px; white-space: normal;" class="">
                 3.The user cannot nominate themselves.
               </p>
-              <p style="font-size: 12px; white-space: normal;" class="p-0">
+              <p style="font-size: 12px; white-space: normal;" class="">
                 4.The user cannot nominate more than once.
               </p>
             </div>

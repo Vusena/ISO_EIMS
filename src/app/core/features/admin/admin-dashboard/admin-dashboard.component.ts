@@ -49,7 +49,7 @@ export class AdminDashboardComponent implements OnInit {
     this.getRolesAndPrivileges();
     
     this.searchControl.valueChanges
-      .pipe(startWith(''), debounceTime(300), distinctUntilChanged())
+      // .pipe(startWith(''), debounceTime(300), distinctUntilChanged())
       .subscribe((searchInput: string) => {
         this.getSearchedUser(searchInput);
         // console.log('searchResults:', this.searchResults);
@@ -118,12 +118,24 @@ export class AdminDashboardComponent implements OnInit {
       if (role) {
         this.retrievedPrivileges = role.privileges;
         this.selectedRole = role;
-        // console.log('Roles, initial selected role', this.selectedRole);
+        console.log('Roles, initial role from the server', this.selectedRole);
         // console.log('Retrieved Privileges', this.retrievedPrivileges);
+        this.updateSelectedRoleUI();
       }
     }
     return this.retrievedPrivileges
   }
+
+  updateSelectedRoleUI(): void {
+    // Unselect previously selected role
+    if (this.selectedRole) {
+        // Loop through all roles to unselect them
+        this.Roles.forEach(r => r.isSelected = false);
+        // Select the current role
+        this.selectedRole.isSelected = true;
+        console.log('Roles, Updated selected role', this.selectedRole);
+    }
+}
 
 
   isChecked(privilege): boolean {
@@ -209,10 +221,11 @@ export class AdminDashboardComponent implements OnInit {
     if (this.selectedUser && this.foundRole) {
            const roleData = {
         userId: this.selectedUser.id,
-        roleId: this.foundRole.id,
+        roleId: this.selectedRole.id,
         privileges: this.privileges,
 
       };
+      console.log('roleData',roleData)
       // console.log('roleData', roleData)
       this.httpService.postData(`${ApiEndPoints.ROLES_CREATE}`, roleData,)
         .subscribe({
@@ -243,22 +256,20 @@ export class AdminDashboardComponent implements OnInit {
   }
 
 
-  togglePrivilegeSelection(privilege): any[]{
-  //  console.log(this.privileges)
-   
-    const privilegeIndex = this.privileges.indexOf(privilege.id);
-    // console.log('privilegeIndex', privilegeIndex)
-    if (privilegeIndex === -1 ) {
-       
-        this.privileges.push(privilege.id);
-        // console.log('privileges', this.privileges)
-    } 
-    else {
-        this.privileges.splice(privilegeIndex, 1);
-        // console.log('slice privileges', this.privileges)
-    }
-    return this.privileges;
-}
+//   togglePrivilegeSelection(privilege): any[]{
+//    console.log(this.privileges)
+//        const privilegeIndex = this.privileges.indexOf(privilege.id);
+//     console.log('privilegeIndex', privilegeIndex)
+//     if (privilegeIndex === -1 ) {
+//                this.privileges.push(privilege.id);
+//         console.log('privileges', this.privileges)
+//     } 
+//     else {
+//         this.privileges.splice(privilegeIndex, 1);
+//         console.log('slice privileges', this.privileges)
+//     }
+//     return this.privileges;
+// }
 
 
 }

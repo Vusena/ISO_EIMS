@@ -30,13 +30,12 @@
   }
   
   .text1 {
-    font-weight: 700;
+    font-weight: 600;
     font-family: "Roboto";
-    
-    font-size: 20px;
+    font-size: 18px;
     color: #741110;
-    white-space: nowrap;
-    padding-top: 18px;
+   
+     padding: 18px;
   }
   
   .text2 {
@@ -47,7 +46,7 @@
     font-family: "Roboto";
     text-align: left;
     white-space: nowrap;
-  
+    
   }
   
   
@@ -201,6 +200,7 @@
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 15px;
+    height:200px;   
   }
   
   .no-recent-activity {
@@ -235,17 +235,14 @@
     padding-left: 25px;
     padding-right: 25px;
     padding-top: 15px;
-     
-    //  margin-left: 10px;
-    //  margin-right: 10px;
-    
-  }
+    }
+      
+
   .card4{
     background-color: #FFFFFF;
     border: 1px solid #EFEFEF;
     border-radius: 15px;
     opacity: 0.9;
-   
     align-items: center;
     padding-left: 25px;
     padding-right: 25px;

@@ -32,9 +32,7 @@ export class SignInComponent implements OnInit {
   }
   
   onSubmit() {
-    this.isLoading = true;
-  
-    
+    this.isLoading = true;  
     const username = this.Form.value.username;
     const password = this.Form.value.password;
       //  console.log(username, password)

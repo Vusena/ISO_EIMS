@@ -1,14 +1,14 @@
 .wrapper {
     position: relative;
     top: 0;
-    height: 58vw;
-    padding: 0;
-    
+    // height: 58vw;
+    height: 140vh;
+        padding: 0;
 
-//     &.wrapper-full-page {
-//         min-height: 100vh;
-//         height: auto;
-//     }
+      &.wrapper-full-page {
+        min-height: 100vh;
+        height: auto;
+    }
  }
 
 .sidebar,
@@ -291,6 +291,7 @@
     overflow: auto;
     z-index: 0;
     box-sizing: border-box;
+    // background-color: antiquewhite;
    
     @include transition (0.50s, cubic-bezier(0.685, 0.0473, 0.346, 1));
 
@@ -302,6 +303,7 @@
         height: 100%;
         overflow: auto;
         // padding-bottom: 15px;
+        // background-color: #0c2646;
         
     }
 

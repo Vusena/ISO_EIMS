@@ -45,8 +45,13 @@ export class IntergrityAwardAdminComponent implements OnInit {
   closingDate: any;
   initialStartDate: any;
   scheduleForm: FormGroup;
+  isLoading: boolean = false;
+  errorDescription:string; 
+
 
     @ViewChild('content') content: TemplateRef<any>;
+  
+
    constructor(private httpService: HttpService, private fb: FormBuilder, private dialog: MatDialog,
     private authService: AuthService,private modalService: NgbModal
   ) {
@@ -75,7 +80,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           // console.log('name', this.krastafflist.name)
           // console.log(res.status)
           this.status_code = res.status;
-          // console.log('status code ', this.status_code);
+          console.log('status code ', this.status_code);
 
           if (this.status_code === 200) {
             this.errorMessage = "";
@@ -85,54 +90,59 @@ export class IntergrityAwardAdminComponent implements OnInit {
             this.region = this.krastafflist.region;
             this.staff_number = this.krastafflist.staffNo;
 
-          } else {
-
-          }
+          } 
         },
         error: (err) => {
-          // console.log(err.error.description);
+          console.log('This is the status code', err.status);
+          console.log(err);
+          // this.status_code = err.errror.code
+          if (err.status === 400 && err.error.data) {
+          this.errorMessage = err.error.description;
           this.specificName = err.error.data.name;
           this.department = err.error.data.department;
           this.region = err.error.data.region;
           this.staff_number = err.error.data.staffNo;
           this.errorMessage = err.error.description;
           this.alertMessage = "";
-          setTimeout(() => {
-            this.errorMessage = ''; // Clear the error message after 3 minutes
-          }, 3000);
-          // console.log(this.errorMessage);
-
-        }
+          } 
+          else {
+          this.specificName = "";
+          this.department = "";
+          this.region = "";
+          this.staff_number = "";
+          this.errorMessage = err.error.description;
+          // this.alertMessage = "";
+          }
+      }
       })
   }
+
 
   toggleTextVisibility(): void {
     this.specificName = '';
   }
 
   onConfirm() {
+    this.isLoading=false;
+    console.log('status code ', this.status_code);
     if (this.status_code === 200) {
       const staff_name: string = this.specificName;
       this.isConfirmed = true;
       this.errorMessage = "";
       this.alertMessage = `Thank you for confirming, ${staff_name}`;
-      setTimeout(() => {
-        this.alertMessage = ''; // Clear the alert message
-      }, 3000);
-    } else {
-      // Display an error message or handle the case where status code is not 200
-      this.errorMessage = "You are allowed to nominate users only within your region ";
-      setTimeout(() => {
-        this.errorMessage = ''; // Clear the error message after 3 minutes
-      }, 3000);
+   
+    } else if (this.status_code === 400) {
+      this.errorDescription=this.errorMessage;
     }
   }
+
   isConfirmationEnabled(): boolean {
     // Check if all necessary details are filled
     return !!this.staff_number && !!this.specificName;
   }
 
   onNominate() {
+    this.isLoading=true;
     if (this.isConfirmed && this.areAllFieldsFilled()) {
       // Submit the form data
       const nomineeData = {
@@ -150,11 +160,11 @@ export class IntergrityAwardAdminComponent implements OnInit {
           next: (res) => {
             // console.log(res)
             this.alertMessage = res.body.description
-            setTimeout(() => {
-              this.alertMessage = ''; // Clear the alertMessage
-            }, 3000);
             this.openVerticallyCentered(this.content);
-            window.location.reload();
+            // window.location.reload();
+          },
+          complete: () => {
+            this.isLoading = false;
           },
           error: (err) => {
             this.nomineeError = err.error.description;
@@ -163,12 +173,14 @@ export class IntergrityAwardAdminComponent implements OnInit {
         })
 
     } else if (!this.isConfirmed) {
+      
       this.errorMessage = 'Please confirm your selection before nominating';
       console.log("Please confirm your selection before nominating")
     }
     else {
       // If any field is missing, display an error message or take appropriate action
-      console.log('Please fill in all the fields')
+      // console.log('Please fill in all the fields')
+      this.isLoading=false;
       this.missingdetails = "Please fill in all the fields";
       alert("Please fill in all the fields")
 
@@ -204,7 +216,13 @@ export class IntergrityAwardAdminComponent implements OnInit {
   }
   openVerticallyCentered(content: TemplateRef<any>) {
 		this.modalService.open(content, { centered: true });
-	}
+    
+    	}
+
+  onCloseClick() {
+    this.modalService.dismissAll('Close click');
+    location.reload();
+  }
 
   onDateExtend(): void {
     this.httpService.get(ApiEndPoints.AWARD_SCHEDULES_SHOW).subscribe({
@@ -244,8 +262,8 @@ export class IntergrityAwardAdminComponent implements OnInit {
  getNominee():void{
   this.httpService.get(ApiEndPoints.AWARD_NOMINATION_MYNOMINEE).subscribe({
     next: (res) => {
-    //  console.log(res,'respo')
-    //  console.log(res.data)
+     console.log(res,'respo')
+     console.log(res.data)
      this.status_code=res.code
     //  console.log("code", this.status_code)
      if (this.status_code == 200) {
