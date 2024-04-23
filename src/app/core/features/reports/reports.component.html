@@ -162,15 +162,26 @@
                 <div class="container card3">
                     <div class="row">
                         <div class="schedule mt-3 mb-2">Create Schedule</div>
-
-
+<!-- 
                         <div *ngIf="alertMessage " class="alert alert-success px-2 py-1 mt-2">
                             <p style="font-size: 12px">{{ alertMessage }}</p>
                         </div>
 
                         <div *ngIf="errorMessage " class="alert alert-danger px-2 py-1 mt-2">
-                            <p style="font-size: 12px">{{ errorMessage }}</p>
-                        </div>
+                            <p style="font-size: 12px">{{ errorMessage }}</p> -->
+                        <!-- </div> -->
+
+                        <div>
+                            <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" (closed)="errorMessage = false">
+                              <span style="font-size: 12px">{{ errorMessage }}</span>
+                            </ngb-alert>
+                          </div>
+                
+                          <div>
+                            <ngb-alert [dismissible]="true" *ngIf="alertMessage" type="success" (closed)="alertMessage = false">
+                              <p style="font-size: 12px">{{ alertMessage }}</p>
+                            </ngb-alert>
+                          </div>
 
                         <div class="textfonts p-0 mt-3 ms-2">Start Date</div>
 
