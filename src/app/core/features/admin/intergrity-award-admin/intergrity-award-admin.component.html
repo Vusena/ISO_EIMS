@@ -11,6 +11,18 @@
               </p>
             </div>
 
+            <div>
+              <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="alertss" (closed)="errorMessage = false">
+                <span style="font-size: 12px">{{ errorMessage }}</span>
+              </ngb-alert>
+            </div>
+  
+            <div>
+              <ngb-alert [dismissible]="true" *ngIf="alertMessage" type="success" class="alertss" (closed)="alertMessage = false">
+                <p style="font-size: 12px">{{ alertMessage }}</p>
+              </ngb-alert>
+            </div>
+            
             <div class="col-12 pt-1 ps-3">
               <p class="" style="color: #133b3a;font-size: 15px;font-weight: 600;font-family: 'Roboto';">
                 Add staff to view their information
@@ -18,17 +30,7 @@
             </div>
           </div>
 
-          <div>
-            <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" (closed)="errorMessage = false">
-              <span style="font-size: 12px">{{ errorMessage }}</span>
-            </ngb-alert>
-          </div>
-
-          <div>
-            <ngb-alert [dismissible]="true" *ngIf="alertMessage" type="success" (closed)="alertMessage = false">
-              <p style="font-size: 12px">{{ alertMessage }}</p>
-            </ngb-alert>
-          </div>
+      
 
           <div>
             <ngb-alert [dismissible]="true" *ngIf="nomineeError" type="danger" (closed)="nomineeError = false">

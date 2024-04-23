@@ -11,10 +11,10 @@
             <h5 class="message1"> Hello and welcome to Ethics Information Management
               System</h5>
 
-            <h5 class="message2">“Intergrity, transparency and the fight against corruption
+            <h5 class="message2">“Integrity, transparency and the fight against corruption
               have to be part of the culture. They have to be taught as fundamental values.”</h5>
 
-            <h5 class="message3"> -Angel gurria,OECD secretary general</h5>
+            <h5 class="message3"> -Angel Gurria,OECD secretary general</h5>
 
           </div>
 
@@ -35,15 +35,15 @@
           <div class="form-container">
             <form [formGroup]="Form" (ngSubmit)="onSubmit()">
               <!-- ERROR MESSAGE -->
-              <div class="alert alert-danger" *ngIf="errorMessage">
+              <div class="alert alert-danger alertss p-1" *ngIf="errorMessage">
                 <small class="error-text">{{errorMessage}}</small>
               </div>
-              <div class="alert alert-success" *ngIf="successMessage">
+              <div class="alert alert-success p-1" *ngIf="successMessage">
                 <small class="error-text">{{successMessage}}</small>
               </div>
 
               <!-- Input fields -->
-              <div class="form-group ">
+              <div class="form-group">
                 <div class="input-group">
                   <!-- <div class="input-group-prepend">
                           <span class="input-group-text">

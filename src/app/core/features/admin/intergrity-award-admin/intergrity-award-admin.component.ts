@@ -103,6 +103,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           this.region = err.error.data.region;
           this.staff_number = err.error.data.staffNo;
           this.errorMessage = err.error.description;
+          // this.errorMessage="Data not found. Please contact EIMS administrator on Ext 2825/ 2315 or email: eims@kra.go.ke"
           this.alertMessage = "";
           } 
           else {
@@ -111,6 +112,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           this.region = "";
           this.staff_number = "";
           this.errorMessage = err.error.description;
+          // this.errorMessage="Data not found. Please contact EIMS administrator on Ext 2825/ 2315 or email: eims@kra.go.ke"
           // this.alertMessage = "";
           }
       }
