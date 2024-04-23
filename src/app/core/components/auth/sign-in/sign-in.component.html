@@ -35,7 +35,7 @@
           <div class="form-container">
             <form [formGroup]="Form" (ngSubmit)="onSubmit()">
               <!-- ERROR MESSAGE -->
-              <div class="alert alert-danger" *ngIf="errorMessage">
+              <div class="alert alert-danger py-0" *ngIf="errorMessage">
                 <small class="error-text">{{errorMessage}}</small>
               </div>
               <div class="alert alert-success" *ngIf="successMessage">
