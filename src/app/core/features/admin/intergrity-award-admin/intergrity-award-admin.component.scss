@@ -239,6 +239,13 @@
   width: 170px;
 }
 
+// ::ng-deep.custom-mat-form-field input[disabled] {
+//   opacity: 0.5; /* adjust the opacity to your liking */
+//   cursor: not-allowed; /* change the cursor to indicate it's disabled */
+//   background-color: #ccc; /* change the background color to a greyish tone */
+//   color: #666; /* change the text color to a greyish tone */
+// }
+
 // .alertss{
 //   position: absolute;
 //   top: 0; /* Adjust this value to position the error message */
