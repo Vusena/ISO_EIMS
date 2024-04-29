@@ -62,8 +62,8 @@ export class IntergrityAwardAdminComponent implements OnInit {
   ngOnInit(): void {
     this.onDateExtend()
     this.scheduleForm = this.fb.group({
-      startDate: ['', Validators.required], // You can set initial values here if needed
-      closingDate: ['', Validators.required]
+      startDate: [{value: '', disabled:true}, Validators.required,  ], // You can set initial values here if needed
+      closingDate: [{value: '', disabled:true},Validators.required]
     });
     this.getNominee()
   }
@@ -170,6 +170,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           },
           error: (err) => {
             this.nomineeError = err.error.description;
+            // this.isLoading=false;
             // console.log(this.nomineeError)
           }
         })
@@ -253,7 +254,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
         });
         // Disable startDate input field
         this.scheduleForm.get('closingDate').disable();
-      this.scheduleForm.get('startDate').disable();
+        this.scheduleForm.get('startDate').disable();
       },
       error: (error) => {
         console.error("There was an error!", error);

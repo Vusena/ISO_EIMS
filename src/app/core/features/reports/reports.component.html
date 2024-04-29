@@ -188,7 +188,7 @@
                         <form [formGroup]="scheduleForm" (ngSubmit)="onDateSubmit()">
                             <mat-form-field appearance="outline" class="p-0 w-100">
                                 <input matInput [matDatepicker]="startdate" formControlName="startDate"
-                                    style="font-size: 13px; margin-left: 0" />
+                                    style="font-size: 13px; margin-left: 0" placeholder="Choose a date" />
                                 <div class="validation"
                                     *ngIf="scheduleForm.get('startDate').invalid && scheduleForm.get('startDate').touched">
                                     This input is required

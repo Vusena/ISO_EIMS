@@ -15,7 +15,7 @@ export const ROUTES: RouteInfo[] = [
   { path: 'group-conflict',          title: 'Groups Conflict',              icon:'group-conflicts-icon.png',      class: '' },
   { path: 'gifts-received', title: 'Gifts Recieved',     icon:'gift-received-icon.png',    class: '' },
   { path: 'gifts-given-out',          title: 'Gifts Given Out',      icon:'gift-icon.png',  class: '' },
-  { path: 'intergrity-award',          title: 'Intergrity-Award',      icon:'gift-icon.png',  class: '' },
+  { path: 'intergrity-award',          title: 'Integrity-Award',      icon:'gift-icon.png',  class: '' },
   // { path: 'reports',          title: 'Reports',      icon:'gift-icon.png',  class: '' },
 
  

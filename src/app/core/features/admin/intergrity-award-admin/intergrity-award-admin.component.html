@@ -389,8 +389,8 @@
           <p class="mt-3 mb-2" style="color: #133B3A; font-weight: bold;">Below is the current schedule</p>
           <form [formGroup]="scheduleForm">
             <div class="textfonts p-0">Start Date</div>
-            <mat-form-field appearance="outline" class="p-0 m-0 w-100 custom-mat-form-field">
-              <input matInput [matDatepicker]="startdate" formControlName="startDate" placeholder="Choose a date"  
+            <mat-form-field appearance="outline" class="p-0 m-0 w-100 ">
+              <input matInput [matDatepicker]="startdate"  formControlName="startDate" placeholder="Choose a date"  
              style="font-size: 13px; margin-left: 0"  />
                 <!-- <mat-icon>calender</mat-icon> -->
                <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle> 
@@ -398,13 +398,14 @@
               </mat-form-field>
 
             <div class="textfonts p-0">Closing Date</div>
-            <mat-form-field appearance="outline" class="p-0 m-0 w-100 custom-mat-form-field">
-              <input matInput [matDatepicker]="closingDate" formControlName="closingDate" placeholder="Choose a date"
-                style="font-size: 13px; margin-left: 0" />
+            <mat-form-field appearance="outline" class="p-0 m-0 w-100 ">
+              <input matInput [matDatepicker]="closingDate"  formControlName="closingDate" placeholder="Choose a date"
+                style="font-size: 13px; margin-left: 0"  />
               <mat-datepicker-toggle matIconSuffix [for]="closingDate"></mat-datepicker-toggle>
               <!-- <mat-icon>calender</mat-icon> -->
               <mat-datepicker #closingDate></mat-datepicker>
             </mat-form-field>
+           
 
             <div class="d-flex p-0 align-items-center w-100">
               <img src="assets/icons/main-layout-icons/history.svg" class="pe-1 mt-1" style="height:20px; " alt="">
