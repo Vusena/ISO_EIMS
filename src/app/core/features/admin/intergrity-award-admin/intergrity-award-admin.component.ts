@@ -132,6 +132,10 @@ export class IntergrityAwardAdminComponent implements OnInit {
       this.isConfirmed = true;
       this.errorMessage = "";
       this.alertMessage = `Thank you for confirming, ${staff_name}`;
+    
+      setTimeout(() => {
+        this.alertMessage = ''; 
+    }, 5000);
    
     } else if (this.status_code === 400) {
       this.errorDescription=this.errorMessage;
@@ -144,8 +148,8 @@ export class IntergrityAwardAdminComponent implements OnInit {
   }
 
   onNominate() {
-    this.isLoading=true;
-    if (this.isConfirmed && this.areAllFieldsFilled()) {
+       if (this.isConfirmed && this.areAllFieldsFilled()) {
+      this.isLoading=true;
       // Submit the form data
       const nomineeData = {
         integrity: this.convertToNumber(this.integrityAndProfessionalism),
@@ -170,7 +174,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           },
           error: (err) => {
             this.nomineeError = err.error.description;
-            // this.isLoading=false;
+            this.isLoading=false;
             // console.log(this.nomineeError)
           }
         })
