@@ -93,7 +93,7 @@ export class ReportsComponent implements OnInit {
           },
           error: (err) => {
             this.errorMessage = err.error.description;
-            console.log(this.errorMessage)
+            // console.log(this.errorMessage)
             // Handle error here
           }
         });

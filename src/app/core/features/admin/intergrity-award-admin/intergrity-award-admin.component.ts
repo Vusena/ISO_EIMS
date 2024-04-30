@@ -80,7 +80,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
           // console.log('name', this.krastafflist.name)
           // console.log(res.status)
           this.status_code = res.status;
-          console.log('status code ', this.status_code);
+          // console.log('status code ', this.status_code);
 
           if (this.status_code === 200) {
             this.errorMessage = "";
@@ -93,8 +93,8 @@ export class IntergrityAwardAdminComponent implements OnInit {
           } 
         },
         error: (err) => {
-          console.log('This is the status code', err.status);
-          console.log(err);
+          // console.log('This is the status code', err.status);
+          // console.log(err);
           // this.status_code = err.errror.code
           if (err.status === 400 && err.error.data) {
           this.errorMessage = err.error.description;
@@ -126,7 +126,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
 
   onConfirm() {
     this.isLoading=false;
-    console.log('status code ', this.status_code);
+    // console.log('status code ', this.status_code);
     if (this.status_code === 200) {
       const staff_name: string = this.specificName;
       this.isConfirmed = true;
@@ -182,7 +182,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
     } else if (!this.isConfirmed) {
       
       this.errorMessage = 'Please confirm your selection before nominating';
-      console.log("Please confirm your selection before nominating")
+      // console.log("Please confirm your selection before nominating")
     }
     else {
       // If any field is missing, display an error message or take appropriate action
@@ -269,8 +269,8 @@ export class IntergrityAwardAdminComponent implements OnInit {
  getNominee():void{
   this.httpService.get(ApiEndPoints.AWARD_NOMINATION_MYNOMINEE).subscribe({
     next: (res) => {
-     console.log(res,'respo')
-     console.log(res.data)
+    //  console.log(res,'respo')
+    //  console.log(res.data)
      this.status_code=res.code
     //  console.log("code", this.status_code)
      if (this.status_code == 200) {

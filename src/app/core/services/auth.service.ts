@@ -87,7 +87,7 @@ export class AuthService {
         return [];
       }
     } else {
-      console.log("No roles found in session storage");
+      // console.log("No roles found in session storage");
       return [];
     }
   }

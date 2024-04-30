@@ -118,7 +118,7 @@ export class AdminDashboardComponent implements OnInit {
       if (role) {
         this.retrievedPrivileges = role.privileges;
         this.selectedRole = role;
-        console.log('Roles, initial role from the server', this.selectedRole);
+        // console.log('Roles, initial role from the server', this.selectedRole);
         // console.log('Retrieved Privileges', this.retrievedPrivileges);
         this.updateSelectedRoleUI();
       }
@@ -133,7 +133,7 @@ export class AdminDashboardComponent implements OnInit {
         this.Roles.forEach(r => r.isSelected = false);
         // Select the current role
         this.selectedRole.isSelected = true;
-        console.log('Roles, Updated selected role', this.selectedRole);
+        // console.log('Roles, Updated selected role', this.selectedRole);
     }
 }
 
@@ -193,7 +193,7 @@ export class AdminDashboardComponent implements OnInit {
       }
  
     } else {
-      console.log('No roles found for selectedUser');
+      // console.log('No roles found for selectedUser');
     }
    
   }
@@ -225,7 +225,7 @@ export class AdminDashboardComponent implements OnInit {
         privileges: this.privileges,
 
       };
-      console.log('roleData',roleData)
+      // console.log('roleData',roleData)
       // console.log('roleData', roleData)
       this.httpService.postData(`${ApiEndPoints.ROLES_CREATE}`, roleData,)
         .subscribe({
@@ -248,7 +248,7 @@ export class AdminDashboardComponent implements OnInit {
             }
           },
           error: (err) => {
-            console.log(err.error.description);
+            // console.log(err.error.description);
             this.errorMessage = err.error.description;
           }
         })
