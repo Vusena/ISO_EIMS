@@ -206,7 +206,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
     );
   }
   private convertToNumber(value: boolean): number {
-    return value ? 1 : 2;
+    return value ? 1 : 0;
   }
   resetForm(): void {
     this.integrityAndProfessionalism = null

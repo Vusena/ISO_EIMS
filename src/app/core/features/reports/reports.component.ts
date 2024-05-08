@@ -251,11 +251,12 @@ onExtendSubmit(): void {
           Votes: item.count,
           Region: item.region,
           Department: item.department,
+          serviceLength:item.serviceLength,
           integrity:item.integrity,
           responsibility: item.responsibility,
           communication: item.communication,
           coreValues:item.coreValues,
-          serviceLength:item.serviceLength
+          
          
         };
       });
