@@ -247,16 +247,16 @@ onExtendSubmit(): void {
        const data = this.summaryReports.map(item => {
         return {
           Nominee: item.name,
-          staffNo:item.staffNo,
+          "Staff No.":item.staffNo,
           Votes: item.count,
           Region: item.region,
           Department: item.department,
-          serviceLength:item.serviceLength,
-          integrity:item.integrity,
-          responsibility: item.responsibility,
-          communication: item.communication,
-          coreValues:item.coreValues,
-          
+          "Service Length":item.serviceLength,
+          Integrity:item.integrity,
+          Responsibility: item.responsibility,
+          Communication: item.communication,
+          "Core Values":item.coreValues,
+          Weight:item.weight,
          
         };
       });
