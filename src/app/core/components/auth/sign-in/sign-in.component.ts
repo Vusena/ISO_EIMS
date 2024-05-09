@@ -3,9 +3,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment.prod';
-// import { Environment } from 'app/core/environments/environment';
 import { AuthService } from 'app/core/services/auth.service';
 import { Observable, catchError } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
+
+
 
 @Component({
   selector: 'app-sign-in',
@@ -31,12 +33,31 @@ export class SignInComponent implements OnInit {
     });
   }
   
+  encrypt(param: string): string {
+    // Secret key
+    // console.log(environment.SECRETKEY)
+    const secretKey = CryptoJS.enc.Utf8.parse(environment.SECRETKEY);
+    // console.log(secretKey)
+    // Initialization vector
+    const iv = CryptoJS.lib.WordArray.random(128/8);
+    // Data to encrypt
+    const data = CryptoJS.enc.Utf8.parse(param);
+    // Encrypt with AES, CBC mode, and PKCS7 padding
+    const encrypted = CryptoJS.AES.encrypt(data, secretKey, {
+      iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7
+    });
+    // Encrypted data in string format
+    return CryptoJS.enc.Base64.stringify(iv.concat(encrypted.ciphertext));
+}
+
   onSubmit() {
     this.isLoading = true;  
     const username = this.Form.value.username;
     const password = this.Form.value.password;
-      //  console.log(username, password)
-     this.authService.login(username, password).subscribe(
+  
+    const encryptedPassword = this.encrypt(password);
+    
+       this.authService.login(username, encryptedPassword).subscribe(
       (response) => {
         // console.log('Login Response:', response);
         this.isLoading = false;
