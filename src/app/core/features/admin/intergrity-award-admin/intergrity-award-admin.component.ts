@@ -15,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './intergrity-award-admin.component.html',
   styleUrl: './intergrity-award-admin.component.scss'
 })
+
 export class IntergrityAwardAdminComponent implements OnInit {
   filteredkrastaff: any[] = [];
   searchText: string = '';
