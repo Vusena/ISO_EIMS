@@ -11,5 +11,6 @@ export const environment = {
   PASSWORD : 'password',
   TOKEN : 'token',
   production:true,
+  SECRETKEY:'1e500ac261ba47ab727d4a6cb882d3ec'
 
 }

@@ -129,54 +129,10 @@
     background-color: #E12827 !important;
 }
 
-.year-calendar__body{
-    // background-color: #1a570c;
-    border-radius: 6px;
-    padding: 0 !important;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    // width:1000px!important;
-  }
-  .year-calendar__body__month{
-    width:300px !important;
-    margin: 0 30px;
-    // background-color: antiquewhite;
-  }
-  .year-calendar__body__month__inner__week__day{
-    width:20px !important;
-    height: 20px !important;
-  }
-  .year-calendar__body__month__inner{
-    // padding:0 !important;
-  }
-  .year-calendar__header
-  {
-    align-items: center;
-    justify-content: space-between!important;
-    padding: 0 !important;
-    border-bottom: 2px solid #E8ECEF;
-  }
-  .year-calendar__header__options__option{
-     margin:20px;
-     border-radius: 30%;
-  }
-  .year-calendar__header__year-name{
-    font-weight: 700;
-    font-size: 15px;
-    color: #741110;
-  }
+.mat-mdc-option .mdc-list-item__primary-text {
+    font-size: 12px !important;
+}
 
-
-  .year-calendar__body__month__inner__week__day{
-    // background-color: aquamarine !important;
-  }
-  .year-calendar__body__month__inner__week__day {
-
- }
- .highlight-day {
-    background-color: yellow !important;
-  }
 
  @media (max-width: 960px) {
     .year-calendar__body__month {

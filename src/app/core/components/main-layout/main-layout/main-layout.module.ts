@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { MainLayoutRoutingModule } from './main-layout-routing.module';
 import { LayoutModule } from '../../layout/layout.module';
@@ -41,6 +41,7 @@ import { AdminDashboardComponent } from 'app/core/features/admin/admin-dashboard
 import { userInfo } from 'os';
 import { UserDashboardComponent } from 'app/core/features/user/user-dashboard/user-dashboard.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -93,12 +94,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatNativeDateModule,
     FullCalendarModule,
     MatTabsModule,
+    MatMenuModule,
 
     MatTableModule,
     MatPaginatorModule,
     NgbModule
   ],
   providers: [
+    DatePipe,
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false }

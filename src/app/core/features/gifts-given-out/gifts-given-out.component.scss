@@ -236,12 +236,15 @@
   border: 1px solid #EFEFEF;
   border-radius: 15px;
   opacity: 0.9;
-
   align-items: center;
   padding-left: 25px;
   padding-right: 25px;
   margin-bottom: 20px;
   height: 675px;
+}
+
+.mat-options-font{
+  font-size: 12px;
 }
 
 .xyz {
@@ -317,10 +320,23 @@
   font-family: Roboto;
   margin:0;
   }
-  
+
+  // .unique.mat-mdc-form-field {
+  //   padding-top:0;
+  //   padding-bottom: 0;
+  //   }
+  .unique.mat-mdc-form-field-infix {
+    padding-top: 8px;
+    padding-bottom: 16px;
+}  
+  .officer_button{
+    display:inline; 
+    background-color: #EFEFEF;
+    border-radius: 5px;
+  }
+
   @media screen and (max-width: 771px) {
- 
-    .info {
+     .info {
       font-size: 20px; 
       padding-bottom:15px;
     }
@@ -330,5 +346,8 @@
     }
     .notify2{
       font-size:12px;
+    }
+    .officer_button{
+     display:grid
     }
   }
