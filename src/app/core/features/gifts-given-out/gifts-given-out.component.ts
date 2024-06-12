@@ -8,6 +8,7 @@ import { HttpService } from 'app/core/services/http.service';
 import { DatePipe } from '@angular/common';
 import { OfficerType } from 'app/core/common/officerEnums';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 interface Occasion {
   id: number;
@@ -20,10 +21,10 @@ interface Occasion {
   templateUrl: './gifts-given-out.component.html',
   styleUrls: ['./gifts-given-out.component.scss'],
   encapsulation: ViewEncapsulation.None // Apply styles globally
-
-
 })
+
 export class GiftsGivenOutComponent implements OnInit {
+ 
 
   today = new Date();
   occasions: Occasion[] = [];
@@ -51,14 +52,16 @@ export class GiftsGivenOutComponent implements OnInit {
   title: string;
   summary: string;
   history: any;
-  pageOfItems: Array<any>; // Current page of items
- pageSize = 10; // Items per page
-  currentPage = 1; // Current page index
+  length:number; //total number of items or records
+  pageSize:number =5; // specifies the number of items or records to be displayed on a single page.
+  pageSizeOptions: number[] = [5, 10, 15, 20]; //This is an array that defines the set of options available for the user to select 
+  currentPage:number=0; //holds the current page number that the user is viewing
 
+  @ViewChild('content') content: TemplateRef<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private formBuilder: FormBuilder, private httpService: HttpService, private datePipe: DatePipe,
     private modalService: NgbModal, private fb: FormBuilder) {
-
     this.giftForm = this.fb.group({
       // declarationDate: [{value: '', disabled: true}, Validators.required],
       dateIssued: ['', Validators.required],
@@ -70,15 +73,19 @@ export class GiftsGivenOutComponent implements OnInit {
       description: ['', Validators.required],
       legalReqAgreed: [false, Validators.requiredTrue]
     });
-
   }
 
-  @ViewChild('content') content: TemplateRef<any>;
+  ngAfterViewInit() {
+    // Ensure paginator is initialized before accessing it
+    if (this.paginator) {
+      // console.error(this.paginator)
+    }
+  }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.getOccassions();
     this.giftsGivenOutHistory();
-    console.log(this.officerTypeNames)
+  
   }
 
   getOccassions(): void {
@@ -133,18 +140,23 @@ export class GiftsGivenOutComponent implements OnInit {
     location.reload();
   }
 
-  giftsGivenOutHistory(): void {
-    this.httpService.get(ApiEndPoints.GIFTS_GIVEN_OUT_GET).subscribe({
-      next: (res) => {
-
-        this.history = res.data.content
-       this.title = this.history.map(item => item.title);
-        this.summary = this.history.map(item => item.summary);
-      },
-      error: (error) => {
-
-      },
+  giftsGivenOutHistory() {
+      this.httpService.getAllnominees(ApiEndPoints.GIFTS_GIVEN_OUT_GET,null,this.currentPage,this.pageSize).subscribe({
+    next: (res) => {
+    this.history = res.data.content;
+    this.length = res.data.totalElements;
+  
+    },
+    error: (error) => {
+    // ... error handling
+    },
     });
+    }
+    
+    onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.giftsGivenOutHistory();
   }
 
 

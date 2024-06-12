@@ -165,14 +165,14 @@
                   <div class="form-group">
                     <input matInput style="font-size: 12px; width: 60%;" placeholder="Type here.."
                       formControlName="recipient">
-                    <div class="officer_button" >
-                    <mat-select placeholder="Officer" style="font-size: 12px; width: 40%;"
-                      formControlName="officerType">
-                      <mat-option class="mat-options-font" *ngFor="let type of officerEnumValues" [value]="type">
-                        {{ officerTypeNames[type] }}
-                      </mat-option>
-                    </mat-select>
-                  </div>
+                    <div class="officer_button">
+                      <mat-select placeholder="Officer" style="font-size: 12px; width: 40%;"
+                        formControlName="officerType">
+                        <mat-option class="mat-options-font" *ngFor="let type of officerEnumValues" [value]="type">
+                          {{ officerTypeNames[type] }}
+                        </mat-option>
+                      </mat-select>
+                    </div>
                   </div>
                   <mat-error style="font-size: 11px;" *ngIf="giftForm.get('recipient').hasError('required')">
                     Please enter the recipient's name
@@ -261,20 +261,17 @@
             </div>
           </div>
 
-          <div class="row mb-5" *ngFor="let item of history">
+          <div class="row p-0 mb-2" *ngFor="let item of history">
             <div class="col-1 p-0">
               <img src="../../../../assets/icons/gift-icon.png" style=" padding-top: 4px;  padding-right: 3px;">
             </div>
-
             <div class="col-8 p-0">
               <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #133B3A;
               font-size: 15px; padding-top: 4px;padding-left: 3px;padding-right: 3px;">{{item.title}}</p>
             </div>
-
             <div class="col-3 p-0">
               <p style="padding-top: 4px; color: #BFBFBF; font-size: 11px;">{{ item.date | date}}</p>
             </div>
-
             <div class="row ">
               <div class="col p-0">
                 <p style="color:#000000; font-size: 12px;">
@@ -282,7 +279,11 @@
                 </p>
               </div>
             </div>
-
+          </div>
+          <div class="row">
+            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+              (page)="onPageChange($event)" [pageIndex]="currentPage">
+            </mat-paginator>
           </div>
         </div>
       </div>

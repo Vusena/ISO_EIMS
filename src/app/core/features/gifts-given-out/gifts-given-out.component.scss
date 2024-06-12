@@ -240,7 +240,8 @@
   padding-left: 25px;
   padding-right: 25px;
   margin-bottom: 20px;
-  height: 675px;
+  min-height: 678px;
+  overflow-y: auto;
 }
 
 .mat-options-font{

@@ -34,6 +34,7 @@ export class ReportsComponent implements OnInit {
   department: any;
   votes: any;
   totalNominees: number;
+  
   length: number;
   pageSize: number = 10;
   pageNumber: number = 0;
