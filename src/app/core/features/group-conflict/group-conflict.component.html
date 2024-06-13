@@ -1,4 +1,4 @@
-<!-- <div class="container p-0 ">
+<div class="container p-0 ">
   <div>
     <nav class="navbar header-nav">
       <span class="dashboard-heading">Group Conflict of Interest Declaration</span>
@@ -6,11 +6,11 @@
   </div>
 
   <div class="container align-items-center">
-    <div class="row justify-content-md-center"> -->
+    <div class="row justify-content-md-center">
 
 
       <!-- COLUMN 1 -->
-      <!-- <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="container  card1">
           <div class="row">
 
@@ -20,61 +20,89 @@
             </div>
 
             <div class="col-12 pt-1 ps-3">
-              
-              <p class="" style="color: #133B3A; font-size: 15px; font-weight: 600; font-family:'Roboto';">Add Members
-                to
-                Whitelist
+              <p class="" style="color: #133B3A; font-size: 15px; font-weight: 600; font-family:'Roboto';">Confirm
+                to Whitelist
               </p>
             </div>
           </div>
 
 
-          <div class="row mt-3">
+          <form (submit)="onSubmit($event)">
+            <div class="row">
+              <div class="col-12 searchh">
+                <div class="search-container">
+                  <i style="cursor: pointer" class="material-icons" (click)="onSubmit($event)">search</i>
+                  <input type="text" placeholder="Search by P.No" [(ngModel)]="searchText" class="search-bar" />
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Selected Result Display -->
+          <div class="selected-result-container" *ngIf="showResultDetails">
+            <!-- Display details of the selected result here -->
+            <p style="font-size: 14px; font-weight: bold;" class="mt-2">{{ specificName }}</p>
+            <button
+              style=" width:100%; height:30px; background-color: #FFFFFF; color: #707070; border: #707070 1px solid; font-size: 12px;"
+              class="btn btn-primary btn-block member-btn btn-rounded " (click)="addMember()">
+              <img src="../../../../assets/icons/main-layout-icons/add-member.svg" class="pb-1" style="height:20px"
+                alt="Submit Icon">
+              Add Member
+            </button>
+          </div>
+
+          <div>
+            <div *ngFor="let member of selectedMembers" class="mt-4 mb-3 search-container">
+              {{ member }}
+              <mat-icon style="margin-left: auto;">delete</mat-icon>
+            </div>
+          </div>
+         
+          <!-- <div class="row mt-1">
             <div class="col-12">
-              <div class="search-container">
-                <i class="material-icons">search</i>
-                <input type="text" placeholder="Search by Name or P.No" class="search-bar">
+              <div class="line-container">
+                <div class="line-text">{{ specificName }}</div>
+                <i class="material-icons delete-icon" (click)="toggleTextVisibility()">delete</i>
+              </div>
+            </div>
+          </div> -->
+
+
+          <div class="row mt-5">
+            <div class="col">
+              <!-- Container btn-group is used to style a group of buttons -->
+              <div class="btn-group">
+                <!-- Inside the button group, there's a button with the text "Chairman": -->
+                <button type="button" class="btn">Chairman</button>
+                <!-- another <div> element with the class "btn-group" which contains a dropdown menu: -->
+                <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                  <!--Inside this div there's a link that serves as the dropdown toggle trigger: -->
+                  <a class="btn" ngbDropdownToggle href="javascript:void(0);" id="dropdownMenuLink">
+                    <!-- <span class="caret"></span> -->
+                  </a>
+                  <!-- the dropdowm menus in list -->
+                  <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-end">
+                    <a ngbDropdownItem href="javascript:void(0)">Chairperson</a>
+                    <a ngbDropdownItem href="javascript:void(0)">Appointing Authority</a>
+                    <a ngbDropdownItem href="javascript:void(0)">Member</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="row mt-5">
-            <div class="col"> -->
-
-              <!-- Container btn-group is used to style a group of buttons -->
-              <!-- <div class="btn-group"> -->
-                <!-- Inside the button group, there's a button with the text "Chairman": -->
-                <!-- <button type="button" class="btn">Chairman</button> -->
-                <!-- another <div> element with the class "btn-group" which contains a dropdown menu: -->
-                <!-- <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown"> -->
-                  <!--Inside this div there's a link that serves as the dropdown toggle trigger: -->
-                  <!-- <a class="btn " ngbDropdownToggle href="javascript:void(0);" id="dropdownMenuLink"> -->
-
-
-                    <!-- <span class="caret"></span>
-                  </a> -->
-                  <!-- the dropdowm menus in list -->
-                  <!-- <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-end">
-                    <a ngbDropdownItem href="javascript:void(0)">My profile</a>
-                    <a ngbDropdownItem href="javascript:void(0)">Settings</a>
-                    <a ngbDropdownItem href="javascript:void(0)">Activity</a>
-                  </div>
-                </div>
-              </div> -->
-            <!-- </div>
-          </div> -->
-          <!-- <div class="row ">
+          <div class="row ">
             <div class="col-12">
               <div class="line-container">
                 <div class="line-text">Eunice Vusena</div>
                 <i class="material-icons delete-icon">delete</i>
               </div>
             </div>
-          </div> -->
-<!-- 
+          </div>
+
           <div class="row  add-memberbtn ">
             <div class="col-12">
-              <button 
+              <button
                 style=" width:100%; background-color: #FFFFFF; color: #707070; border: #707070 1px solid; font-size: 14px;"
                 class="btn btn-primary btn-block member-btn btn-rounded ">
                 <img src="../../../../assets/icons/main-layout-icons/add-member.svg" class="pb-1" alt="Submit Icon">
@@ -84,10 +112,10 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <!-- SECOND COLUNM -->
-      <!-- <div class="col-lg-6 col-md-6 col-sm-6 ">
+      <div class="col-lg-6 col-md-6 col-sm-6 ">
         <div class="container card3">
           <div class="row d-flex justify-content-between pe-0">
             <div class="col-md-4 p-0 ">
@@ -207,8 +235,7 @@
               </button>
             </div>
             <div class="col-6">
-              <button type="button" class="btn  btn-block btn-rounded"
-                style="background-color: #E12827;">Submit
+              <button type="button" class="btn  btn-block btn-rounded" style="background-color: #E12827;">Submit
                 <img src="../../../../assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
               </button>
             </div>
@@ -218,16 +245,16 @@
 
         </div>
 
-      </div> -->
+      </div>
 
       <!-- THIRD COLUMN -->
-      <!-- <div class="col-lg-3 col-md-12 col-sm-12">
+      <div class="col-lg-3 col-md-12 col-sm-12">
         <div class="container card4">
           <div class="row p-0 mb-4">
             <div class="col-12 p-0 d-flex align-items-center">
               <div class="d-flex p-0 align-items-center w-100">
-                <img src="../../../../assets/icons/main-layout-icons/history.svg" class="pe-1 mt-1" 
-                style="height:20px; " alt="">
+                <img src="../../../../assets/icons/main-layout-icons/history.svg" class="pe-1 mt-1"
+                  style="height:20px; " alt="">
                 <p class="flex-grow-1 pt-3 ms-1 fw-semibold"
                   style="font-size: 20px; color: #570c0c !important; font-family: Roboto; ">History</p>
                 <i class="material-icons ml-3">more_vert</i>
@@ -281,14 +308,14 @@
           </div>
 
         </div>
-      </div> -->
-<!-- 
+      </div>
+
     </div>
   </div>
-</div> -->
+</div>
 
 
-<!-- PAGE UNDER CONSTRUCTION -->
+<!-- PAGE UNDER CONSTRUCTION   
 <div class="container  p-4">
   <div class="row">
    <div class="col-12">
@@ -303,4 +330,4 @@
      </div>
    </div>
  </div>
-</div>
+</div>    -->

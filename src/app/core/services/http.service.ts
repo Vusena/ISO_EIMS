@@ -39,23 +39,11 @@ export class HttpService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
     return this.http.get(environment.BASE_URL + url, { headers })
   }
-
-  getwithPagination(url: string, params?: { [key: string]: any }): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
-        // Check if there are pagination parameters and add them to HttpParams
-    let httpParams = new HttpParams();
-    if (params) {
-    Object.keys(params).forEach(key => {
-    httpParams = httpParams.set(key, params[key]);
-    });
-    }
-      return this.http.get(environment.BASE_URL + url, { headers, params: httpParams });
-    }
     
 // GET BY ID
   getById(Id: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
-    return this.http.get(`${environment.BASE_URL}+${Id}`, { headers });
+    return this.http.get(`${environment.BASE_URL}${Id}`, { headers });
   }
 
   // SEARCH BY NAME OR PHONE NO

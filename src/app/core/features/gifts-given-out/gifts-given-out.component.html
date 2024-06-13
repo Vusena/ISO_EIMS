@@ -41,38 +41,11 @@
                   <mat-icon>adjust</mat-icon>
                 </ng-template>
 
-                <mat-step state="adjust">
-                  <ng-template matStepLabel style="font-size: 14px;">Heading1</ng-template>
+                <mat-step state="adjust" *ngFor="let item of historyprogress">
+                  <ng-template matStepLabel style="font-size: 14px;">{{item.actor}}</ng-template>
                   <div class="p-0">
-                    <p style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure nemo quia
-                      molestias sed fugit?
-                      Debitis repudiandae numquam, cum perspiciatis adipisci dolor voluptas quo tenetur dolorem soluta
-                      animi iste sit consequatur fugiat consequuntur, neque quos blanditiis praesentium distinctio
-                      molestias repellendus commodi unde eaque. Magni nobis veniam voluptas, ipsam quos voluptates
-                      commodi!</p>
+                    <p style="font-size: 12px;">{{item.action}}</p>
                   </div>
-                </mat-step>
-
-                <mat-step state="adjust">
-                  <ng-template matStepLabel style="font-size: 14px;">Heading2</ng-template>
-                  <div>
-                    <p style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit
-                      rem numquam sunt dolor
-                      quod velit quasi, ipsum similique! Maiores iusto quidem temporibus tempore, eum unde voluptates
-                      laborum atque est tempora rerum iste quod eaque autem aliquid blanditiis odio doloremque?
-                      Perspiciatis itaque quidem voluptas officiis dicta obcaecati, quisquam sunt quos reiciendis.
-                    </p>
-                  </div>
-                </mat-step>
-
-
-                <mat-step state="adjust">
-                  <ng-template matStepLabel style="font-size: 14px;">Heading3</ng-template>
-                  <p style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque ad at
-                    necessitatibus iure
-                    asperiores tenetur possimus omnis assumenda, eos adipisci minima? Numquam neque blanditiis deleniti
-                    qui aspernatur voluptatum laboriosam fuga velit, ex temporibus veritatis culpa sint maxime non
-                    saepe! Expedita neque ex dolore nesciunt autem temporibus dicta voluptatum voluptates numquam!</p>
                 </mat-step>
               </mat-stepper>
             </div>
@@ -261,7 +234,7 @@
             </div>
           </div>
 
-          <div class="row p-0 mb-2" *ngFor="let item of history">
+          <div class="row p-0 mb-2 history-item" *ngFor="let item of history" (click)="onHistoryItemClick(item.id)"> 
             <div class="col-1 p-0">
               <img src="../../../../assets/icons/gift-icon.png" style=" padding-top: 4px;  padding-right: 3px;">
             </div>

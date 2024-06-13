@@ -37,6 +37,10 @@ export class GiftsGivenOutComponent implements OnInit {
 
   officerEnumValues = Object.values(OfficerType);
 
+  actor:string;
+  historyprogress:any;
+  historydeclaration:any;
+
   recipient: string;
   officer = OfficerType;     //sends data to the backend
   officerType: OfficerType; //declaring a property for internal use
@@ -56,6 +60,7 @@ export class GiftsGivenOutComponent implements OnInit {
   pageSize:number =5; // specifies the number of items or records to be displayed on a single page.
   pageSizeOptions: number[] = [5, 10, 15, 20]; //This is an array that defines the set of options available for the user to select 
   currentPage:number=0; //holds the current page number that the user is viewing
+  historyId:number;
 
   @ViewChild('content') content: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -85,7 +90,7 @@ export class GiftsGivenOutComponent implements OnInit {
    ngOnInit(): void {
     this.getOccassions();
     this.giftsGivenOutHistory();
-  
+    // this.giftsGivenOutProgress();
   }
 
   getOccassions(): void {
@@ -95,7 +100,7 @@ export class GiftsGivenOutComponent implements OnInit {
         if (response.code === 200 && response.status === 'OK') {
           this.occasions = response.data
         }
-        // console.log("Occassion",this.occasions)
+        console.log("Occassion",this.occasions)
       },
       error: (error) => {
         console.error("There was an error!", error);
@@ -158,6 +163,38 @@ export class GiftsGivenOutComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.giftsGivenOutHistory();
   }
+  onHistoryItemClick(itemId: number): void {
+    console.log(itemId)
+    this.giftsGivenOutProgress(itemId);
+    }
 
+ giftsGivenOutProgress(id: number) {
+  const urlWithId = `${ApiEndPoints.GIFT_GIVEN_OUT_GET_PROGRESS}/${id}`;
+  this.httpService.getById(urlWithId).subscribe({
+  next: (res) => {
+   this.historyprogress=res.data.progress;
+  this.historydeclaration=res.data.declaration;
+  
+  console.log(this.historydeclaration)
+  const date=new Date(res.data.declaration.date_issued)
+ 
+      this.giftForm.patchValue({
+    dateIssued: date,
+    occasionId: this.historydeclaration.occasion.id,
+    officerType: this.historydeclaration.officer,
+    specified: this.historydeclaration.specified,
+    value:this.historydeclaration.value,
+    recipient: this.historydeclaration.recipient,
+    description: this.historydeclaration.description,
+  
+    });
+   console.log(this.giftForm)
+  },
+  error: (error) => {
+  // ... error handling
+  },
+  });
+
+}
 
 }
