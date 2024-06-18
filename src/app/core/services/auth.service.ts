@@ -77,7 +77,8 @@ export class AuthService {
   }
   getUserRoles(): any[] {
     let roles = sessionStorage.getItem(Enums.ROLES);
-    // console.log("Roles from session storage:", roles);
+    // console.log("Roles from session storage:", roles)
+
     if (roles != null) {
       try {
         const parsedRoles = JSON.parse(roles);

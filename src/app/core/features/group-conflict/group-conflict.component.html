@@ -13,12 +13,10 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="container  card1">
           <div class="row">
-
             <div class="col-12 p-3">
               <p class="fw-semibold" style="color: #741110; font-size: 20px;font-family:'Roboto';">Group Members
               </p>
             </div>
-
             <div class="col-12 pt-1 ps-3">
               <p class="" style="color: #133B3A; font-size: 15px; font-weight: 600; font-family:'Roboto';">Confirm
                 to Whitelist
@@ -26,10 +24,16 @@
             </div>
           </div>
 
+          <div>
+            <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="alertss"
+              (closed)="errorMessage = false">
+              <span style="font-size: 12px">{{ errorMessage }}</span>
+            </ngb-alert>
+          </div>
 
           <form (submit)="onSubmit($event)">
             <div class="row">
-              <div class="col-12 searchh">
+              <div class="col-12 ">
                 <div class="search-container">
                   <i style="cursor: pointer" class="material-icons" (click)="onSubmit($event)">search</i>
                   <input type="text" placeholder="Search by P.No" [(ngModel)]="searchText" class="search-bar" />
@@ -51,52 +55,36 @@
             </button>
           </div>
 
-          <div>
-            <div *ngFor="let member of selectedMembers" class="mt-4 mb-3 search-container">
+       
+
+          <div class="mt-4 mb-3 search d-flex flex-wrap">
+            <div class="select-container">
+              <mat-form-field  class="w-100 select" appearance="none">
+                <mat-select style="font-size: 12px; font-weight: 500;" disabled [(ngModel)]="selectedOption">
+                  <mat-option *ngFor="let option of options" [value]="option" >
+                    {{ option }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="member-info user"  >
+              {{ loggedInUsername }}
+            </div>
+          </div>
+
+          <div *ngFor="let member of selectedMembers" class="mt-4 mb-3 search d-flex flex-wrap">
+            <div class="select-container">
+              <mat-form-field appearance="fill" class="w-100 select">
+                <mat-select style="font-size: 12px; font-weight: 500;">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="member-info user" >
               {{ member }}
-              <mat-icon style="margin-left: auto;">delete</mat-icon>
-            </div>
-          </div>
-         
-          <!-- <div class="row mt-1">
-            <div class="col-12">
-              <div class="line-container">
-                <div class="line-text">{{ specificName }}</div>
-                <i class="material-icons delete-icon" (click)="toggleTextVisibility()">delete</i>
-              </div>
-            </div>
-          </div> -->
-
-
-          <div class="row mt-5">
-            <div class="col">
-              <!-- Container btn-group is used to style a group of buttons -->
-              <div class="btn-group">
-                <!-- Inside the button group, there's a button with the text "Chairman": -->
-                <button type="button" class="btn">Chairman</button>
-                <!-- another <div> element with the class "btn-group" which contains a dropdown menu: -->
-                <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-                  <!--Inside this div there's a link that serves as the dropdown toggle trigger: -->
-                  <a class="btn" ngbDropdownToggle href="javascript:void(0);" id="dropdownMenuLink">
-                    <!-- <span class="caret"></span> -->
-                  </a>
-                  <!-- the dropdowm menus in list -->
-                  <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-end">
-                    <a ngbDropdownItem href="javascript:void(0)">Chairperson</a>
-                    <a ngbDropdownItem href="javascript:void(0)">Appointing Authority</a>
-                    <a ngbDropdownItem href="javascript:void(0)">Member</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row ">
-            <div class="col-12">
-              <div class="line-container">
-                <div class="line-text">Eunice Vusena</div>
-                <i class="material-icons delete-icon">delete</i>
-              </div>
+              <mat-icon style="margin-left: auto;" (click)="removeMember(member)">delete</mat-icon>
             </div>
           </div>
 
@@ -106,8 +94,7 @@
                 style=" width:100%; background-color: #FFFFFF; color: #707070; border: #707070 1px solid; font-size: 14px;"
                 class="btn btn-primary btn-block member-btn btn-rounded ">
                 <img src="../../../../assets/icons/main-layout-icons/add-member.svg" class="pb-1" alt="Submit Icon">
-                Add Member
-
+                Confirm
               </button>
             </div>
           </div>

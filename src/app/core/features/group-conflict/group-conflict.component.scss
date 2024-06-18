@@ -28,15 +28,15 @@
 .add-memberbtn {
   position: absolute;
   bottom: 0;
-  margin-bottom: 48px;
-  width: 272px ;
- 
+  padding-bottom: 68px;
+  width: 272px;
+
 }
 
 .search-container {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
   width: 100%;
 }
 
@@ -246,39 +246,123 @@
 
 
 // ANIMATIONS
-.animationcard{
-  background-color:#FFFFFF ;
+.animationcard {
+  background-color: #FFFFFF;
   opacity: 0.8;
   padding-top: 50px;
 }
-.info{
-  font-size:40px;
- padding-bottom:30px;
+
+.info {
+  font-size: 40px;
+  padding-bottom: 30px;
   text-align: center;
-  color:rgb(9, 9, 9);
+  color: rgb(9, 9, 9);
   font-family: Roboto;
 }
 
-.notify1{
-  font-size:25px;
+.notify1 {
+  font-size: 25px;
   text-align: center;
-  color:rgb(9, 9, 9);
+  color: rgb(9, 9, 9);
   padding-top: 50px;
   font-family: Roboto;
-   margin:0;
- }
-  
-.notify2{
-  font-size:25px;
+  margin: 0;
+}
+
+.notify2 {
+  font-size: 25px;
   text-align: center;
-  color:rgb(9, 9, 9);
+  color: rgb(9, 9, 9);
   padding-bottom: 40px;
   padding-top: 10px;
   font-family: Roboto;
-  margin:0;
-  }
-  
+  margin: 0;
+}
 
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.select-container {
+  width: 50%;
+   margin-right: 10px;
+}
+
+
+.member-info {
+  width: 100%;
+  /* adjust the width as needed */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+
+}
+
+.user {
+  font-size: 16px;
+  font-weight: 600;
+  padding-left: 15px;
+  color: #133B3A;
+  border-bottom: 1px solid #ccc;
+
+}
+
+.select.mat-mdc-form-field {
+  padding: 0;
+  margin: 0;
+  height: 40px;
+
+}
+
+
+.mat-mdc-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-mdc-text-field-wrapper {
+  background-color: #FFFFFF;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 30px;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  height: 2px;
+}
+
+.mat-select {
+  font-size: 14px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.mat-select::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.mat-select:hover {
+  border-color: #aaa;
+}
+
+.mat-select:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 0 1px #aaa;
+}
+
+.mat-icon {
+  font-size: 18px;
+  cursor: pointer;
+}
 
 
 
@@ -296,21 +380,28 @@
   }
 
   .add-memberbtn {
-    position: relative; /* Change position to relative */
-    margin-top: 350px; /* Reduce margin-top */
-    width: 100%; /* Reduce width */
-    bottom: auto; /* Remove bottom */
+    position: relative;
+    /* Change position to relative */
+    margin-top: 350px;
+    /* Reduce margin-top */
+    width: 100%;
+    /* Reduce width */
+    bottom: auto;
+    /* Remove bottom */
   }
+
   .info {
-    font-size: 20px; 
-    padding-bottom:15px;
+    font-size: 20px;
+    padding-bottom: 15px;
   }
-  .notify1{
-    font-size:12px;
+
+  .notify1 {
+    font-size: 12px;
     padding-top: 20px;
   }
-  .notify2{
-    font-size:12px;
+
+  .notify2 {
+    font-size: 12px;
   }
 }
 
