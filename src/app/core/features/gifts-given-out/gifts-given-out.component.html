@@ -23,24 +23,24 @@
             <div class="col p-0"> <mat-stepper orientation="vertical">
                 <!-- replace the edit icon with the home icon -->
                 <!-- <ng-template matStepperIcon="active">
-                  <mat-icon>adjust</mat-icon>
+                  <mat-icon>list</mat-icon>
                 </ng-template> -->
                 <!-- change default 'edit' icon -->
                 <!-- <ng-template matStepperIcon="edit">
-                  <mat-icon>adjust</mat-icon>
+                  <mat-icon>list</mat-icon>
                 </ng-template> -->
 
                 <!-- change default 'done' icon -->
                 <!-- <ng-template matStepperIcon="done">
-                  <mat-icon>adjust</mat-icon>
+                  <mat-icon>list</mat-icon>
                 </ng-template> -->
 
                 <!-- change default 'number' icon -->
                 <!-- <ng-template matStepperIcon="number">
-                  <mat-icon>adjust</mat-icon>
+                  <mat-icon>list</mat-icon>
                 </ng-template> -->
 
-                <mat-step  *ngFor="let item of historyprogress">
+                <mat-step *ngFor="let item of historyprogress">
                   <ng-template matStepLabel style="font-size: 14px;">{{item.actor}}</ng-template>
                   <div class="p-0">
                     <p style="font-size: 12px;">{{item.action}}</p>
@@ -233,7 +233,7 @@
             </div>
           </div>
 
-          <div class="row p-0 mb-2 history-item" *ngFor="let item of history" (click)="onHistoryItemClick(item.id)"> 
+          <div class="row p-0 mb-2 history-item" *ngFor="let item of history" (click)="onHistoryItemClick(item.id)">
             <div class="col-1 p-0">
               <img src="../../../../assets/icons/gift-icon.png" style=" padding-top: 4px;  padding-right: 3px;">
             </div>

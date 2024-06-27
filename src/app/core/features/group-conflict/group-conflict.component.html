@@ -48,31 +48,29 @@
             <p style="font-size: 14px; font-weight: bold;" class="mt-2">{{ specificName }}</p>
             <button
               style=" width:100%; height:30px; background-color: #FFFFFF; color: #707070; border: #707070 1px solid; font-size: 12px;"
-              class="btn btn-primary btn-block member-btn btn-rounded " (click)="addMember()">
+              class="btn btn-primary btn-block member-btn btn-rounded " (click)="addMember({name: specificName, option: ''})">
               <img src="../../../../assets/icons/main-layout-icons/add-member.svg" class="pb-1" style="height:20px"
                 alt="Submit Icon">
               Add Member
             </button>
           </div>
 
-       
-
-          <div class="mt-4 mb-3 search d-flex flex-wrap">
+          <div class="mt-4 mb-3 search d-flex flex-wrap" >
             <div class="select-container">
-              <mat-form-field  class="w-100 select" appearance="none">
+              <mat-form-field class="w-100 select" appearance="none">
                 <mat-select style="font-size: 12px; font-weight: 500;" disabled [(ngModel)]="selectedOption">
-                  <mat-option *ngFor="let option of options" [value]="option" >
+                  <mat-option *ngFor="let option of options" [value]="option">
                     {{ option }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="member-info user"  >
+            <div class="member-info user">
               {{ loggedInUsername }}
             </div>
           </div>
 
-          <div *ngFor="let member of selectedMembers" class="mt-4 mb-3 search d-flex flex-wrap">
+          <!-- <div *ngFor="let member of selectedMembers" class="mt-4 mb-3 search d-flex flex-wrap">
             <div class="select-container">
               <mat-form-field appearance="fill" class="w-100 select">
                 <mat-select style="font-size: 12px; font-weight: 500;">
@@ -86,15 +84,38 @@
               {{ member }}
               <mat-icon style="margin-left: auto;" (click)="removeMember(member)">delete</mat-icon>
             </div>
-          </div>
+          </div> -->
+          <form [formGroup]="conflictForm">
+            <div formArrayName="members">
+            <div *ngFor="let memberControl of members.controls; let i = index" [formGroupName]="i"
+            class="mt-4 mb-3 search d-flex flex-wrap">
+            <div class="select-container">
+            <mat-form-field appearance="fill" class="w-100 select">
+            <mat-select style="font-size: 12px; font-weight: 500;" formControlName="option"  >
+            <mat-option *ngFor="let option of options" [value]="option">
+            {{ option }}
+            </mat-option>
+            </mat-select>
+            </mat-form-field>
+            </div> 
+            <div class="member-info user">
+            <!-- Display the 'name' property of the member control -->
+            {{ memberControl.get('name').value }}
+            <!-- Pass the index 'i' to the removeMember function -->
+            <mat-icon style="margin-left: auto;" (click)="removeMember(i)">delete</mat-icon>
+            </div>
+            </div>
+            </div>
+            </form>
+           
 
-          <div class="row  add-memberbtn ">
+          <div class="row  add-memberbtn">
             <div class="col-12">
-              <button
+              <button (click)="validate()"
                 style=" width:100%; background-color: #FFFFFF; color: #707070; border: #707070 1px solid; font-size: 14px;"
                 class="btn btn-primary btn-block member-btn btn-rounded ">
                 <img src="../../../../assets/icons/main-layout-icons/add-member.svg" class="pb-1" alt="Submit Icon">
-                Confirm
+                Validate
               </button>
             </div>
           </div>
@@ -118,116 +139,126 @@
           </div>
 
 
+          <form [formGroup]="groupConflictForm" (ngSubmit)="submitGroupConflictDetails()">
+            <div class="row mt-3 pb-3 ">
+              <div class="col-md-4 p-0">
+                <div class="textfonts">Declaration Date</div>
+                <mat-form-field appearance="outline" class="p-0 xyz">
+                  <input matInput [matDatepicker]="picker" [value]="today" disabled style="font-size: 12px;"
+                    placeholder="09/07/2023">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
 
-          <div class="row mt-3">
-            <div class="col-md-4 p-0">
-              <div class="textfonts">Declaration Date</div>
-              <mat-form-field appearance="outline" class="p-0 xyz">
-                <input matInput [matDatepicker]="picker" style="font-size: 13px;" placeholder="09/07/2023">
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </div>
 
-            <div class="col-md-4 p-0">
-              <div class="textfonts">Assignment Date</div>
-              <mat-form-field appearance="outline" class="p-0 xyz">
-                <input matInput [matDatepicker]="picker1" style="font-size: 13px; margin-left: 0;"
-                  placeholder="09/07/2023">
-                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-              </mat-form-field>
-            </div>
+              <div class="col-md-4 p-0 ">
+                <div class="textfonts">Assignment Date</div>
+                <mat-form-field appearance="outline" class="p-0 xyz">
+                  <input matInput [matDatepicker]="picker1" style="font-size: 12px; margin-left: 0;"
+                    formControlName="assignmentDate" placeholder="09/07/2023">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-error style="font-size: 11px;"
+                    *ngIf="groupConflictForm.get('assignmentDate').hasError('required')">Date is
+                    required</mat-error>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
 
-            <div class="col-md-4 p-0 ">
-              <div class="textfonts ">Position Held in the Assignment</div>
-              <mat-form-field class="xyz" appearance="outline">
-                <mat-select style="font-size: 13px; font-weight: bold; " placeholder="Other">
-                  <mat-option style="font-size: 13px; font-weight: bold; " value="yes">Other</mat-option>
-                  <mat-option style="font-size: 13px; font-weight: bold; " value="no">Other</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-          </div>
-
-          <div class="row ">
-            <div class="col-md-4 p-0">
-              <div class="textfonts">Venue of Official Assignment</div>
-              <mat-form-field appearance="outline" class="p-0 xyz" style="">
-                <input matInput style="font-size: 13px;" placeholder="Type here">
-              </mat-form-field>
-            </div>
-
-            <div class="col-md-4 p-0">
-              <div class="textfonts">Nature of Assignment</div>
-              <mat-form-field appearance="outline" class="p-0 xyz">
-                <mat-select style="font-size: 13px; font-weight: bold; " placeholder="Other">
-                  <mat-option style="font-size: 13px; font-weight: bold; " value="yes">Other</mat-option>
-                  <mat-option style="font-size: 13px; font-weight: bold; " value="no">Other</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div class="col-md-4 p-0 ">
-              <div class="textfonts">ID/Passport Number</div>
-              <mat-form-field appearance="outline" class="p-0 xyz">
-                <input matInput style="font-size: 13px;" placeholder="Type here">
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-12 p-0 ">
-              <div class=" textfonts">Declaration Title</div>
-              <mat-form-field appearance="outline" class="p-0 w-100">
-                <input matInput style="font-size: 13px;" placeholder="Type here">
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div class="row ">
-            <div class="col-12 p-0">
-              <div class=" textfonts">Remarks</div>
-              <mat-form-field style="width:100%; height:180px;">
-                <textarea matInput></textarea>
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div class="row mt-2">
-            <div class="col-lg-6 col-sm-12 col-md-6">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="agree-to" id="legal-req" value="legal-req">
-                <label class="form-check-label" for="legal-req">
-                  I agree to the Legal Requirements
-                </label>
+              <div class="col-md-4 p-0 ">
+                <div class="textfonts">ID/Passport Number</div>
+                <mat-form-field appearance="outline" class="p-0 xyz">
+                  <input matInput style="font-size: 13px;" placeholder="Type here">
+                </mat-form-field>
               </div>
             </div>
-            <div class="col-lg-6 col-sm-12 col-md-6">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="agree-to" id="term-dis" value="term-dis">
-                <label class="form-check-label" for="term-dis">
-                  I agree to the Terms of Disclaimer
-                </label>
+
+            <div class="row mt-1 pb-3">
+              <div class="col-md-6 p-0 ">
+                <div class="textfonts">Venue of Official Assignment</div>
+                <mat-form-field appearance="outline" class="p-0" style="width: 260px;">
+                  <input matInput style="font-size: 13px;" placeholder="Type here">
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 p-0">
+                <div class="textfonts">Assignment Title</div>
+                <mat-form-field appearance="outline" class="p-0 w-100">
+                  <input matInput style="font-size: 13px;" placeholder="Type here">
+                </mat-form-field>
               </div>
             </div>
-          </div>
 
-          <div class="row mt-3 mb-4">
-            <div class="col-6">
-              <button type="button" class="btn  btn-block btn-rounded"
-                style="background-color: #FFFFFF; color: #E12827; border: #E12827 1px solid;font-size: 14px;">Clear
-                <img src="./../../../assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
-              </button>
-            </div>
-            <div class="col-6">
-              <button type="button" class="btn  btn-block btn-rounded" style="background-color: #E12827;">Submit
-                <img src="../../../../assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
-              </button>
-            </div>
-          </div>
+            <!-- <div class="row">
+              <div class="col-lg-12 p-0 ">
+                <div class=" textfonts">Assignment Description</div>
+                <mat-form-field appearance="outline" class="p-0 w-100">
+                  <input matInput style="font-size: 13px;" placeholder="Type here">
+                </mat-form-field>
+              </div>
+            </div> -->
 
+            <div class="row pb-3 ">
+              <div class="col-12 p-0">
+                <div class=" textfonts">Assignment Description</div>
+                <mat-form-field style="width:100%; ">
+                  <textarea matInput></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row mt-1 pb-3">
+              <div class="col-md-6 p-0 ">
+                <div class="textfonts">Do you have a conflict?</div>
+                <mat-form-field appearance="outline" class="p-0" style="width: 260px;">
+                  <mat-select matInput placeholder="Yes" style="font-size: 13px;">
+                    <mat-option value="yes">Yes</mat-option>
+                    <mat-option value="no">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 p-0">
+                <div class="textfonts">Conflict Description</div>
+                <mat-form-field appearance="outline" class="p-0 w-100">
+                  <input matInput style="font-size: 13px;" placeholder="Type here">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row mt-2 pb-3">
+              <!-- <div class="col-lg-6 col-sm-12 col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="agree-to" id="legal-req" value="legal-req">
+                  <label class="form-check-label" for="legal-req">
+                    I agree to the Legal Requirements
+                  </label>
+                </div>
+              </div> -->
+              <div class="col-lg-12 col-sm-12 col-md-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="agree-to" id="term-dis" value="term-dis">
+                  <label class="form-check-label" for="term-dis">
+                    I agree to the Terms of Disclaimer
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3 mb-4">
+              <div class="col-6">
+                <button type="button" class="btn  btn-block btn-rounded"
+                  style="background-color: #FFFFFF; color: #E12827; border: #E12827 1px solid;font-size: 14px;">Clear
+                  <img src="./../../../assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
+                </button>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn  btn-block btn-rounded" style="background-color: #E12827;">Submit
+                  <img src="../../../../assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                </button>
+              </div>
+            </div>
+          </form>
 
 
         </div>

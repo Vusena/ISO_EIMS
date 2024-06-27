@@ -36,11 +36,9 @@ export class GiftsGivenOutComponent implements OnInit {
   };
 
   officerEnumValues = Object.values(OfficerType);
-
   actor:string;
   historyprogress:any;
   historydeclaration:any;
-
   recipient: string;
   officer = OfficerType;     //sends data to the backend
   officerType: OfficerType; //declaring a property for internal use
@@ -91,6 +89,11 @@ export class GiftsGivenOutComponent implements OnInit {
     this.getOccassions();
     this.giftsGivenOutHistory();
     // this.giftsGivenOutProgress();
+    this.historyprogress = [
+      // Add default objects representing the initial state of each step
+      { actor: 'Once you declare', action: 'This will be your progress bar to track which stage the declaration is at.' },
+      { actor: '', action: '' },
+        ];
   }
 
   getOccassions(): void {
@@ -150,8 +153,7 @@ export class GiftsGivenOutComponent implements OnInit {
     next: (res) => {
     this.history = res.data.content;
     this.length = res.data.totalElements;
-  
-    },
+      },
     error: (error) => {
     // ... error handling
     },

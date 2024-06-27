@@ -56,7 +56,7 @@ export class SignInComponent implements OnInit {
     const password = this.Form.value.password;
     // console.log(password)
     const encryptedPassword = this.encrypt(password);
-    // console.log(encryptedPassword)
+    console.log(encryptedPassword)
     
        this.authService.login(username, encryptedPassword).subscribe(
       (response) => {
