@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
@@ -33,8 +34,10 @@ export class GroupConflictComponent implements OnInit {
   today = new Date();
   conflictForm: FormGroup;
   showReasonsDiv = false;
+  selectedFile: File | null = null;
+  giftForm: any;
 
-  constructor(private httpService: HttpService, private authService: AuthService, private fb: FormBuilder) {
+  constructor(private httpService: HttpService, private authService: AuthService, private datePipe: DatePipe, private fb: FormBuilder) {
     this.conflictForm = this.fb.group({
       members: this.fb.array([])
     });
@@ -50,7 +53,8 @@ export class GroupConflictComponent implements OnInit {
       venue: ['', Validators.required],
       haveConflict: ['', Validators.required],
       conflictDesc: ['', Validators.required],
-      reasons:['',Validators.required],
+      reasons: ['',],
+      file: ['',],
       legalReqAgreed: ['', Validators.required]
     })
 
@@ -62,15 +66,9 @@ export class GroupConflictComponent implements OnInit {
     this.httpService.postData(`${ApiEndPoints.GROUP_CONFLICTS_SEARCH}`, body,)
       .subscribe({
         next: (res) => {
-          // console.log("Response", res)
           this.krastafflist = res.body.data;
-          // console.log('krastafflist', this.krastafflist);
-          this.showResultDetails = true; // Set the flag to true
-          // console.log('name', this.krastafflist.name)
-          // console.log(res.status)
+          this.showResultDetails = true;
           this.status_code = res.status;
-          // // console.log('status code ', this.status_code);
-
           if (this.status_code === 200) {
             this.errorMessage = "";
             this.specificName = this.krastafflist.name;
@@ -78,9 +76,7 @@ export class GroupConflictComponent implements OnInit {
           }
         },
         error: (err) => {
-          // console.log('This is the status code', err.status);
-          // console.log(err);
-          // this.status_code = err.errror.code
+
           if (err.status === 400) {
             this.errorMessage = err.error.description;
 
@@ -91,19 +87,6 @@ export class GroupConflictComponent implements OnInit {
         }
       })
   }
-
-  // addMember():void{
-  //   if (this.specificName) {
-  //     const specificNameValue = this.specificName;
-  //     this.selectedMembers.push(specificNameValue);
-  //     this.specificName = ''; // Reset the specific name
-  //     this.showResultDetails = false; // Reset the flag
-  //     }
-  // }
-
-  // get members(): FormArray {
-  //   return this.conflictForm.get('members') as FormArray;
-  // }
   addMember(memberData: any): void {
     const memberForm = this.fb.group({
       name: [memberData.name || '', Validators.required],
@@ -122,10 +105,13 @@ export class GroupConflictComponent implements OnInit {
     return this.conflictForm.get('members') as FormArray;
   }
 
+
   isLateDeclaration(): boolean {
-    const selectedDate = this.groupConflictForm.get('date').value;
+    const selectedDate = new Date(this.groupConflictForm.get('date').value);
+    selectedDate.setHours(0, 0, 0, 0);
     const today = new Date();
-    return selectedDate && selectedDate.getTime() !== today.getTime();
+    today.setHours(0, 0, 0, 0);
+    return selectedDate < today;
   }
 
 
@@ -142,24 +128,64 @@ export class GroupConflictComponent implements OnInit {
 
 
   submitGroupConflictDetails() {
-
-    const groupConflictDetails = {
-      appointorId: 1,
-      identityNo: this.groupConflictForm.get('identityNo').value,
-      date: this.groupConflictForm.get('date').value,
-      title: this.groupConflictForm.get('title').value,
-      assignmentDesc: this.groupConflictForm.get('assignmentDesc').value,
-      venue: this.groupConflictForm.get('venue').value,
-      haveConflict: this.groupConflictForm.get('haveConflict').value,
-      conflictDesc: this.groupConflictForm.get('conflictDesc').value,
-      reasons: this.groupConflictForm.get('reasons').value, 
-      members: this.groupConflictForm.get('members').value
+    const membersData = this.members.value;
+    console.log("MEMBERS DATA", membersData)
+    const staffNumbers = membersData.map(member => member.staffNo);
+    console.log(staffNumbers)
+    const formData = new FormData();
+    let haveConflictNumber;
+    const formattedDate = this.datePipe.transform(this.groupConflictForm.get('date').value, 'yyyy-MM-dd');
+    const haveConflictValue = this.groupConflictForm.get('haveConflict').value;
+    if (haveConflictValue === 'yes') {
+      haveConflictNumber = 1;
+    } else {
+      haveConflictNumber = 2;
     }
+   
+
+    formData.append('appointorId', '1');
+    formData.append('identityNo', this.groupConflictForm.get('identityNo').value);
+    formData.append('date', formattedDate);
+    formData.append('title', this.groupConflictForm.get('title').value);
+    formData.append('assignmentDesc', this.groupConflictForm.get('assignmentDesc').value);
+    formData.append('venue', this.groupConflictForm.get('venue').value);
+    formData.append('haveConflict', haveConflictNumber);
+    formData.append('conflictDesc', this.groupConflictForm.get('conflictDesc').value);
+    formData.append('reasons', this.groupConflictForm.get('reasons').value);
+    formData.append('members', JSON.stringify(staffNumbers));
+    formData.append('file', this.groupConflictForm.get('file').value);
+
+    console.log("Appointor ID:", formData.get('appointorId')); // outputs: 1
+    console.log("IdentityNo:", formData.get('identityNo')); // outputs: the value of identityNo
+    console.log("Date:", formData.get('date')); // outputs: the value of date
+    console.log("Title:", formData.get('title')); // outputs: the value of title
+    console.log("Assignment Description:", formData.get('assignmentDesc')); // outputs: the value of assignmentDesc
+    console.log("Venue:", formData.get('venue')); // outputs: the value of venue
+    console.log("Have Conflict:", formData.get('haveConflict')); // outputs: the value of haveConflict
+    console.log("Conflict Description:", formData.get('conflictDesc')); // outputs: the value of conflictDesc
+    console.log("Reasons", formData.get('reasons')); // outputs: the value of reasons
+    console.log("Members:", formData.get('members')); // outputs: the value of members (JSON string of staffNumbers)
+    console.log("file", formData.get('file')); // outputs: the value of file
+    // ...
+
+    this.httpService.postData(ApiEndPoints.GROUP_CONFLICTS_INITIATE, formData).subscribe({
+      next: (response) => {
+        // Handle successful response
+        console.log(response);
+      },
+      error: (error) => {
+        // Handle error response
+        console.error("There was an error!", error);
+      },
+    });
   }
 
-
   validate(): void {
-    console.log('Members:', this.members.value);
+    // const membersData = this.members.value;
+    // console.log("MEMBERS DATA", membersData)
+    // const staffNumbers = membersData.map(member => member.staffNo);
+    // console.log('staffNumbers', staffNumbers)
+    // console.log('Members:', this.members.value);
     let isValid = true;
     let appointingOfficerCount = 0;
     let allStaffNumbers = [];
@@ -196,5 +222,14 @@ export class GroupConflictComponent implements OnInit {
 
 
   }
-}
 
+  handleFileInput(files: FileList): void {
+    if (files.length > 0) {
+      // If only one file is allowed, use the first file in the list
+      const file = files.item(0);
+      this.groupConflictForm.get('file').setValue(file);
+    }
+
+  }
+
+}

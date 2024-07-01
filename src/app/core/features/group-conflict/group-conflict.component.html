@@ -282,10 +282,12 @@
               </div>
             </div>
 
-            <div class="row pb-3 mt-1" *ngIf="isLateDeclaration()">
-              <button class="col-12 file_button">
-                <mat-icon class="pt-2">attach_file</mat-icon> Attach manual files
-              </button>
+           
+            <div class="row pb-3 mt-1 file_input " *ngIf="isLateDeclaration()">
+              <mat-form-field>
+                <input matInput formControlname="file" type="file" (change)="handleFileInput($event.target.files)" multiple
+                style="">
+                </mat-form-field>
             </div>
 
             <div class="row mt-3 mb-4">
@@ -297,7 +299,7 @@
               </div>
               <div class="col-6">
                 <button type="button" class="btn  btn-block btn-rounded" style="background-color: #E12827;"
-                  [disabled]="!groupConflictForm.valid">
+                  [disabled]="!groupConflictForm.valid" (click)="submitGroupConflictDetails()">
                   Submit
                   <img src="../../../../assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
                 </button>

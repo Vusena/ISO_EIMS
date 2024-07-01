@@ -28,6 +28,7 @@ export enum ApiEndPoints {
     GIFTS_GIVEN_OUT_GET="api/v1/gifts-given-out/history",
     GIFT_GIVEN_OUT_GET_PROGRESS="api/v1/gifts-given-out",
 
-    GROUP_CONFLICTS_SEARCH="api/v1/coi-group/search"
+    GROUP_CONFLICTS_SEARCH="api/v1/coi-group/search",
+    GROUP_CONFLICTS_INITIATE="api/v1/coi-group/initiate"
 
 }

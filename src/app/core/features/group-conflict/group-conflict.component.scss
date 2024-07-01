@@ -24,7 +24,7 @@
   margin-bottom: 20px;
   min-height: 800px;
   max-height: 800px;
-  
+
 }
 
 .add-memberbtn {
@@ -42,17 +42,18 @@
 }
 
 .file_input {
-  border: none;
+  border: solid 1px #707070;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 12px;
+  border-radius: 70px;
   cursor: pointer;
-  background-color: #337ab7;
-  color: #ffffff;
+  color: black;
+  height: 50px;
+  background-color: #FFFFFF;
 }
 
-.file_input:hover {
-  background-color: #23527c;
-}
+.file_input:hover {}
+
 .material-icons {
   margin-right: 5px;
   color: #BFBFBF;
@@ -214,7 +215,7 @@
   padding-right: 25px;
   padding-top: 15px;
   min-height: 800px;
- max-height: 800px;
+  max-height: 800px;
   //  margin-left: 10px;
   //  margin-right: 10px;
 
@@ -229,8 +230,8 @@
   padding-left: 25px;
   padding-right: 25px;
   margin-bottom: 20px;
- min-height: 800px;
- max-height: 800px;
+  min-height: 800px;
+  max-height: 800px;
 }
 
 .xyz {
@@ -290,7 +291,7 @@
 
 .select-container {
   width: 50%;
-   margin-right: 10px;
+  margin-right: 10px;
 }
 
 
@@ -333,6 +334,24 @@
   height: 2px;
 }
 
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: none;
+}
+
 .mat-select {
   font-size: 14px;
   padding: 10px;
@@ -372,6 +391,11 @@
 @media screen and (max-width: 771px) {
   .xyz {
     width: 100%;
+  }
+
+  .card3 {
+    min-height: auto;
+    max-height: none;
   }
 
   .declaration-title {
