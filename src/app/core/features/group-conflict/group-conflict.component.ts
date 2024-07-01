@@ -16,6 +16,8 @@ export class GroupConflictComponent implements OnInit {
   searchText: string = '';
   krastafflist: any;
   specificName: any;
+  staffNo: any;
+  staffId: number;
   showResultDetails: boolean = false;
   selectedMembers: string[] = [];
   options: string[] = ['Appointing Officer', 'Member '];
@@ -30,6 +32,7 @@ export class GroupConflictComponent implements OnInit {
   groupConflictForm: FormGroup;
   today = new Date();
   conflictForm: FormGroup;
+  showReasonsDiv = false;
 
   constructor(private httpService: HttpService, private authService: AuthService, private fb: FormBuilder) {
     this.conflictForm = this.fb.group({
@@ -40,7 +43,15 @@ export class GroupConflictComponent implements OnInit {
   ngOnInit(): void {
     this.getLoggedInUser()
     this.groupConflictForm = this.fb.group({
-      assignmentDate: ['', Validators.required]
+      identityNo: ['', Validators.required],
+      date: ['', Validators.required],
+      title: ['', Validators.required],
+      assignmentDesc: ['', Validators.required],
+      venue: ['', Validators.required],
+      haveConflict: ['', Validators.required],
+      conflictDesc: ['', Validators.required],
+      reasons:['',Validators.required],
+      legalReqAgreed: ['', Validators.required]
     })
 
   }
@@ -53,7 +64,7 @@ export class GroupConflictComponent implements OnInit {
         next: (res) => {
           // console.log("Response", res)
           this.krastafflist = res.body.data;
-          console.log('krastafflist', this.krastafflist);
+          // console.log('krastafflist', this.krastafflist);
           this.showResultDetails = true; // Set the flag to true
           // console.log('name', this.krastafflist.name)
           // console.log(res.status)
@@ -63,6 +74,7 @@ export class GroupConflictComponent implements OnInit {
           if (this.status_code === 200) {
             this.errorMessage = "";
             this.specificName = this.krastafflist.name;
+            this.staffNo = this.krastafflist.staffNo;
           }
         },
         error: (err) => {
@@ -95,7 +107,8 @@ export class GroupConflictComponent implements OnInit {
   addMember(memberData: any): void {
     const memberForm = this.fb.group({
       name: [memberData.name || '', Validators.required],
-      option: [memberData.option || '', Validators.required]
+      option: [memberData.option || '', Validators.required],
+      staffNo: [memberData.staffNo || '', Validators.required]
     });
     this.members.push(memberForm);
     console.log('memberData', memberData)
@@ -109,7 +122,11 @@ export class GroupConflictComponent implements OnInit {
     return this.conflictForm.get('members') as FormArray;
   }
 
-  // Method to capture the selected option for a member
+  isLateDeclaration(): boolean {
+    const selectedDate = this.groupConflictForm.get('date').value;
+    const today = new Date();
+    return selectedDate && selectedDate.getTime() !== today.getTime();
+  }
 
 
   getLoggedInUser() {
@@ -126,13 +143,26 @@ export class GroupConflictComponent implements OnInit {
 
   submitGroupConflictDetails() {
 
+    const groupConflictDetails = {
+      appointorId: 1,
+      identityNo: this.groupConflictForm.get('identityNo').value,
+      date: this.groupConflictForm.get('date').value,
+      title: this.groupConflictForm.get('title').value,
+      assignmentDesc: this.groupConflictForm.get('assignmentDesc').value,
+      venue: this.groupConflictForm.get('venue').value,
+      haveConflict: this.groupConflictForm.get('haveConflict').value,
+      conflictDesc: this.groupConflictForm.get('conflictDesc').value,
+      reasons: this.groupConflictForm.get('reasons').value, 
+      members: this.groupConflictForm.get('members').value
+    }
   }
+
 
   validate(): void {
     console.log('Members:', this.members.value);
     let isValid = true;
     let appointingOfficerCount = 0;
-    let memberSelected = false;
+    let allStaffNumbers = [];
     // Iterate over each FormGroup in the FormArray
     this.members.controls.forEach((group: FormGroup) => {
       // Check if the 'option' control has a value
@@ -141,18 +171,19 @@ export class GroupConflictComponent implements OnInit {
         isValid = false;
         return;
       }
+      // Store the staff number for each member
+      allStaffNumbers.push(group.get('staffNo').value);
+      // console.log(allStaffNumbers)
       // Count how many times 'Appointing Officer' has been selected
       if (group.get('option').value === 'Appointing Officer') {
-        appointingOfficerCount++;220
-        
+        appointingOfficerCount++;
+
       }
       // Check if 'Appointing Officer' has been selected more than once
       if (appointingOfficerCount > 1) {
         this.errorMessage = 'The "Appointing Officer"  can only be selected once.';
         isValid = false;
       }
-     
-    
     });
 
 
