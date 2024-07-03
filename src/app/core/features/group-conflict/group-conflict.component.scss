@@ -397,6 +397,14 @@
     min-height: auto;
     max-height: none;
   }
+  .card1 {
+    min-height: auto;
+    max-height: none;
+  }
+  .card4 {
+    min-height: auto;
+    max-height: none;
+  }
 
   .declaration-title {
     width: 100%;
@@ -408,13 +416,10 @@
 
   .add-memberbtn {
     position: relative;
-    /* Change position to relative */
     margin-top: 350px;
-    /* Reduce margin-top */
     width: 100%;
-    /* Reduce width */
     bottom: auto;
-    /* Remove bottom */
+
   }
 
   .info {

@@ -109,7 +109,22 @@
             </div>
           </form>
 
-
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <div class="col d-flex justify-content-center">
+                <p class="success">SUCCESS</p>
+              </div>
+              <button type="button" class="btn-close" aria-label="Close" (click)="onCloseClick()"></button>
+            </div>
+            <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
+            </lottie-player>
+            <div class="col" class="text-center">
+              <p style="font-size: 15px; font-weight: bold;">Group Conflict submitted successfully.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
+            </div>
+          </ng-template>
           <div class="row  add-memberbtn">
             <div class="col-12">
               <button (click)="validate()"

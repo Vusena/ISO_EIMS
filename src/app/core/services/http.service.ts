@@ -10,13 +10,19 @@ import { AuthService } from './auth.service';
 })
 export class HttpService {
 
-  httpHeaders: HttpHeaders
+  httpHeaders: HttpHeaders;
+  formDataHeaders: HttpHeaders;
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json', 'Authorization': 'Bearer ' +
         + this.authService.getAuthorizationToken()
     })
+
+    this.formDataHeaders = new HttpHeaders({
+      'Content-Type': 'multipart/form-data', // Note: Setting this manually is typically not necessary
+      'Authorization': `Bearer ${this.authService.getAuthorizationToken()}`
+      });
   }
 
   // Global functions to perform crud operations
@@ -34,13 +40,18 @@ export class HttpService {
     return this.http.post(environment.BASE_URL + url, body, { headers, observe: "response", })
   }
 
+  // postFormData(url: string, body: any): Observable<any> {
+  //   // Use the formDataHeaders defined in the class
+  //   return this.http.post(`${environment.BASE_URL}${url}`, body, { headers: this.formDataHeaders, observe: 'response' });
+  //   }
+
   // GET
   get(url: string, params?: { [key: string]: string }): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
     return this.http.get(environment.BASE_URL + url, { headers })
   }
-    
-// GET BY ID
+
+  // GET BY ID
   getById(Id: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
     return this.http.get(`${environment.BASE_URL}${Id}`, { headers });
@@ -57,7 +68,7 @@ export class HttpService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
     return this.http.get(environment.BASE_URL + url, { headers, params: queryParams });
   }
-//  GET PAGINATED API
+  //  GET PAGINATED API
   getAllnominees(url: string, params?: { [key: string]: string }, pageNumber?: number, pageSize?: number): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
     let queryParams = {};
@@ -70,7 +81,7 @@ export class HttpService {
     }
     return this.http.get(environment.BASE_URL + url, { headers, params: queryParams });
   }
-  
+
   update(url: string, updatedData: any): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthorizationToken()}`);
     return this.http.put(environment.BASE_URL + url, updatedData, { headers, observe: "response", })

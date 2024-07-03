@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { AuthService } from 'app/core/services/auth.service';
 import { HttpService } from 'app/core/services/http.service';
@@ -13,6 +14,7 @@ import { HttpService } from 'app/core/services/http.service';
 })
 export class GroupConflictComponent implements OnInit {
 
+  @ViewChild('content') content: TemplateRef<any>;
 
   searchText: string = '';
   krastafflist: any;
@@ -37,7 +39,8 @@ export class GroupConflictComponent implements OnInit {
   selectedFile: File | null = null;
   giftForm: any;
 
-  constructor(private httpService: HttpService, private authService: AuthService, private datePipe: DatePipe, private fb: FormBuilder) {
+  constructor(private httpService: HttpService, private authService: AuthService, private datePipe: DatePipe, private fb: FormBuilder,
+    private modalService: NgbModal) {
     this.conflictForm = this.fb.group({
       members: this.fb.array([])
     });
@@ -57,7 +60,6 @@ export class GroupConflictComponent implements OnInit {
       file: ['',],
       legalReqAgreed: ['', Validators.required]
     })
-
   }
 
   onSubmit(event: any): void {
@@ -129,9 +131,10 @@ export class GroupConflictComponent implements OnInit {
 
   submitGroupConflictDetails() {
     const membersData = this.members.value;
-    console.log("MEMBERS DATA", membersData)
+    // console.log("MEMBERS DATA", membersData)
     const staffNumbers = membersData.map(member => member.staffNo);
-    console.log(staffNumbers)
+    // console.log(staffNumbers)
+
     const formData = new FormData();
     let haveConflictNumber;
     const formattedDate = this.datePipe.transform(this.groupConflictForm.get('date').value, 'yyyy-MM-dd');
@@ -141,40 +144,30 @@ export class GroupConflictComponent implements OnInit {
     } else {
       haveConflictNumber = 2;
     }
-   
 
-    formData.append('appointorId', '1');
-    formData.append('identityNo', this.groupConflictForm.get('identityNo').value);
-    formData.append('date', formattedDate);
-    formData.append('title', this.groupConflictForm.get('title').value);
-    formData.append('assignmentDesc', this.groupConflictForm.get('assignmentDesc').value);
-    formData.append('venue', this.groupConflictForm.get('venue').value);
-    formData.append('haveConflict', haveConflictNumber);
-    formData.append('conflictDesc', this.groupConflictForm.get('conflictDesc').value);
-    formData.append('reasons', this.groupConflictForm.get('reasons').value);
-    formData.append('members', JSON.stringify(staffNumbers));
+    const declaration = {
+      appointorId: '1',
+      identityNo: this.groupConflictForm.get('identityNo').value,
+      date: formattedDate,
+      title: this.groupConflictForm.get('title').value,
+      assignmentDesc: this.groupConflictForm.get('assignmentDesc').value,
+      venue: this.groupConflictForm.get('venue').value,
+      haveConflict: haveConflictNumber,
+      conflictDesc: this.groupConflictForm.get('conflictDesc').value,
+      reasons: this.groupConflictForm.get('reasons').value,
+      members: staffNumbers
+    };
+
+    formData.append('declaration', JSON.stringify(declaration));
     formData.append('file', this.groupConflictForm.get('file').value);
-
-    console.log("Appointor ID:", formData.get('appointorId')); // outputs: 1
-    console.log("IdentityNo:", formData.get('identityNo')); // outputs: the value of identityNo
-    console.log("Date:", formData.get('date')); // outputs: the value of date
-    console.log("Title:", formData.get('title')); // outputs: the value of title
-    console.log("Assignment Description:", formData.get('assignmentDesc')); // outputs: the value of assignmentDesc
-    console.log("Venue:", formData.get('venue')); // outputs: the value of venue
-    console.log("Have Conflict:", formData.get('haveConflict')); // outputs: the value of haveConflict
-    console.log("Conflict Description:", formData.get('conflictDesc')); // outputs: the value of conflictDesc
-    console.log("Reasons", formData.get('reasons')); // outputs: the value of reasons
-    console.log("Members:", formData.get('members')); // outputs: the value of members (JSON string of staffNumbers)
-    console.log("file", formData.get('file')); // outputs: the value of file
-    // ...
 
     this.httpService.postData(ApiEndPoints.GROUP_CONFLICTS_INITIATE, formData).subscribe({
       next: (response) => {
-        // Handle successful response
         console.log(response);
+        this.groupConflictForm.reset();
+        this.openVerticallyCentered(this.content);
       },
       error: (error) => {
-        // Handle error response
         console.error("There was an error!", error);
       },
     });
@@ -230,6 +223,14 @@ export class GroupConflictComponent implements OnInit {
       this.groupConflictForm.get('file').setValue(file);
     }
 
+  }
+  openVerticallyCentered(content: TemplateRef<any>) {
+    this.modalService.open(content, { centered: true });
+
+  }
+  onCloseClick() {
+    this.modalService.dismissAll('Close click');
+    location.reload();
   }
 
 }
