@@ -40,7 +40,7 @@
                                 <div class="search-container">
                                     <i class="material-icons">search</i>
                                     <input type="text" placeholder="Search by Name or P.No" class="search-bar"
-                                    [formControl]="searchControl" />
+                                        [formControl]="searchControl" />
                                 </div>
                             </form>
 
@@ -135,12 +135,110 @@
                             <div class="col px-0 py-2 no-recent-activity">
                                 <p>No recent activity</p>
                             </div>
-                            <div class="col-lg-3 col-sm-1 col-sm-3 py-2 rounded-pill d-flex justify-content-center assign-rolee"
-                                style="font-weight: 500">
-                                <p>Assign Role</p>
+                            <div class="d-flex justify-content-center assign-rolee"
+                                (click)="openVerticallyCentered(this.content)">
+                                Complete Task
                             </div>
                         </div>
                     </div>
+                    <ng-template #content let-modal>
+                        <div class="modal-header no-border"
+                            style="display: flex; align-items: start; justify-content: space-between;">
+                            <p style="color: #707070; font-size: 12px;">REF202300123: Group Conflict</p>
+                            <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
+                                (click)="modal.dismiss('Cross click')">Close
+                                <!-- <span aria-hidden="true">&times;</span> -->
+                                <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="modal-title" style="color: #741110; font-weight: bold;"> Tender Evaluation
+                                Committee</p>
+                            <p style="color:#133B3A; font-weight: bold;line-height: 0.6;">
+                                <img src="../../../../../assets/icons/vuesax-bold-info-circle.svg">Chairman's Remarks
+                            </p>
+                            <p class="paragraph_style">You have been nominated to a Tender Evaluation Committee.</p>
+                            <p class="paragraph_style">Position: Member</p>
+                            <p class="paragraph_style">Venue: Times Tower, 22nd Floor Board Room</p>
+                            <p class="paragraph_style">Date: Monday 13, August 2023</p>
+                            <div style="display: flex; align-items: center; margin-top: 15px;">
+                                <p style="margin-right: 10px; margin-left:20px; font-weight: bold;color:#133B3A; ">Do
+                                    you have a Conflict of
+                                    Interest?</p>
+                                <button class="yes_no_button mb-2 me-2" (click)="onNoConflictClick(this.nocontent)">No</button>
+                                <button class="yes_no_button mb-2" (click)="onConflictClick(this.yescontent)">Yes</button>
+                            </div>
+                        </div>
+                    </ng-template>
+
+
+                    <ng-template #nocontent let-modal>
+                        <div class="modal-header" style="border:none">
+                            <div class="col d-flex justify-content-center">
+                                <p style="padding-top: 20px; font-size: 16px;">SUCCESS</p>
+                            </div>
+                            <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
+                                (click)="modal.dismiss('Cross click')">Close
+                                <!-- <span aria-hidden="true">&times;</span> -->
+                                <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                            </button>
+                        </div>
+                        <div class="modal-body" style="margin-bottom: 20px;">
+                        <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json"
+                            style="height: 150px;">
+                        </lottie-player>
+                        <div class="col" class="text-center">
+                            <p style="font-size: 15px; font-weight: bold;">Your Nomination has been submitted
+                                successfully.</p>
+                        </div>
+                    </div>
+                        <!-- <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
+                        </div> -->
+                    </ng-template>
+
+                    <ng-template #yescontent let-modal>
+                    <div class="modal-header no-border"
+                        style="display: flex; align-items: start; justify-content: space-between;">
+                        <p style="color: #707070; font-size: 12px;">REF202300123: Group Conflict</p>
+                        <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
+                            (click)="modal.dismiss('Cross click')">Close
+                            <!-- <span aria-hidden="true">&times;</span> -->
+                            <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-title" style="color: #741110; font-weight: bold;"> Tender Evaluation
+                            Committee</p>
+                        <p style="color:#133B3A; font-weight: bold;line-height: 0.6;">
+                            <img src="../../../../../assets/icons/vuesax-bold-info-circle.svg">Chairman's Remarks
+                        </p>
+                        <p class="paragraph_style">You have been nominated to a Tender Evaluation Committee.</p>
+                        <p class="paragraph_style">Position: Member</p>
+                        <p class="paragraph_style">Venue: Times Tower, 22nd Floor Board Room</p>
+                        <p class="paragraph_style">Date: Monday 13, August 2023</p>
+                        <div style="display: flex; align-items: center; margin-top: 15px;">
+                            <p style="margin-right: 10px; margin-left:20px; font-weight: bold;color:#133B3A; ">Do you
+                                have a Conflict of
+                                Interest?</p>
+                            <button class="yes_no_button mb-2 me-2" (click)="onNoConflictClick()">No</button>
+                            <button class="yes_no_button mb-2" (click)="onConflictClick()">Yes</button>
+                        </div>
+
+                        <div class="row" style="margin-left: 20px;">
+                            <div class="col-12 p-0">
+                              <div class=" textfonts">Assignment Description</div>
+                              <mat-form-field style="width:100%; ">
+                                <textarea matInput style="font-size: 12px;" formControlName="assignmentDesc"></textarea>
+                                <mat-error style="font-size: 11px;"
+                                  *ngIf="groupConflictForm.get('assignmentDesc').hasError('required')">Assignment Description
+                                  is
+                                  required</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                    </div>
+                    </ng-template>
 
                     <!-- group button -->
                     <div class="row row2 mb-2 p-3">

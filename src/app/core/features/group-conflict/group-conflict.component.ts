@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { AuthService } from 'app/core/services/auth.service';
 import { HttpService } from 'app/core/services/http.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-group-conflict',
@@ -23,8 +24,8 @@ export class GroupConflictComponent implements OnInit {
   staffId: number;
   showResultDetails: boolean = false;
   selectedMembers: string[] = [];
-  options: string[] = ['Appointing Officer', 'Member '];
-  selectedOption = this.options[0];
+  options: string[] = ['Appointing Officer', 'Member'];
+  selectedOption :string='Chairperson';
   option: string;
 
   status_code: number;
@@ -38,9 +39,12 @@ export class GroupConflictComponent implements OnInit {
   showReasonsDiv = false;
   selectedFile: File | null = null;
   giftForm: any;
+  isValidated = false;
+  appointor:any;
+
 
   constructor(private httpService: HttpService, private authService: AuthService, private datePipe: DatePipe, private fb: FormBuilder,
-    private modalService: NgbModal) {
+    private modalService: NgbModal, private snackBar: MatSnackBar) {
     this.conflictForm = this.fb.group({
       members: this.fb.array([])
     });
@@ -55,7 +59,7 @@ export class GroupConflictComponent implements OnInit {
       assignmentDesc: ['', Validators.required],
       venue: ['', Validators.required],
       haveConflict: ['', Validators.required],
-      conflictDesc: ['', Validators.required],
+      conflictDesc: ['',],
       reasons: ['',],
       file: ['',],
       legalReqAgreed: ['', Validators.required]
@@ -90,6 +94,15 @@ export class GroupConflictComponent implements OnInit {
       })
   }
   addMember(memberData: any): void {
+    const existingStaffNo = this.members.value.find((member) => member.staffNo === memberData.staffNo);
+    if (existingStaffNo) {
+      this.snackBar.open(`Staff number ${memberData.staffNo} is already added.`, 'Close', {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+      return;
+    }
     const memberForm = this.fb.group({
       name: [memberData.name || '', Validators.required],
       option: [memberData.option || '', Validators.required],
@@ -106,7 +119,6 @@ export class GroupConflictComponent implements OnInit {
   get members(): FormArray {
     return this.conflictForm.get('members') as FormArray;
   }
-
 
   isLateDeclaration(): boolean {
     const selectedDate = new Date(this.groupConflictForm.get('date').value);
@@ -128,49 +140,53 @@ export class GroupConflictComponent implements OnInit {
     }
   }
 
-
   submitGroupConflictDetails() {
-    const membersData = this.members.value;
-    // console.log("MEMBERS DATA", membersData)
-    const staffNumbers = membersData.map(member => member.staffNo);
-    // console.log(staffNumbers)
-
-    const formData = new FormData();
-    let haveConflictNumber;
-    const formattedDate = this.datePipe.transform(this.groupConflictForm.get('date').value, 'yyyy-MM-dd');
-    const haveConflictValue = this.groupConflictForm.get('haveConflict').value;
-    if (haveConflictValue === 'yes') {
-      haveConflictNumber = 1;
-    } else {
-      haveConflictNumber = 2;
+    if (this.isValidated) {
+      const membersData = this.members.value;
+      // console.log("MEMBERS DATA", membersData)
+      const staffNumbers = membersData.map(member => member.staffNo);
+      // console.log(staffNumbers)
+      const formData = new FormData();
+      let haveConflictNumber;
+      const formattedDate = this.datePipe.transform(this.groupConflictForm.get('date').value, 'yyyy-MM-dd');
+      const haveConflictValue = this.groupConflictForm.get('haveConflict').value;
+      if (haveConflictValue === 'yes') {
+        haveConflictNumber = 1;
+      } else {
+        haveConflictNumber = 2;
+      }
+      const declaration = {
+        appointor: this.appointor,
+        identityNo: this.groupConflictForm.get('identityNo').value,
+        date: formattedDate,
+        title: this.groupConflictForm.get('title').value,
+        assignmentDesc: this.groupConflictForm.get('assignmentDesc').value,
+        venue: this.groupConflictForm.get('venue').value,
+        haveConflict: haveConflictNumber,
+        conflictDesc: this.groupConflictForm.get('conflictDesc').value,
+        reasons: this.groupConflictForm.get('reasons').value,
+        members: staffNumbers
+      };
+      formData.append('declaration', JSON.stringify(declaration));
+      formData.append('file', this.groupConflictForm.get('file').value);
+      this.httpService.postData(ApiEndPoints.GROUP_CONFLICTS_INITIATE, formData).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.groupConflictForm.reset();
+          this.openVerticallyCentered(this.content);
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+        },
+      });
     }
-
-    const declaration = {
-      appointorId: '1',
-      identityNo: this.groupConflictForm.get('identityNo').value,
-      date: formattedDate,
-      title: this.groupConflictForm.get('title').value,
-      assignmentDesc: this.groupConflictForm.get('assignmentDesc').value,
-      venue: this.groupConflictForm.get('venue').value,
-      haveConflict: haveConflictNumber,
-      conflictDesc: this.groupConflictForm.get('conflictDesc').value,
-      reasons: this.groupConflictForm.get('reasons').value,
-      members: staffNumbers
-    };
-
-    formData.append('declaration', JSON.stringify(declaration));
-    formData.append('file', this.groupConflictForm.get('file').value);
-
-    this.httpService.postData(ApiEndPoints.GROUP_CONFLICTS_INITIATE, formData).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.groupConflictForm.reset();
-        this.openVerticallyCentered(this.content);
-      },
-      error: (error) => {
-        console.error("There was an error!", error);
-      },
-    });
+    else {
+      this.snackBar.open('Please validate members before submitting.', 'Close', {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+    }
   }
 
   validate(): void {
@@ -179,16 +195,22 @@ export class GroupConflictComponent implements OnInit {
     // const staffNumbers = membersData.map(member => member.staffNo);
     // console.log('staffNumbers', staffNumbers)
     // console.log('Members:', this.members.value);
+
     let isValid = true;
     let appointingOfficerCount = 0;
     let allStaffNumbers = [];
+    let hasMember = 0;
+    let appointorStaff = null;
     // Iterate over each FormGroup in the FormArray
     this.members.controls.forEach((group: FormGroup) => {
       // Check if the 'option' control has a value
       if (!group.get('option').value) {
-        this.errorMessage = ('Please select an option for all members.');
         isValid = false;
-        return;
+        this.snackBar.open('Please select an option for all members..', 'Close', {
+          duration: 5000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+        });
       }
       // Store the staff number for each member
       allStaffNumbers.push(group.get('staffNo').value);
@@ -196,25 +218,61 @@ export class GroupConflictComponent implements OnInit {
       // Count how many times 'Appointing Officer' has been selected
       if (group.get('option').value === 'Appointing Officer') {
         appointingOfficerCount++;
-
+        appointorStaff = group.get('staffNo').value;
+      }
+      if (group.get('option').value === 'Member') {
+        hasMember++;
       }
       // Check if 'Appointing Officer' has been selected more than once
       if (appointingOfficerCount > 1) {
-        this.errorMessage = 'The "Appointing Officer"  can only be selected once.';
         isValid = false;
+        this.snackBar.open(' You can only select one Appointing Officer.', 'Close', {
+          duration: 5000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+        });
       }
     });
 
+    // Check if 'Appointing Officer' has been selected at least once
+    if (appointingOfficerCount === 0) {
+      isValid = false;
+      this.snackBar.open('Please select an Appointing Officer.', 'Close', {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+    }
+    if (hasMember === 0) {
+      isValid = false;
+      this.snackBar.open('Please select a Member.', 'Close', {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+    }
 
     // If all options are selected, proceed with further validation
     if (isValid) {
       // Additional validation logic...
-      console.log('All members have selected an option.');
+      this.appointor=appointorStaff
+      // console.log('All members have selected an option.');
+      // console.log("appointor",this.appointor )
       this.errorMessage = '';
+      this.isValidated = true;
+       
+      this.snackBar.open('Thank for validating', 'Close', {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+    } else {
+      this.isValidated = false;
     }
-
-
   }
+
+
+
 
   handleFileInput(files: FileList): void {
     if (files.length > 0) {

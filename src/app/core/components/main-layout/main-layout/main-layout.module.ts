@@ -42,6 +42,7 @@ import { userInfo } from 'os';
 import { UserDashboardComponent } from 'app/core/features/user/user-dashboard/user-dashboard.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -95,7 +96,7 @@ import { MatMenuModule } from '@angular/material/menu';
     FullCalendarModule,
     MatTabsModule,
     MatMenuModule,
-
+    MatSnackBarModule,
     MatTableModule,
     MatPaginatorModule,
     NgbModule

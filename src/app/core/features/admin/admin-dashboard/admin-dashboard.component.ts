@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { HttpService } from 'app/core/services/http.service';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
@@ -11,6 +12,9 @@ import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 })
 export class AdminDashboardComponent implements OnInit {
 
+  @ViewChild('content') content: TemplateRef<any>;
+  @ViewChild('content') nocontent: TemplateRef<any>;
+  @ViewChild('content') yescontent: TemplateRef<any>;
 
   Roles: any;
   Priviledges: any;
@@ -38,7 +42,7 @@ export class AdminDashboardComponent implements OnInit {
 
   isRequestSuccessful: boolean = false;
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService,  private modalService: NgbModal) {
 
   }
 
@@ -255,22 +259,22 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-
-//   togglePrivilegeSelection(privilege): any[]{
-//    console.log(this.privileges)
-//        const privilegeIndex = this.privileges.indexOf(privilege.id);
-//     console.log('privilegeIndex', privilegeIndex)
-//     if (privilegeIndex === -1 ) {
-//                this.privileges.push(privilege.id);
-//         console.log('privileges', this.privileges)
-//     } 
-//     else {
-//         this.privileges.splice(privilegeIndex, 1);
-//         console.log('slice privileges', this.privileges)
-//     }
-//     return this.privileges;
-// }
-
-
+  openVerticallyCentered(content: TemplateRef<any>) {
+    this.modalService.open(content, { centered: true,});
+    
+  }
+  onCloseClick() {
+    this.modalService.dismissAll('Close click');
+    location.reload();
+  }
+  onNoConflictClick(nocontent: TemplateRef<any>):void{
+    this.modalService.dismissAll();
+    this.modalService.open(nocontent, { centered: true,})
+   
+  }
+  onConflictClick(yescontent: TemplateRef<any>):void{
+    this.modalService.dismissAll();
+    this.modalService.open(yescontent, { centered: true,})
+  }
 }
 

@@ -1,15 +1,387 @@
-<div class="container  p-4">
-    <div class="row">
-     <div class="col-12">
-       <div class="animationcard">
-         <p class="info fw-medium">Page Under Construction</p>
-         <lottie-player slot="end" autoplay loop src="assets/img/animations/ComingSoon.json"
-           style="height: 400px; padding-left:50px; padding-right:50px; " >
-         </lottie-player>
-           <p class="notify1 fw-medium m-0">The wait won't be long.</p>
-           <p class="notify2 fw-medium m-0">Once we launch you will be notified via Lotus Email.</p>
-         
-       </div>
-     </div>
-   </div>
+<div class="container p-0">
+  <div>
+      <nav class="navbar header-nav">
+          <span class="dashboard-heading">Hello Admin, Welcome to EIMS</span>
+      </nav>
   </div>
+
+  <div class="container align-items-center">
+    <div class="row justify-content-md-center">
+       <!-- COLUMN 1 -->
+       <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="container card1">
+                  
+       </div>
+    </div>
+    <!-- COLUMN 2 -->
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="container card3">
+          <div class="row" style="height: 150px">
+              <div class="col-12 d-flex flex-wrap gap-5">
+                  <div class="col px-0 py-2 no-recent-activity">
+                      <p>No recent activity</p>
+                  </div>
+                  <div class="d-flex justify-content-center assign-rolee"
+                      (click)="openVerticallyCentered(this.content)">
+                      Complete Task
+                  </div>
+              </div>
+          </div>
+          <ng-template #content let-modal>
+              <div class="modal-header no-border"
+                  style="display: flex; align-items: start; justify-content: space-between;">
+                  <p style="color: #707070; font-size: 12px;">REF202300123: Group Conflict</p>
+                  <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
+                      (click)="modal.dismiss('Cross click')">Close
+                      <!-- <span aria-hidden="true">&times;</span> -->
+                      <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <p class="modal-title" style="color: #741110; font-weight: bold;"> Tender Evaluation
+                      Committee</p>
+                  <p style="color:#133B3A; font-weight: bold;line-height: 0.6;">
+                      <img src="../../../../../assets/icons/vuesax-bold-info-circle.svg">Chairman's Remarks
+                  </p>
+                  <p class="paragraph_style">You have been nominated to a Tender Evaluation Committee.</p>
+                  <p class="paragraph_style">Position: Member</p>
+                  <p class="paragraph_style">Venue: Times Tower, 22nd Floor Board Room</p>
+                  <p class="paragraph_style">Date: Monday 13, August 2023</p>
+                  <div style="display: flex; align-items: center; margin-top: 15px;">
+                      <p style="margin-right: 10px; margin-left:20px; font-weight: bold;color:#133B3A; ">Do
+                          you have a Conflict of
+                          Interest?</p>
+                      <button class="yes_no_button mb-2 me-2" (click)="onNoConflictClick(this.nocontent)">No</button>
+                      <button class="yes_no_button mb-2" (click)="onConflictClick(this.yescontent)">Yes</button>
+                  </div>
+              </div>
+          </ng-template>
+
+
+          <ng-template #nocontent let-modal>
+              <div class="modal-header" style="border:none">
+                  <div class="col d-flex justify-content-center">
+                      <p style="padding-top: 20px; font-size: 16px;">SUCCESS</p>
+                  </div>
+                  <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
+                      (click)="modal.dismiss('Cross click')">Close
+                      <!-- <span aria-hidden="true">&times;</span> -->
+                      <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                  </button>
+              </div>
+              <div class="modal-body" style="margin-bottom: 20px;">
+              <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json"
+                  style="height: 150px;">
+              </lottie-player>
+              <div class="col" class="text-center">
+                  <p style="font-size: 15px; font-weight: bold;">Your Nomination has been submitted
+                      successfully.</p>
+              </div>
+          </div>
+              <!-- <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
+              </div> -->
+          </ng-template>
+
+          <ng-template #yescontent let-modal>
+          <div class="modal-header no-border"
+              style="display: flex; align-items: start; justify-content: space-between;">
+              <p style="color: #707070; font-size: 12px;">REF202300123: Group Conflict</p>
+              <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
+                  (click)="modal.dismiss('Cross click')">Close
+                  <!-- <span aria-hidden="true">&times;</span> -->
+                  <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+              </button>
+          </div>
+          <div class="modal-body">
+              <p class="modal-title" style="color: #741110; font-weight: bold;"> Tender Evaluation
+                  Committee</p>
+              <p style="color:#133B3A; font-weight: bold;line-height: 0.6;">
+                  <img src="../../../../../assets/icons/vuesax-bold-info-circle.svg">Chairman's Remarks
+              </p>
+              <p class="paragraph_style">You have been nominated to a Tender Evaluation Committee.</p>
+              <p class="paragraph_style">Position: Member</p>
+              <p class="paragraph_style">Venue: Times Tower, 22nd Floor Board Room</p>
+              <p class="paragraph_style">Date: Monday 13, August 2023</p>
+              <div style="display: flex; align-items: center; margin-top: 15px;">
+                  <p style="margin-right: 10px; margin-left:20px; font-weight: bold;color:#133B3A; ">Do you
+                      have a Conflict of
+                      Interest?</p>
+                  <button class="yes_no_button mb-2 me-2" (click)="onNoConflictClick()">No</button>
+                  <button class="yes_no_button mb-2" (click)="onConflictClick()">Yes</button>
+              </div>
+
+              <div class="row" style="margin-left: 20px;">
+                  <div class="col-12 p-0">
+                    <div class=" textfonts">Assignment Description</div>
+                    <mat-form-field style="width:100%; ">
+                      <textarea matInput style="font-size: 12px;" formControlName="assignmentDesc"></textarea>
+                      <mat-error style="font-size: 11px;"
+                        *ngIf="groupConflictForm.get('assignmentDesc').hasError('required')">Assignment Description
+                        is
+                        required</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+          </div>
+          </ng-template>
+
+          <!-- group button -->
+          <div class="row row2 mb-2 p-3">
+              <div class="d-flex justify-content-between">
+                  <a href="javascript:void(0)" class="btn btn-group-text"
+                      style="line-height: 1; color: #dfdfdf">declared</a>
+                  <a href="javascript:void(0)" class="btn btn-group-text"
+                      style="line-height: 1; color: #dfdfdf">pending</a>
+                  <a href="javascript:void(0)" class="btn btn-group-text"
+                      style="line-height: 1; color: #dfdfdf">complete</a>
+              </div>
+              <div class="btn-group" style="background-color: #dfdfdf; border: none; height: 15px">
+                  <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
+                  <a href="javascrYear ipt:void(0)" class="btn" style="line-height: 1"></a>
+                  <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
+              </div>
+          </div>
+      </div>
+
+      <!-- FOUR DIVS -->
+
+      <div class="container">
+          <div class="row">
+              <!-- fist column -->
+              <div class="col-sm-6 d-flex flex-column p-0">
+                  <!-- first mini card individual-conflicts -->
+                  <div class="d-flex flex-column card2 me-2">
+                      <div class="pb-1 flex-fill">
+                          <p style="height: 3px; color: #dfdfdf; font-size: 10px">
+                              Year to date
+                          </p>
+                      </div>
+
+                      <div class="p-0 d-flex justify-content-between" style="width: 100%">
+                          <p class="" style="color: #741110; font-weight: 600; font-size: 18px">
+                              Individual conflicts
+                          </p>
+                          <span class="text-muted"><i class="material-icons">more_vert</i></span>
+                      </div>
+
+                      <div class="p-0 mt-4 flex-fill d-flex" style="width: 100%">
+                          <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start"
+                              style="font-size: 52px;font-weight: 500; width: 20%; height: 20px;">
+                              0
+                          </div>
+                          <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start">
+                              <p class="mb-0">declared</p>
+                          </div>
+                          <div class="col-4 ms-3 p-0 d-flex position-relative"
+                              style="height: 80px; width: 95px">
+                              <img class="position-absolute p-0 bottom-0 end-0"
+                                  src="assets/icons/dashboard-icons/individualconflicts-icon.svg" alt="Icon"
+                                  style="height: 100px" />
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- second mini card gifts given out-->
+                  <div class="d-flex flex-column card2 me-2">
+                      <div class="pb-1 flex-fill">
+                          <p style="height: 3px; color: #dfdfdf; font-size: 10px">
+                              Year to date
+                          </p>
+                      </div>
+
+                      <div class="p-0 d-flex justify-content-between" style="width: 100%">
+                          <p class="" style="color: #741110; font-weight: 600; font-size: 18px">
+                              Gifts Given Out
+                          </p>
+                          <span class="text-muted"><i class="material-icons">more_vert</i></span>
+                      </div>
+
+                      <div class="p-0 mt-4 flex-fill d-flex" style="width: 100%">
+                          <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start"
+                              style="font-size: 52px;font-weight: 500; width: 20%; height: 20px;">
+                              0
+                          </div>
+                          <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start">
+                              <p class="mb-0">declared</p>
+                          </div>
+                          <div class="col-4 ms-3 p-0 d-flex position-relative"
+                              style="height: 80px; width: 95px">
+                              <img class="position-absolute p-0 bottom-0 end-0"
+                                  src="assets/icons/dashboard-icons/gifts-given-out.svg" alt="Icon"
+                                  style="height: 100px" />
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- second column -->
+
+              <div class="col-sm-6 d-flex flex-column p-0">
+                  <!-- second mini card group-conflicts -->
+                  <div class="d-flex flex-column card2 me-2">
+                      <div class="pb-1 flex-fill">
+                          <p style="height: 3px; color: #dfdfdf; font-size: 10px">
+                              Year to date
+                          </p>
+                      </div>
+
+                      <div class="p-0 d-flex justify-content-between" style="width: 100%">
+                          <p class="" style="color: #741110; font-weight: 600; font-size: 18px">
+                              Group Conflicts
+                          </p>
+                          <span class="text-muted"><i class="material-icons">more_vert</i></span>
+                      </div>
+
+                      <div class="p-0 mt-4 flex-fill d-flex" style="width: 100%">
+                          <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start" style="
+            font-size: 52px;
+            font-weight: 500;
+            width: 20%;
+            height: 20px;
+          ">
+                              0
+                          </div>
+                          <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start">
+                              <p class="mb-0">declared</p>
+                          </div>
+                          <div class="col-4 ms-3 p-0 d-flex position-relative"
+                              style="height: 80px; width: 95px">
+                              <img class="position-absolute p-0 bottom-0 end-0"
+                                  src="assets/icons/dashboard-icons/group-conflict.svg" alt="Icon"
+                                  style="height: 100px" />
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- fourth mini card gifts received -->
+                  <div class="pr-0 d-flex flex-column card2 me-2">
+                      <div class="pb-1 flex-fill">
+                          <p style="height: 3px; color: #dfdfdf; font-size: 10px">
+                              Year to date
+                          </p>
+                      </div>
+
+                      <div class="p-0 d-flex justify-content-between" style="width: 100%">
+                          <p class="" style="color: #741110; font-weight: 600; font-size: 18px">
+                              Gifts Received
+                          </p>
+                          <span class="text-muted"><i class="material-icons">more_vert</i></span>
+                      </div>
+
+                      <div class="p-0 mt-4 flex-fill d-flex" style="width: 100%">
+                          <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start" style="
+            font-size: 52px;
+            font-weight: 500;
+            width: 20%;
+            height: 20px;
+          ">
+                              0
+                          </div>
+                          <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start">
+                              <p class="mb-0">declared</p>
+                          </div>
+                          <div class="col-4 ms-3 p-0 d-flex position-relative"
+                              style="height: 80px; width: 95px">
+                              <img class="position-absolute p-0 bottom-0 end-0"
+                                  src="assets/icons/dashboard-icons/gift-received.svg" alt="Icon"
+                                  style="height: 100px" />
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- THIRD COLUMN -->
+  <div class="col-lg-3 col-md-12 col-sm-12">
+    <div class="container card4">
+        <div class="row p-0 mb-4">
+            <div class="col-12 p-0 d-flex align-items-center">
+                <div class="d-flex p-0 align-items-center w-100">
+                    <img src="assets/icons/main-layout-icons/history.svg" class="pe-1 mt-1"
+                        style="height: 20px" alt="" />
+                    <p class="flex-grow-1 pt-3 ms-1 fw-semibold" style="
+        font-size: 20px;
+        color: #570c0c !important;
+        font-family: Roboto;
+      ">
+                        History
+                    </p>
+                    <i class="material-icons ml-3">more_vert</i>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="max-height: 40px">
+            <div class="col-1 p-0">
+                <img src="assets/icons/group-conflicts-icon.png"
+                    style="font-size: 20px; padding-right: 3px" />
+            </div>
+            <div class="col-8 p-0">
+                <p style="
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #133b3a;
+      font-size: 15px;
+      padding-top: 4px;
+      padding-left: 3px;
+      padding-right: 3px;
+    ">
+                    Tender Evaluation Committee
+                </p>
+            </div>
+            <div class="col-3 p-0">
+                <p style="padding-top: 4px; color: #bfbfbf; font-size: 11px">
+                    31/08/2022
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-0">
+                <p style="color: #000000; font-size: 12px">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. S
+                    oluta cum cumque reiciendis minima molestias nam!
+                </p>
+            </div>
+        </div>
+
+        <div class="row" style="max-height: 40px">
+            <div class="col-1 p-0">
+                <img src="assets/icons/gift-icon.png" style="font-size: 20px; padding-right: 3px" />
+            </div>
+            <div class="col-8 p-0">
+                <p style="
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #133b3a;
+      font-size: 15px;
+      padding-top: 4px;
+      padding-left: 3px;
+      padding-right: 3px;
+    ">
+                    Tender Evaluation Committee
+                </p>
+            </div>
+            <div class="col-3 p-0">
+                <p style="padding-top: 4px; color: #bfbfbf; font-size: 11px">
+                    31/08/2022
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col p-0">
+                <p style="color: #000000; font-size: 12px">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. S
+                    oluta cum cumque reiciendis minima molestias nam!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+  </div>
+</div>
