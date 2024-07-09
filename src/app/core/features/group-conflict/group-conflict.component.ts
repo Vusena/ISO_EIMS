@@ -271,16 +271,12 @@ export class GroupConflictComponent implements OnInit {
     }
   }
 
-
-
-
   handleFileInput(files: FileList): void {
     if (files.length > 0) {
       // If only one file is allowed, use the first file in the list
       const file = files.item(0);
       this.groupConflictForm.get('file').setValue(file);
     }
-
   }
   openVerticallyCentered(content: TemplateRef<any>) {
     this.modalService.open(content, { centered: true });

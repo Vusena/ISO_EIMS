@@ -17,8 +17,6 @@
 }
 
 .card1 {
-  min-height: 684px !important;
-  // max-height: 675px !important;
   background-color: #FFFFFF;
   border: 1px solid #EFEFEF;
   border-radius: 15px;
@@ -26,7 +24,8 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
-
+  min-height: 800px;
+  max-height: 800px;
 }
 
 
@@ -47,7 +46,7 @@
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 15px;
-  height: 200px;
+  min-height: 240px;
 }
 
 .no-recent-activity {
@@ -61,18 +60,15 @@
 }
 
 .assign-rolee {
-  //  width: 100px ;
-  height: 40px;
+  height: 30px;
   color: #F2F2F2;
   background: #E12827;
-  opacity: 1;
   font-family: "Roboto";
-  font-size: 13px;
+  font-size: 12px;
   font-family: Roboto;
   border-radius: 20px;
-  padding-top: 10px;
-  width: 100px;
   font-weight: bold;
+  border: none;
 }
 
 .no-border {
@@ -81,18 +77,19 @@
 }
 
 .paragraph_style {
-  line-height: 0.8;
+  line-height: 1.0;
   margin-left: 20px;
 }
 
 .yes_no_button {
   width: 100px;
-  height:30px;
+  height: 30px;
   border-radius: 30px;
-  border:1px solid #707070;
+  border: 1px solid #707070;
 }
+
 .bg-modal-open {
-  background-color:#133B3A;
+  background-color: #133B3A;
 }
 
 .card3 {
@@ -106,6 +103,7 @@
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 15px;
+
 }
 
 
@@ -118,7 +116,8 @@
   padding-left: 25px;
   padding-right: 25px;
   margin-bottom: 20px;
-  height: 675px;
+  min-height: 800px;
+  max-height: 800px;
 
 }
 
@@ -136,3 +135,13 @@
 .default {
   background-color: none;
 }
+
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+  padding-top: 0 !important; 
+  padding-bottom: 0!important; 
+}
+.mdc-text-field {
+  padding: 0 0 !important;
+  
+}
+
