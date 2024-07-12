@@ -1,6 +1,6 @@
 //  INPUT
 .mdc-notched-outline {
-    height: 75% !important;
+  height: 75% !important;
 }
 
 
@@ -8,7 +8,7 @@
 //      padding-top: 8px !important;
 //     // padding-bottom: 16px;
 // }
-    
+
 // .mat-mdc-icon-button.mat-mdc-button-base {
 //     padding-top: 3px;
 //     padding-bottom: 14px;
@@ -26,12 +26,12 @@
     align-items: center !important;
 }
 .mat-mdc-tab {
-  
+
     background: none !important;
     font-family: Roboto !important;
     font-size: 30px;
     // letter-spacing:
-    // line-height: 
+    // line-height:
     font-weight: bold !important;
 }
 .mdc-tab {
@@ -117,14 +117,15 @@
 
 .material-icons {
     color: #000 !important;
-   
 }
+
 .mat-vertical-stepper-header {
     display: flex;
     align-items: center;
     height: 5px !important;
     padding: 2px;
 }
+
 .mat-step-icon {
     background-color: #E12827 !important;
 }
@@ -134,14 +135,50 @@
 }
 
 
- @media (max-width: 960px) {
-    .year-calendar__body__month {
-        width: 150px !important;
-    }
-    .year-calendar__header__options__option{
-        margin:4px;
-       
-    }
-    
+@media (max-width: 960px) {
+  .year-calendar__body__month {
+    width: 150px !important;
+  }
+
+  .year-calendar__header__options__option{
+    margin:4px;
+  }
 }
+
+.truncate-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+mat-form-field input, textarea {
+  font-size: 12px !important;
+  padding: 0 !important;
+}
+
+mat-form-field textarea {
+  max-height: none !important;
+  line-height: 20px !important;
+}
+
+mat-select {
+  font-size: 12px !important;
+}
+
+mat-error {
+  font-size: 11px !important;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 10px !important;
+  padding-bottom: 5px !important;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 56px !important;
+}
+
 
