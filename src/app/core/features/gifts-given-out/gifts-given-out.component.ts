@@ -2,8 +2,6 @@ import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@a
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 
-
-
 import { HttpService } from 'app/core/services/http.service';
 import { DatePipe } from '@angular/common';
 import { OfficerType } from 'app/core/common/officerEnums';
@@ -24,7 +22,6 @@ interface Occasion {
 })
 
 export class GiftsGivenOutComponent implements OnInit {
- 
 
   today = new Date();
   occasions: Occasion[] = [];
@@ -37,8 +34,8 @@ export class GiftsGivenOutComponent implements OnInit {
 
   officerEnumValues = Object.values(OfficerType);
   actor:string;
-  historyprogress:any;
-  historydeclaration:any;
+  historyProgress:any;
+  historyDeclaration:any;
   recipient: string;
   officer = OfficerType;     //sends data to the backend
   officerType: OfficerType; //declaring a property for internal use
@@ -56,15 +53,19 @@ export class GiftsGivenOutComponent implements OnInit {
   history: any;
   length:number; //total number of items or records
   pageSize:number =5; // specifies the number of items or records to be displayed on a single page.
-  pageSizeOptions: number[] = [5, 10, 15, 20]; //This is an array that defines the set of options available for the user to select 
+  pageSizeOptions: number[] = [5, 10, 15, 20]; //This is an array that defines the set of options available for the user to select
   currentPage:number=0; //holds the current page number that the user is viewing
   historyId:number;
 
   @ViewChild('content') content: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private formBuilder: FormBuilder, private httpService: HttpService, private datePipe: DatePipe,
-    private modalService: NgbModal, private fb: FormBuilder) {
+  constructor(
+    private httpService: HttpService,
+    private datePipe: DatePipe,
+    private modalService: NgbModal,
+    private fb: FormBuilder
+  ) {
     this.giftForm = this.fb.group({
       // declarationDate: [{value: '', disabled: true}, Validators.required],
       dateIssued: ['', Validators.required],
@@ -78,35 +79,28 @@ export class GiftsGivenOutComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
-    // Ensure paginator is initialized before accessing it
-    if (this.paginator) {
-      // console.error(this.paginator)
-    }
-  }
-
-   ngOnInit(): void {
-    this.getOccassions();
+  ngOnInit(): void {
+    this.getOccasions();
     this.giftsGivenOutHistory();
     // this.giftsGivenOutProgress();
-    this.historyprogress = [
+    this.historyProgress = [
       // Add default objects representing the initial state of each step
       { actor: 'Once you declare', action: 'This will be your progress bar to track which stage the declaration is at.' },
       { actor: '', action: '' },
-        ];
+    ];
   }
 
-  getOccassions(): void {
+  getOccasions(): void {
     this.httpService.get(ApiEndPoints.GIFTS_GIVEN_OUT).subscribe({
       next: (response) => {
         // console.log("Response", response)
         if (response.code === 200 && response.status === 'OK') {
           this.occasions = response.data
         }
-        console.log("Occassion",this.occasions)
+        //console.log("Occasion",this.occasions)
       },
-      error: (error) => {
-        console.error("There was an error!", error);
+      error: () => {
+        //console.error("There was an error!", error);
       },
     })
   }
@@ -141,7 +135,6 @@ export class GiftsGivenOutComponent implements OnInit {
   }
   openVerticallyCentered(content: TemplateRef<any>) {
     this.modalService.open(content, { centered: true });
-
   }
   onCloseClick() {
     this.modalService.dismissAll('Close click');
@@ -149,18 +142,18 @@ export class GiftsGivenOutComponent implements OnInit {
   }
 
   giftsGivenOutHistory() {
-      this.httpService.getAllnominees(ApiEndPoints.GIFTS_GIVEN_OUT_GET,null,this.currentPage,this.pageSize).subscribe({
-    next: (res) => {
-    this.history = res.data.content;
-    this.length = res.data.totalElements;
+    this.httpService.getAllnominees(ApiEndPoints.GIFTS_GIVEN_OUT_GET,null,this.currentPage,this.pageSize).subscribe({
+      next: (res) => {
+        this.history = res.data.content;
+        this.length = res.data.totalElements;
       },
-    error: (error) => {
-    // ... error handling
-    },
+      error: () => {
+        // ... error handling
+      },
     });
-    }
-    
-    onPageChange(event: PageEvent) {
+  }
+
+  onPageChange(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.giftsGivenOutHistory();
@@ -168,35 +161,32 @@ export class GiftsGivenOutComponent implements OnInit {
   onHistoryItemClick(itemId: number): void {
     console.log(itemId)
     this.giftsGivenOutProgress(itemId);
-    }
+  }
 
- giftsGivenOutProgress(id: number) {
-  const urlWithId = `${ApiEndPoints.GIFT_GIVEN_OUT_GET_PROGRESS}/${id}`;
-  this.httpService.getById(urlWithId).subscribe({
-  next: (res) => {
-   this.historyprogress=res.data.progress;
-  this.historydeclaration=res.data.declaration;
-  
-  console.log(this.historydeclaration)
-  const date=new Date(res.data.declaration.date_issued)
- 
-      this.giftForm.patchValue({
-    dateIssued: date,
-    occasionId: this.historydeclaration.occasion.id,
-    officerType: this.historydeclaration.officer,
-    specified: this.historydeclaration.specified,
-    value:this.historydeclaration.value,
-    recipient: this.historydeclaration.recipient,
-    description: this.historydeclaration.description,
-  
+  giftsGivenOutProgress(id: number) {
+    const urlWithId = `${ApiEndPoints.GIFT_GIVEN_OUT_GET_PROGRESS}/${id}`;
+    this.httpService.getById(urlWithId).subscribe({
+      next: (res) => {
+        this.historyProgress = res.data.progress;
+        this.historyDeclaration = res.data.declaration;
+
+        //console.log(this.historyDeclaration)
+        const date=new Date(res.data.declaration.date_issued)
+
+        this.giftForm.patchValue({
+          dateIssued: date,
+          occasionId: this.historyDeclaration.occasion.id,
+          officerType: this.historyDeclaration.officer,
+          specified: this.historyDeclaration.specified,
+          value:this.historyDeclaration.value,
+          recipient: this.historyDeclaration.recipient,
+          description: this.historyDeclaration.description,
+        });
+        //console.log(this.giftForm)
+      },
+      error: () => {
+        // ... error handling
+      },
     });
-   console.log(this.giftForm)
-  },
-  error: (error) => {
-  // ... error handling
-  },
-  });
-
-}
-
+  }
 }

@@ -1,169 +1,154 @@
-<div class="container p-0 ">
-  <div>
+<div class="container-fluid">
+  <div class="pt-3">
     <nav class="navbar header-nav">
       <span class="dashboard-heading">Gifts Given Out Declaration</span>
     </nav>
   </div>
 
-  <div class="container align-items-center">
+  <div class="container-fluid align-items-center">
     <div class="row justify-content-md-center">
 
       <!-- COLUMN 1 -->
       <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="container  card1">
-          <div class="row">
-            <div class="col-12 p-3">
-              <p class="fw-semibold" style="color:#741110; font-size: 20px; font-family:'Roboto';">Declaration Progress
-              </p>
-            </div>
-          </div>
-
+        <div class="container py-4 card1">
+          <h2 class="fw-bold" style="color:#570c0c;">Declaration Progress</h2>
 
           <div class="row p-0">
-            <div class="col p-0"> <mat-stepper orientation="vertical">
-                <!-- replace the edit icon with the home icon -->
-                <!-- <ng-template matStepperIcon="active">
-                  <mat-icon>list</mat-icon>
-                </ng-template> -->
-                <!-- change default 'edit' icon -->
-                <!-- <ng-template matStepperIcon="edit">
-                  <mat-icon>list</mat-icon>
-                </ng-template> -->
+            <div class="col p-0">
+              <mat-vertical-stepper [linear]="false">
+                <ng-template matStepperIcon="edit">
+                  <mat-icon>radio_button_unchecked</mat-icon>
+                </ng-template>
+                <ng-template matStepperIcon="chat">
+                  <mat-icon>radio_button_unchecked</mat-icon>
+                </ng-template>
 
-                <!-- change default 'done' icon -->
-                <!-- <ng-template matStepperIcon="done">
-                  <mat-icon>list</mat-icon>
-                </ng-template> -->
-
-                <!-- change default 'number' icon -->
-                <!-- <ng-template matStepperIcon="number">
-                  <mat-icon>list</mat-icon>
-                </ng-template> -->
-
-                <mat-step *ngFor="let item of historyprogress">
-                  <ng-template matStepLabel style="font-size: 14px;">{{item.actor}}</ng-template>
-                  <div class="p-0">
-                    <p style="font-size: 12px;">{{item.action}}</p>
-                  </div>
+                <mat-step  state="chat" *ngFor="let item of historyProgress">
+                  <ng-template matStepLabel><span class="fw-semibold ps-2">{{ item.actor }}</span></ng-template>
+                  {{ item.action }}
                 </mat-step>
-              </mat-stepper>
+              </mat-vertical-stepper>
             </div>
           </div>
-
 
         </div>
       </div>
 
       <!-- SECOND COLUNM -->
-      <div class="col-lg-6 col-md-6 col-sm-6 ">
-        <div class="container card3">
-          <div class="row d-flex justify-content-between pe-0">
-            <div class="col-md-4 p-0 ">
-              <p class="fw-semibold" style="color: #741110; font-size: 20px; font-family:'Roboto';">Declaration Details
-              </p>
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="container card3 py-4">
+
+          <div class="row">
+            <div class="col-md-5 p-0">
+              <h2 class="fw-bold" style="color:#570c0c;">Declaration Details</h2>
             </div>
-            <div class="col-md-8 py-0 d-flex " style="background-color: #FBE4E4; max-height: 25px;">
-              <i class="material-icons " style="color: #741110!important;">warning</i>
-              <span class="" style="color:#133B3A; font-size: 11px; padding-top: 8px;  ">DO NOT declare if you have no
-                conflict of
-                interest!</span>
+            <div class="col-md-7 p-0">
+              <div class="alert alert-warning d-flex align-items-center px-2 py-1" role="alert">
+                <i class="material-icons" style="color: #741110 !important;">warning</i>
+                <small>DO NOT declare if you have no conflict of interest!</small>
+              </div>
             </div>
           </div>
 
           <form [formGroup]="giftForm" (ngSubmit)="submitGiftGivenDetails()">
-            <div class="row mt-3 ">
-              <div class="col-md-4 p-0">
-                <div class="textfonts">Declaration Date</div>
-                <mat-form-field appearance="outline" class="p-0 xyz">
-                  <input matInput [matDatepicker]="picker" [value]="today" disabled style="font-size: 12px;"
-                    placeholder="09/07/2023">
+            <div class="row p-0">
+              <div class="col-md-4 p-1">
+                <div class="form-label small">Declaration Date</div>
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput [matDatepicker]="picker" [value]="today" disabled
+                         placeholder="{{ today | date:'M/d/yyyy' }}">
                   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
               </div>
 
-
-              <div class="col-md-4 p-0">
-                <div class="textfonts">Date you gave gift</div>
-                <mat-form-field appearance="outline" class="p-0 xyz">
+              <div class="col-md-4 p-1">
+                <div class="form-label small">Date you gave gift</div>
+                <mat-form-field appearance="outline" class="w-100">
                   <input matInput [matDatepicker]="picker1" formControlName="dateIssued"
-                    style="font-size: 12px; margin-left: 0;" placeholder="09/07/2023">
+                         placeholder="{{ today | date:'M/d/yyyy' }}">
                   <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                   <mat-datepicker #picker1></mat-datepicker>
-                  <mat-error style="font-size: 11px;" *ngIf="giftForm.get('dateIssued').hasError('required')">Date is
-                    required</mat-error>
+                  <mat-error *ngIf="giftForm.get('dateIssued').hasError('required')">
+                    Date is required
+                  </mat-error>
                 </mat-form-field>
               </div>
 
-
-              <div class="col-md-4 p-0 ">
-                <div class="textfonts ">Occasion</div>
-                <mat-form-field class="xyz" appearance="outline">
-                  <mat-select style="font-size: 12px;" placeholder="Courtesy" formControlName="occasionId">
+              <div class="col-md-4 p-1">
+                <div class="form-label small">Occasion</div>
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-select placeholder="Courtesy" formControlName="occasionId">
                     <mat-option class="mat-options-font" *ngFor="let occasion of occasions" [value]="occasion.id">{{
-                      occasion.name }}
+                        occasion.name }}
                     </mat-option>
                   </mat-select>
-                  <mat-error style="font-size: 11px;" *ngIf="giftForm.get('occasionId').hasError('required')">Please
-                    select an occasion</mat-error>
+                  <mat-error *ngIf="giftForm.get('occasionId').hasError('required')">
+                    Please select an occasion
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
 
-            <div class="col-12 p-0 " *ngIf="giftForm.get('occasionId').value === 5">
-              <div class="textfonts">Specify Other Occasion</div>
-              <mat-form-field style="width:100%;">
-                <input matInput formControlName="specified" placeholder="Type here.." />
-                <mat-error style="font-size: 11px;" *ngIf="giftForm.get('specified').hasError('required')">Please
-                  specify the occasion</mat-error>
-              </mat-form-field>
+            <div class="row p-0" *ngIf="giftForm.get('occasionId').value === 5">
+              <div class="col-12 p-1">
+                <div class="form-label small">Specify Other Occasion</div>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input matInput formControlName="specified" placeholder="Type here.." />
+                  <mat-error *ngIf="giftForm.get('specified').hasError('required')">
+                    Please specify the occasion
+                  </mat-error>
+                </mat-form-field>
+              </div>
             </div>
 
-
-            <div class="row ">
-              <div class="col p-0">
-                <div class="textfonts">Value of Gift</div>
-                <mat-form-field appearance="outline" class="p-0 xyz">
-                  <input matInput type="number" style="font-size: 12px;" placeholder="Type here.."
-                    formControlName="value">
-                  <mat-error style="font-size: 11px;" *ngIf="giftForm.get('value').hasError('required')">Please enter
-                    the value of the gift</mat-error>
+            <div class="row p-0">
+              <div class="col-md-4 p-1">
+                <div class="form-label small">Value of Gift</div>
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput type="number" formControlName="value" placeholder="Type here..">
+                  <mat-error *ngIf="giftForm.get('value').hasError('required')">
+                    Please enter the value of the gift
+                  </mat-error>
                 </mat-form-field>
               </div>
 
-              <div class="col-md-8 p-0">
-                <div class="textfonts">Name of Recipient</div>
-                <mat-form-field appearance="outline" class="p-0 unique" style="width: 100%;">
-                  <div class="form-group">
-                    <input matInput style="font-size: 12px; width: 60%;" placeholder="Type here.."
-                      formControlName="recipient">
-                    <div class="officer_button">
-                      <mat-select placeholder="Officer" style="font-size: 12px; width: 40%;"
-                        formControlName="officerType">
-                        <mat-option class="mat-options-font" *ngFor="let type of officerEnumValues" [value]="type">
-                          {{ officerTypeNames[type] }}
-                        </mat-option>
-                      </mat-select>
+              <div class="col-md-8 p-1">
+                <div class="form-label small">Name of Recipient</div>
+                <mat-form-field appearance="outline" class="w-100 uniquew">
+                  <div class="row">
+                    <div class="col-8">
+                      <input matInput class="w-100" placeholder="Type here.." formControlName="recipient">
+                    </div>
+                    <div class="col-4">
+                      <div class="officer_button">
+                        <mat-select class="w-100" placeholder="Officer" formControlName="officerType">
+                          <mat-option class="mat-options-font" *ngFor="let type of officerEnumValues" [value]="type">
+                            {{ officerTypeNames[type] }}
+                          </mat-option>
+                        </mat-select>
+                      </div>
+
                     </div>
                   </div>
-                  <mat-error style="font-size: 11px;" *ngIf="giftForm.get('recipient').hasError('required')">
+                  <mat-error *ngIf="giftForm.get('recipient').hasError('required')">
                     Please enter the recipient's name
                   </mat-error>
-                  <mat-error style="font-size: 11px;" *ngIf="giftForm.get('officerType').hasError('required')">
+                  <mat-error *ngIf="giftForm.get('officerType').hasError('required')">
                     Please select an officer type
                   </mat-error>
                 </mat-form-field>
               </div>
-
             </div>
 
-            <div class="row ">
-              <div class="col-12 p-0">
-                <div class=" textfonts">Gift Description</div>
-                <mat-form-field style="width:100%;">
-                  <textarea style="font-size: 12px;" matInput formControlName="description"></textarea>
-                  <mat-error style="font-size: 11px;" *ngIf="giftForm.get('description').hasError('required')">Please
-                    enter a gift description</mat-error>
+            <div class="row p-0">
+              <div class="col-12 p-1">
+                <div class="form-label small">Gift Description</div>
+                <mat-form-field class="w-100" appearance="outline">
+                  <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="15" formControlName="description"></textarea>
+                  <mat-error class="p-0 m-0" *ngIf="giftForm.get('description').hasError('required')">
+                    Please enter a gift description
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -172,10 +157,10 @@
               <div class="col-lg-6 col-sm-12">
                 <div class="form-check terms">
                   <input class="form-check-input" type="checkbox" name="agree-to" value="legal-req"
-                    formControlName="legalReqAgreed">
-                  <label class="form-check-label" for="legal-req" style="font-size: 12px;">
+                         formControlName="legalReqAgreed">
+                  <label class="form-check-label" htmlFor="legal-req" style="font-size: 12px;">
                     I agree to the <span style="text-decoration: underline;"
-                      title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure nemo quia molestias sed fugit? Debitis repudiandae numquam, cum perspiciatis adipisci dolor voluptas quo tenetur dolorem soluta animi iste sit consequatur fugiat consequuntur, neque quos blanditiis praesentium distinctio molestias repellendus commodi unde eaque. Magni nobis veniam voluptas, ipsam quos voluptates commodi!">
+                                         title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure nemo quia molestias sed fugit? Debitis repudiandae numquam, cum perspiciatis adipisci dolor voluptas quo tenetur dolorem soluta animi iste sit consequatur fugiat consequuntur, neque quos blanditiis praesentium distinctio molestias repellendus commodi unde eaque. Magni nobis veniam voluptas, ipsam quos voluptates commodi!">
                       Legal Requirements</span>
                   </label>
                 </div>
@@ -191,7 +176,7 @@
               </div>
               <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
               </lottie-player>
-              <div class="col" class="text-center">
+              <div class="text-center">
                 <p style="font-size: 15px; font-weight: bold;">Your Nomination has been submitted successfully.</p>
               </div>
               <div class="modal-footer">
@@ -202,14 +187,14 @@
             <div class="row mt-3 mb-4">
               <div class="col-6">
                 <button type="button" class="btn btn-primary btn-block btn-rounded" (click)="clearField()"
-                  style="background-color: #FFFFFF; color: #E12827; border: #E12827 1px solid;">Clear
-                  <img src="../../../../assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
+                        style="background-color: #FFFFFF; color: #E12827; border: #E12827 1px solid;">Clear
+                  <img src="./assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
                 </button>
               </div>
               <div class="col-6">
-                <button type="click" class="btn  btn-block btn-rounded" style="background-color: #E12827;"
-                  [disabled]="!giftForm.valid">Submit
-                  <img src="../../../../assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                <button type="submit" class="btn  btn-block btn-rounded" style="background-color: #E12827;"
+                        [disabled]="!giftForm.valid">Submit
+                  <img src="./assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
                 </button>
               </div>
             </div>
@@ -218,71 +203,50 @@
       </div>
 
       <!-- THIRD COLUMN -->
-
       <div class="col-lg-3 col-md-12 col-sm-12">
-        <div class="container card4">
-          <div class="row p-0 mb-3">
-            <div class="col-12 p-0 d-flex align-items-center">
-              <div class="d-flex p-0 align-items-center w-100">
-                <img src="../../../../assets/icons/main-layout-icons/history.svg" class="pe-1 mt-1"
-                  style="height:20px; " alt="">
-                <p class="flex-grow-1 pt-3 ms-1 fw-semibold"
-                  style="font-size: 20px; color: #570c0c !important; font-family: Roboto; ">History</p>
-                <i class="material-icons ml-3">more_vert</i>
-              </div>
+
+        <div class="container py-2 card4">
+          <div class="row">
+            <div class="d-flex p-1 align-items-center w-100">
+              <img src="./assets/icons/main-layout-icons/history.svg" class="ms-2 mt-1"
+                   style="height:20px;" alt="">
+              <h2 class="flex-grow-1 pt-3 ms-1 fw-bold" style="color: #570c0c">History</h2>
+              <i class="material-icons" style="color: #ABABAB !important;">more_vert</i>
             </div>
           </div>
 
-          <div class="row p-0 mb-2 history-item" *ngFor="let item of history" (click)="onHistoryItemClick(item.id)">
-            <div class="col-1 p-0">
-              <img src="../../../../assets/icons/gift-icon.png" style=" padding-top: 4px;  padding-right: 3px;">
-            </div>
-            <div class="col-8 p-0">
-              <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #133B3A;
-              font-size: 15px; padding-top: 4px;padding-left: 3px;padding-right: 3px;">{{item.title}}</p>
-            </div>
-            <div class="col-3 p-0">
-              <p style="padding-top: 4px; color: #BFBFBF; font-size: 11px;">{{ item.date | date}}</p>
-            </div>
-            <div class="row ">
-              <div class="col p-0">
-                <p style="color:#000000; font-size: 12px;">
-                  {{item.summary}}
-                </p>
-              </div>
-            </div>
-          </div>
           <div class="row">
-            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-              (page)="onPageChange($event)" [pageIndex]="currentPage">
-            </mat-paginator>
+            <div class="p-0" *ngIf="history.length > 0; else noItems">
+              <div class="p-0 history-item" *ngFor="let item of history" (click)="onHistoryItemClick(item.id)">
+                <div class="row px-3">
+                  <div class="d-flex align-items-center w-100">
+                    <img src="./assets/icons/gift-icon.png" alt="">
+                    <h4 class="flex-grow-1 pt-3 ms-1 fw-bold">{{ item.title }}</h4>
+                    <h4 class="text-secondary small pt-3">{{ item.date | date:'dd/MM/yyyy' }}</h4>
+                  </div>
+                </div>
+                <div class="row px-3 pb-3">
+                  <p class="truncate-lines">{{ item.summary }}</p>
+                </div>
+              </div>
+
+              <mat-paginator
+                [length]="length"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions"
+                (page)="onPageChange($event)" [pageIndex]="currentPage"
+              />
+            </div>
+
+            <ng-template #noItems>
+              <p class="small fw-semibold">You haven't made any declarations yet.</p>
+              <p>Once you make a declaration you will view a history of your declarations here.</p>
+            </ng-template>
           </div>
         </div>
       </div>
+
+
     </div>
   </div>
 </div>
-
-
-<!-- PAGE UNDER CONSTRUCTION -->
-<!-- <div class="container p-4">
-  <div class="row">
-    <div class="col-12">
-      <div class="animationcard">
-        <p class="info fw-medium">Page Under Construction</p>
-        <lottie-player
-          slot="end"
-          autoplay
-          loop
-          src="assets/img/animations/ComingSoon.json"
-          style="height: 400px; padding-left: 50px; padding-right: 50px"
-        >
-        </lottie-player>
-        <p class="notify1 fw-medium m-0">The wait won't be long.</p>
-        <p class="notify2 fw-medium m-0">
-          Once we launch you will be notified via Lotus Email.
-        </p>
-      </div>
-    </div>
-  </div>
-</div> -->
