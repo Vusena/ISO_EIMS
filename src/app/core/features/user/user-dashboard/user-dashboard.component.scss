@@ -28,11 +28,6 @@
   max-height: 800px;
 }
 
-
-
-
-
-
 //  SECOND COLUMN  
 
 .card2 {
@@ -70,6 +65,17 @@
   font-weight: bold;
   border: none;
 }
+.assign-role {
+  height: 30px;
+  color: #E12827;
+  background: #F2F2F2;
+  font-family: "Roboto";
+  font-size: 12px;
+  font-family: Roboto;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+}
 
 .no-border {
   border-bottom: none;
@@ -87,6 +93,12 @@
   border-radius: 30px;
   border: 1px solid #707070;
 }
+
+.yes_no_button:active {
+  background-color: #741110;
+  border-color: #ccc;
+  color: #fff;
+  }
 
 .bg-modal-open {
   background-color: #133B3A;
@@ -137,11 +149,18 @@
 }
 
 .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
-  padding-top: 0 !important; 
-  padding-bottom: 0!important; 
+  padding-top: 10px !important; 
+  padding-bottom: 0 !important; 
 }
 .mdc-text-field {
-  padding: 0 0 !important;
-  
+  padding: 0 0 !important;  
+}
+.modal_textarea{
+  font-size: 12px; 
+  width:100%;
+}
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+ padding-top: 0 !important; 
+padding-bottom: 0 !important; 
 }
 

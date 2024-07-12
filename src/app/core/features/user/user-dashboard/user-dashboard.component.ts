@@ -1,5 +1,6 @@
 import { Component, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { HttpService } from 'app/core/services/http.service';
@@ -14,72 +15,102 @@ export class UserDashboardComponent {
 
   notifications: any[] = [];
   headers: any;
-  title:any;
-  description:any;
-  selectedNotification:any;
-  showLateDeclarationUI;
-  declaration:FormGroup
+  title: any;
+  description: any;
+  selectedNotification: any;
+  showLateDeclarationUI: boolean;
+  declaration: FormGroup;
+  conflictOfInterest: any;
+  conflictOfInterestControl = new FormControl(null);
 
-  constructor(private modalService: NgbModal, private httpService: HttpService,private fb: FormBuilder) { }
+  constructor(private modalService: NgbModal, private httpService: HttpService, private fb: FormBuilder, 
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getNotifications()
-    this.declaration = this.fb.group({     
+    this.declaration = this.fb.group({
       file: ['',],
-      
+
     })
   }
 
   openVerticallyCentered(content: TemplateRef<any>, notification: any) {
     this.modalService.open(content, { centered: true, });
     this.selectedNotification = notification;
-    const today = new Date();   
-    const notificationDateArray = notification.date;    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const notificationDateArray = notification.date;
     const notificationDate = new Date(notificationDateArray[0], notificationDateArray[1] - 1, notificationDateArray[2]);
-        console.log(notificationDate)
-        console.log("today", today)
-  if (notificationDate > today) {
-    // Show the late declaration UI elements
-    this.showLateDeclarationUI = true;
-  } else {
-    this.showLateDeclarationUI = false;
+    console.log(notificationDate)
+    console.log("today", today)
+    if (notificationDate < today) {
+      this.showLateDeclarationUI = true;
+    } else {
+      this.showLateDeclarationUI = false;
+    }
+
+    console.log(this.showLateDeclarationUI);
   }
-    
-  }
+
   onCloseClick() {
     this.modalService.dismissAll('Close click');
     location.reload();
   }
+
   onNoConflictClick(nocontent: TemplateRef<any>): void {
     this.modalService.dismissAll();
-    this.modalService.open(nocontent, { centered: true, })
-
+    // this.modalService.open(nocontent, { centered: true, })
+    this.conflictOfInterest=true
+  }
+  onNoConflictClickk(): void {
+    // this.modalService.dismissAll();
+    // this.modalService.open(nocontent, { centered: true, })
+    this.conflictOfInterest=0;
+    const conflictValue = 0;
+    console.log(conflictValue); // Output: 0
   }
   onConflictClick(yescontent: TemplateRef<any>): void {
     this.modalService.dismissAll();
-    this.modalService.open(yescontent, { centered: true, }) 
+    this.modalService.open(yescontent, { centered: true, })
+    this.conflictOfInterest=1;
   }
+  
   getNotifications(): void {
     this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
       next: (response) => {
         this.notifications = response.data
-        
+
       },
       error: (error) => {
         console.error("There was an error!", error);
       },
     })
   }
-  submitDeclarations():void{
-    this.httpService.get(ApiEndPoints.DECLARATION_POST).subscribe({
-      next: (response) => {
-       console.log(response)        
-      },
-      error: (error) => {
-        console.error("There was an error!", error);
-      },
-    })
+  
+  submitDeclarations(): void {
+    const conflictOfInterestValue = this.conflictOfInterestControl.value;
+    console.log("conflictOfInterestValue", conflictOfInterestValue)
+    // this.httpService.post(ApiEndPoints.DECLARATION_POST, {
+    //   conflictOfInterest: conflictOfInterestValue,
+    
+    // }).subscribe({
+    //   next: (response) => {
+    //     console.log(response)
+    //   },
+    //   error: (error) => {
+    //     console.error("There was an error!", error);
+    //   },
+    // })
+
+    this.snackBar.open(`Submit Button has been clicked.`, 'Close', {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+    
   }
+  
+  
 
   handleFileInput(files: FileList): void {
     if (files.length > 0) {
