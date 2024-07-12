@@ -21,81 +21,78 @@
 // }
 
 .mat-mdc-tab .mdc-tab__text-label {
-    color: #E12827 !important;
-    display: inline-flex !important;
-    align-items: center !important;
+  color: #E12827 !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 .mat-mdc-tab {
-
-    background: none !important;
-    font-family: Roboto !important;
-    font-size: 30px;
-    // letter-spacing:
-    // line-height:
-    font-weight: bold !important;
+  background: none !important;
+  font-family: Roboto, serif !important;
+  font-size: 30px;
+  // letter-spacing:
+  // line-height:
+  font-weight: bold !important;
 }
 .mdc-tab {
    min-width: 100px !important;
 }
 .mat-mdc-tab-label-container {
-    display: flex;
-    flex-grow: 1;
-    overflow: hidden;
-    z-index: 1;
-    border-bottom: 1px solid rgb(215, 212, 212)!important;
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+  z-index: 1;
+  border-bottom: 1px solid rgb(215, 212, 212)!important;
 }
 .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
-    --mdc-tab-indicator-active-indicator-color: #E12827;
-    --mat-tab-header-disabled-ripple-color: rgba(0, 0, 0, .38);
-    --mat-tab-header-pagination-icon-color: #000;
-    --mat-tab-header-inactive-label-text-color: rgba(0, 0, 0, .6);
-    --mat-tab-header-active-label-text-color:#E12827;
-    --mat-tab-header-active-ripple-color: #E12827;
-    --mat-tab-header-inactive-ripple-color: #3f51b5;
-    --mat-tab-header-inactive-focus-label-text-color: rgba(0, 0, 0, .6);
-    --mat-tab-header-inactive-hover-label-text-color: rgba(0, 0, 0, .6);
-    --mat-tab-header-active-focus-label-text-color:rgba(0, 0, 0, .6);
-    --mat-tab-header-active-hover-label-text-color:rgba(0, 0, 0, .6);
-    --mat-tab-header-active-focus-indicator-color: #E12827;
-    --mat-tab-header-active-hover-indicator-color: #E12827;
+  --mdc-tab-indicator-active-indicator-color: #E12827;
+  --mat-tab-header-disabled-ripple-color: rgba(0, 0, 0, .38);
+  --mat-tab-header-pagination-icon-color: #000;
+  --mat-tab-header-inactive-label-text-color: rgba(0, 0, 0, .6);
+  --mat-tab-header-active-label-text-color:#E12827;
+  --mat-tab-header-active-ripple-color: #E12827;
+  --mat-tab-header-inactive-ripple-color: #3f51b5;
+  --mat-tab-header-inactive-focus-label-text-color: rgba(0, 0, 0, .6);
+  --mat-tab-header-inactive-hover-label-text-color: rgba(0, 0, 0, .6);
+  --mat-tab-header-active-focus-label-text-color:rgba(0, 0, 0, .6);
+  --mat-tab-header-active-hover-label-text-color:rgba(0, 0, 0, .6);
+  --mat-tab-header-active-focus-indicator-color: #E12827;
+  --mat-tab-header-active-hover-indicator-color: #E12827;
 }
 
 
 .mdc-tab {
-    padding-right: 24px;
-    padding-left: 24px;
-    display: flex;
-    flex: 1 0 auto;
-    justify-content:left;
-    box-sizing: border-box;
-    outline: none;
-    text-align: center;
-    white-space: nowrap;
-    cursor: pointer;
-    z-index: 1;
+  padding-right: 24px;
+  padding-left: 24px;
+  display: flex;
+  flex: 1 0 auto;
+  justify-content:left;
+  box-sizing: border-box;
+  outline: none;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  z-index: 1;
 }
 .mat-mdc-tab-labels {
-    display: flex;
-    flex: 1 0 auto;
-    width:300px !important;
+  display: flex;
+  flex: 1 0 auto;
+  width:300px !important;
 }
-
 .mat-step-icon .mat-icon {
-    font-size: 6px;
-    height: 6px;
-    width: 6px;
+  font-size: 6px;
+  height: 6px;
+  width: 6px;
 }
 .mat-step-icon-content {
-    color: white;
-    padding-left: 4px;
+  color: white;
+  padding-left: 4px;
 }
 
 .mat-step-header .mat-step-icon {
-    margin-right: 3px !important;
+  margin-right: 3px !important;
 }
-
 .mat-vertical-content-container {
-    margin-left: 36px !important;
+  margin-left: 36px !important;
 }
 
 .mat-step-icon-selected {
@@ -180,5 +177,3 @@ mat-error {
 .mat-mdc-form-field-infix {
   min-height: 56px !important;
 }
-
-

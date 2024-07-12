@@ -23,7 +23,7 @@
                   <mat-icon>radio_button_unchecked</mat-icon>
                 </ng-template>
 
-                <mat-step  state="chat" *ngFor="let item of historyprogress">
+                <mat-step  state="chat" *ngFor="let item of historyProgress">
                   <ng-template matStepLabel><span class="fw-semibold ps-2">{{ item.actor }}</span></ng-template>
                   {{ item.action }}
                 </mat-step>
@@ -221,12 +221,12 @@
                 <div class="row px-3">
                   <div class="d-flex align-items-center w-100">
                     <img src="./assets/icons/gift-icon.png" alt="">
-                    <h5 class="flex-grow-1 pt-3 ms-1 fw-bold">{{ item.title }}</h5>
-                    <h6 class="text-secondary small pt-3">{{ item.date | date:'dd/MM/yyyy' }}</h6>
+                    <h4 class="flex-grow-1 pt-3 ms-1 fw-bold">{{ item.title }}</h4>
+                    <h4 class="text-secondary small pt-3">{{ item.date | date:'dd/MM/yyyy' }}</h4>
                   </div>
                 </div>
                 <div class="row px-3 pb-3">
-                  <div class="truncate-lines">{{ item.summary }}</div>
+                  <p class="truncate-lines">{{ item.summary }}</p>
                 </div>
               </div>
 
