@@ -167,6 +167,7 @@ export class GroupConflictComponent implements OnInit {
         reasons: this.groupConflictForm.get('reasons').value,
         members: staffNumbers
       };
+      
       formData.append('declaration', JSON.stringify(declaration));
       formData.append('file', this.groupConflictForm.get('file').value);
       this.httpService.postData(ApiEndPoints.GROUP_CONFLICTS_INITIATE, formData).subscribe({

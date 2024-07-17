@@ -1,5 +1,5 @@
-import { Component, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
@@ -12,6 +12,7 @@ import { HttpService } from 'app/core/services/http.service';
   encapsulation: ViewEncapsulation.None
 })
 export class UserDashboardComponent {
+  @ViewChild('nocontent') nocontent: TemplateRef<any>;
 
   notifications: any[] = [];
   headers: any;
@@ -19,37 +20,44 @@ export class UserDashboardComponent {
   description: any;
   selectedNotification: any;
   showLateDeclarationUI: boolean;
-  declaration: FormGroup;
+  declarationForm: FormGroup;
   conflictOfInterest: any;
   conflictOfInterestControl = new FormControl(null);
+  assignmentId: number;
+  date:any;
 
-  constructor(private modalService: NgbModal, private httpService: HttpService, private fb: FormBuilder, 
+  constructor(private modalService: NgbModal, private httpService: HttpService, private fb: FormBuilder,
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.getNotifications()
-    this.declaration = this.fb.group({
+    this.getNotifications();
+    this.preselectNoButton();
+    this.declarationForm = this.fb.group({
       file: ['',],
-
-    })
+      identityNo:['',Validators.required ],
+      description:['',Validators.required],
+      reasons:['',]
+    })    
   }
 
   openVerticallyCentered(content: TemplateRef<any>, notification: any) {
     this.modalService.open(content, { centered: true, });
     this.selectedNotification = notification;
+    this.assignmentId = notification.assignmentId;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const notificationDateArray = notification.date;
     const notificationDate = new Date(notificationDateArray[0], notificationDateArray[1] - 1, notificationDateArray[2]);
-    console.log(notificationDate)
-    console.log("today", today)
+    // console.log(notificationDate)
+    // console.log("today", today)
+    // this.date=notificationDate
     if (notificationDate < today) {
       this.showLateDeclarationUI = true;
     } else {
       this.showLateDeclarationUI = false;
-    }
-
-    console.log(this.showLateDeclarationUI);
+    }    
+    this.preselectNoButton();
+    
   }
 
   onCloseClick() {
@@ -57,67 +65,116 @@ export class UserDashboardComponent {
     location.reload();
   }
 
-  onNoConflictClick(nocontent: TemplateRef<any>): void {
-    this.modalService.dismissAll();
-    // this.modalService.open(nocontent, { centered: true, })
-    this.conflictOfInterest=true
-  }
-  onNoConflictClickk(): void {
+  onNoConflictClick(): void {
     // this.modalService.dismissAll();
-    // this.modalService.open(nocontent, { centered: true, })
-    this.conflictOfInterest=0;
-    const conflictValue = 0;
-    console.log(conflictValue); // Output: 0
+    // this.modalService.open(nocontent, { centered: true, })    
+    const noButton = document.getElementById('noButton');
+    const yesButton = document.getElementById('yesButton');
+    if (noButton && yesButton) {
+      noButton.classList.add('selected');
+      yesButton.classList.remove('selected');
+    }
+    this.conflictOfInterestControl.setValue(0);
   }
+  noConflictClick(content: TemplateRef<any>): void{
+    this.modalService.dismissAll();
+    this.modalService.open(content, { centered: true, })    
+    const noButton = document.getElementById('noButton');
+    const yesButton = document.getElementById('yesButton');
+    if (noButton && yesButton) {
+      noButton.classList.add('selected');
+      yesButton.classList.remove('selected');
+    }
+    this.conflictOfInterestControl.setValue(0);
+  }
+
   onConflictClick(yescontent: TemplateRef<any>): void {
     this.modalService.dismissAll();
     this.modalService.open(yescontent, { centered: true, })
-    this.conflictOfInterest=1;
+    this.conflictOfInterest = 1;
+    const noButton = document.getElementById('noButton');
+    const yesButton = document.getElementById('yesButton');
+    if (noButton && yesButton) {
+      yesButton.classList.add('selected');
+      noButton.classList.remove('selected');
+    }
+    this.conflictOfInterestControl.setValue(1);
+    this.preselectYesButton();
   }
-  
+
+  yesConflictClick():void {
+    this.conflictOfInterestControl.setValue(1);
+  }
+
+  preselectNoButton(): void {
+    const noButton = document.getElementById('noButton');
+    if (noButton) {
+      noButton.classList.add('selected');
+    }
+  }
+  preselectYesButton(): void {
+    const ybutton = document.getElementById('ybutton');
+    if (ybutton) {
+      ybutton.classList.add('selected');
+    }
+  }
+
   getNotifications(): void {
     this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
       next: (response) => {
         this.notifications = response.data
-
       },
       error: (error) => {
         console.error("There was an error!", error);
       },
     })
   }
-  
-  submitDeclarations(): void {
-    const conflictOfInterestValue = this.conflictOfInterestControl.value;
-    console.log("conflictOfInterestValue", conflictOfInterestValue)
-    // this.httpService.post(ApiEndPoints.DECLARATION_POST, {
-    //   conflictOfInterest: conflictOfInterestValue,
-    
-    // }).subscribe({
-    //   next: (response) => {
-    //     console.log(response)
-    //   },
-    //   error: (error) => {
-    //     console.error("There was an error!", error);
-    //   },
-    // })
 
-    this.snackBar.open(`Submit Button has been clicked.`, 'Close', {
-        duration: 5000,
-        verticalPosition: 'top',
-        horizontalPosition: 'center'
-      });
+  submitDeclarations(): void {
+    let haveConflict = 0;
+    const formData = new FormData();
+    if (this.conflictOfInterestControl.value !== null && this.conflictOfInterestControl.value !== undefined) {
+      haveConflict = this.conflictOfInterestControl.value;
+    }
+    if (this.assignmentId) {
+      const declaration = {
+        assignmentId: this.assignmentId,
+        identityNo: this.declarationForm.get('identityNo').value,       
+        haveConflict: haveConflict,       
+        description: this.declarationForm.get('description').value,
+        reasons: this.declarationForm.get('reasons').value
+      };    
+      // console.log(declaration)
+    formData.append('declaration', JSON.stringify(declaration));
+    formData.append('file', this.declarationForm.get('file').value);
+    this.httpService.postData(`${ApiEndPoints.DECLARATION_POST}`, formData,).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.modalService.dismissAll();
+        // this.declarationForm.reset()
+        this.openSuccessModal(this.nocontent)
+         
+      },
+      error: (error) => {
+        console.error("There was an error!", error);
+        
+      },
+    })
     
   }
   
-  
+  }
+canceltDeclarations():void{}
 
   handleFileInput(files: FileList): void {
     if (files.length > 0) {
       // If only one file is allowed, use the first file in the list
       const file = files.item(0);
-      this.declaration.get('file').setValue(file);
+      this.declarationForm.get('file').setValue(file);
     }
+  }
+  openSuccessModal(nocontent: TemplateRef<any>) {
+    this.modalService.open(nocontent, { centered: true });
 
   }
 }

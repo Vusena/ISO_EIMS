@@ -1,11 +1,11 @@
 <div class="container p-0">
-    <div>
+    <!-- <div>
         <nav class="navbar header-nav">
             <span class="dashboard-heading">Hello Admin, Welcome to EIMS</span>
         </nav>
-    </div>
+    </div> -->
 
-    <div class="container align-items-center">
+    <div class="container align-items-center mt-3">
         <div class="row justify-content-md-center">
             <!-- COLUMN 1 -->
             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -61,49 +61,58 @@
                             <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
                         </button>
                     </div>
-                    <div class="modal-body">                        <p class="modal-title" style="color: #741110; font-weight: bold;">{{selectedNotification.title}}
+                    <div class="modal-body">
+                        <p class="modal-title" style="color: #741110; font-weight: bold;">{{selectedNotification.title}}
                         </p>
                         <p class="paragraph_style">{{selectedNotification.description}}</p>
                         <p class="paragraph_style">Date:{{selectedNotification.formattedDate}}</p>
                         <p class="paragraph_style">Venue:{{selectedNotification.venue}}</p>
                         <p class="paragraph_style">Position:{{selectedNotification.position}}</p>
-                        <div style="display: flex; align-items: center; margin-top: 15px;">
-                            <p style="margin-right: 10px;  font-weight: bold;color:#133B3A;">
-                                Do you have a Conflict of Interest?</p>
-                            <button class="yes_no_button mb-2 me-2" (click)="onNoConflictClickk()">No</button>
-                            <button class="yes_no_button mb-2" (click)="onConflictClick(this.yescontent)">Yes</button>
+                        <div style="display: flex; align-items: center; margin-top: 15px;" class="mb-2">
+                            <p style="margin-right: 10px; font-weight: bold; color: #133B3A;">
+                                Do you have a Conflict of Interest?
+                            </p>
+                            <button id="noButton" class="yes_no_button mb-2 me-2"
+                                (click)="onNoConflictClick()">No</button>
+                            <button id="yesButton" class="yes_no_button mb-2"
+                                (click)="onConflictClick(yescontent)">Yes</button>
                         </div>
-                        <div *ngIf="conflictOfInterest===0">
+                        <!-- <div *ngIf="conflictOfInterest===0">
                             <div class="row">
                                 <div class="textfonts">Identity No</div>
-                                <mat-form-field appearance="outline">
+                                <mat-form-field appearance="outline" formControlName="identityNo">
                                     <input class="modal_textarea" matInput>
                                     <mat-error style="font-size: 11px;"></mat-error>
+                                    <mat-error style="font-size: 11px;"
+                                        *ngIf="declarationForm.get('identityNo').hasError('required')">Identity No
+                                        is required</mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="row">
-                                <div class="textfonts">Reasons for late Declaration</div>
-                                <mat-form-field appearance="outline">
+                                <div class="textfonts">Description of Conflict of Interest</div>
+                                <mat-form-field appearance="outline" formControlName="description">
                                     <textarea class="modal_textarea" matInput>
                                     </textarea>
-                                    <mat-error style="font-size: 11px;"></mat-error>
+                                    <mat-error style="font-size: 11px;"
+                                        *ngIf="declarationForm.get('description').hasError('required')">Identity No
+                                        is required</mat-error>
                                 </mat-form-field>
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <div *ngIf="showLateDeclarationUI">
                             <div class="row mt-1">
                                 <div class="textfonts">Reasons for late Declaration</div>
                                 <mat-form-field appearance="outline">
-                                    <textarea class="modal_textarea" matInput>
+                                    <textarea class="modal_textarea" matInput >
                                     </textarea>
                                     <mat-error style="font-size: 11px;"></mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="row">
                                 <mat-form-field appearance="fill">
-                                    <input matInput formControlname="file" type="file"
+                                    <input matInput formControlname="file" type="file" 
                                         (change)="handleFileInput($event.target.files)" multiple>
                                     <mat-error style="font-size: 11px;"></mat-error>
                                 </mat-form-field>
@@ -161,9 +170,9 @@
                             <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
                         </button>
                     </div>
-
                     <div class="modal-body">
-                        <p class="modal-title" style="color: #741110; font-weight: bold;">{{selectedNotification.title}}
+                        <p class="modal-title" style="color: #741110; font-weight: bold;">
+                            {{selectedNotification.title}}
                         </p>
                         <p class="paragraph_style">{{selectedNotification.description}}</p>
                         <p class="paragraph_style">Date:{{selectedNotification.formattedDate}}</p>
@@ -172,59 +181,64 @@
                         <div style="display: flex; align-items: center; margin-top: 15px;">
                             <p style="margin-right: 10px;  font-weight: bold;color:#133B3A; ">
                                 Do you have a Conflict of Interest?</p>
-                            <button class="yes_no_button mb-2 me-2"
-                                (click)="onNoConflictClick(this.nocontent)">No</button>
-                            <button class="yes_no_button mb-2" (click)="onConflictClick(this.yescontent)">Yes</button>
-                        </div>
-                        <div class="row">
-                            <div class="textfonts">Identity No</div>
-                            <mat-form-field appearance="outline">
-                                <input class="modal_textarea" matInput>
-                                <mat-error style="font-size: 11px;"></mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="row">
-                            <div class="textfonts">Description of Conflict of Interest</div>
-                            <mat-form-field appearance="outline">
-                                <textarea class="modal_textarea" matInput>
-                                    </textarea>
-                                <mat-error style="font-size: 11px;"></mat-error>
-                            </mat-form-field>
+                            <button id="nbutton" class="yes_no_button mb-2 me-2" (click)="noConflictClick(content)" >No</button>
+                            <button id="ybutton" class="yes_no_button mb-2" (click)="yesConflictClick()" >Yes</button>
                         </div>
 
-                        <div *ngIf="showLateDeclarationUI">
-                            <div class="row mt-1">
-                                <div class="textfonts">Reasons for late Declaration</div>
+                        <form [formGroup]="declarationForm" >
+                            <div class="row p-0">
+                                <div class="textfonts">Identity No</div>
                                 <mat-form-field appearance="outline">
-                                    <textarea class="modal_textarea" matInput>
+                                    <input class="modal_textarea" matInput formControlName="identityNo">
+                                    <mat-error style="font-size: 11px;"
+                                        *ngIf="declarationForm.get('identityNo').hasError('required')">Provide Identity
+                                        number</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="row p-0">
+                                <div class="textfonts">Description of Conflict of Interest</div>
+                                <mat-form-field appearance="outline">
+                                    <textarea class="modal_textarea" matInput formControlName="description">
+                                    </textarea>
+                                    <mat-error style="font-size: 11px;"
+                                        *ngIf="declarationForm.get('description').hasError('required')"> Provide
+                                        description of conflict of interest
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div *ngIf="showLateDeclarationUI">
+                                <div class="row mt-1">
+                                    <div class="textfonts">Reasons for late Declaration</div>
+                                    <mat-form-field appearance="outline">
+                                        <textarea class="modal_textarea" matInput formControlName="reasons">
                                 </textarea>
-                                    <mat-error style="font-size: 11px;"></mat-error>
-                                </mat-form-field>
+                                        <mat-error class="p-0" style="font-size: 11px;"
+                                            *ngIf="declarationForm.get('reasons').hasError('required')"> Provide reasons
+                                            for late declaration
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field appearance="fill">
+                                        <input matInput type="file" formControlName="file"
+                                            (change)="handleFileInput($event.target.files)" multiple>
+                                        <mat-error class="p-0" style="font-size: 11px;"></mat-error>
+                                    </mat-form-field>
+                                </div>
                             </div>
-                            <div class="row">
-                                <mat-form-field appearance="fill">
-                                    <input matInput formControlname="file" type="file"
-                                        (change)="handleFileInput($event.target.files)" multiple>
-                                    <mat-error style="font-size: 11px;"></mat-error>
-                                </mat-form-field>
+                            <div class="col-12 mb-2 mt-3 d-flex justify-content-between">
+                                <button class=" assign-role" style="width: 150px;" (click)="cancelDeclarations()">
+                                    Cancel
+                                    <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                                </button>
+                                <button class="assign-rolee" style="width: 150px;"  [disabled]="!declarationForm.valid"
+                                 (click)="submitDeclarations()"> Submit
+                                    <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                                </button>
                             </div>
-                        </div>
-
-
-                        <div class="col-12 mb-2 d-flex justify-content-between">
-                            <button class=" assign-role" style="width: 150px;" click="submitDeclarations()">
-                                Cancel
-                                <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
-                            </button>
-                            <button class="assign-rolee" style="width: 150px;" click="submitDeclarations()">
-                                Submit
-                                <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
-                            </button>
-
-                        </div>
-
+                        </form>
                     </div>
-
                 </ng-template>
 
                 <!-- FOUR DIVS -->
