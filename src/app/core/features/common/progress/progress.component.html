@@ -1,0 +1,22 @@
+<div class="container py-4 card1">
+  <h2 class="fw-bold" style="color:#570c0c;">Declaration Progress</h2>
+
+  <div class="row p-0">
+    <div class="col p-0">
+      <mat-vertical-stepper [linear]="false">
+        <ng-template matStepperIcon="edit">
+          <mat-icon>radio_button_unchecked</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="chat">
+          <mat-icon>radio_button_unchecked</mat-icon>
+        </ng-template>
+
+        <mat-step  state="chat" *ngFor="let item of items">
+          <ng-template matStepLabel><span class="fw-semibold ps-2">{{ item.actor }}</span></ng-template>
+          {{ item.action }}
+        </mat-step>
+      </mat-vertical-stepper>
+    </div>
+  </div>
+
+</div>

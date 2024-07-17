@@ -43,6 +43,8 @@ import { UserDashboardComponent } from 'app/core/features/user/user-dashboard/us
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {ProgressComponent} from "../../../features/common/progress/progress.component";
+import {HistoryComponent} from "../../../features/common/history/history.component";
 
 
 
@@ -69,38 +71,40 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
       SuccessComponent,
       AdminDashboardComponent,
       UserDashboardComponent,
-  
-    
+
+
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  
-  imports: [
-    CommonModule,
-    MainLayoutRoutingModule,
-    LayoutModule,
-    ReactiveFormsModule,
-    FormsModule,
 
-    MatInputModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatStepperModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatSliderModule,
-    MatDialogModule,
-    MatNativeDateModule,
-    FullCalendarModule,
-    MatTabsModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatTableModule,
-    MatPaginatorModule,
-    NgbModule
-  ],
+    imports: [
+        CommonModule,
+        MainLayoutRoutingModule,
+        LayoutModule,
+        ReactiveFormsModule,
+        FormsModule,
+
+        MatInputModule,
+        MatIconModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSelectModule,
+        MatStepperModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatSliderModule,
+        MatDialogModule,
+        MatNativeDateModule,
+        FullCalendarModule,
+        MatTabsModule,
+        MatMenuModule,
+        MatSnackBarModule,
+        MatTableModule,
+        MatPaginatorModule,
+        NgbModule,
+        ProgressComponent,
+        HistoryComponent
+    ],
   providers: [
     DatePipe,
     {

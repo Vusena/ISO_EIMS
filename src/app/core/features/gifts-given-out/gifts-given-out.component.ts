@@ -132,6 +132,11 @@ export class GiftsGivenOutComponent implements OnInit {
   // Reset all properties to their default values
   clearField(): void {
     this.giftForm.reset();
+    this.historyProgress = [
+      // Add default objects representing the initial state of each step
+      { actor: 'Once you declare', action: 'This will be your progress bar to track which stage the declaration is at.' },
+      { actor: '', action: '' },
+    ];
   }
   openVerticallyCentered(content: TemplateRef<any>) {
     this.modalService.open(content, { centered: true });
