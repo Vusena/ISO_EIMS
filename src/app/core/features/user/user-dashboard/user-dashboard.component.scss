@@ -65,6 +65,17 @@
   font-weight: bold;
   border: none;
 }
+
+.submit-button{  
+    height: 30px;
+    font-family: "Roboto";
+    font-size: 12px;
+    font-family: Roboto;
+    border-radius: 20px;
+    font-weight: bold;
+    border: 1px solid #707070;
+}
+
 .assign-role {
   height: 30px;
   color: #E12827;
@@ -167,5 +178,8 @@
 .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
  padding-top: 0 !important; 
 padding-bottom: 0 !important; 
+}
+.mat-mdc-form-field-error-wrapper {  
+  padding: 0 !important;
 }
 

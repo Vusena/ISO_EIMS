@@ -24,7 +24,7 @@ export class UserDashboardComponent {
   conflictOfInterest: any;
   conflictOfInterestControl = new FormControl(null);
   assignmentId: number;
-  date:any;
+  date: any;
 
   constructor(private modalService: NgbModal, private httpService: HttpService, private fb: FormBuilder,
     private snackBar: MatSnackBar) { }
@@ -32,12 +32,12 @@ export class UserDashboardComponent {
   ngOnInit(): void {
     this.getNotifications();
     this.preselectNoButton();
-    this.declarationForm = this.fb.group({
+     this.declarationForm = this.fb.group({
       file: ['',],
-      identityNo:['',Validators.required ],
-      description:['',Validators.required],
-      reasons:['',]
-    })    
+      identityNo: ['',],
+      description: ['',],
+      reasons: ['',]
+    })     
   }
 
   openVerticallyCentered(content: TemplateRef<any>, notification: any) {
@@ -47,17 +47,20 @@ export class UserDashboardComponent {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const notificationDateArray = notification.date;
-    const notificationDate = new Date(notificationDateArray[0], notificationDateArray[1] - 1, notificationDateArray[2]);
-    // console.log(notificationDate)
-    // console.log("today", today)
-    // this.date=notificationDate
+    const notificationDate = new Date(notificationDateArray[0], notificationDateArray[1] - 1, notificationDateArray[2]);    
+    this.date=notificationDate
     if (notificationDate < today) {
-      this.showLateDeclarationUI = true;
+      this.showLateDeclarationUI = true;       
+       this.declarationForm = this.fb.group({
+        file: ['',Validators.required],
+        identityNo: ['', ],
+        description: ['',],
+        reasons: ['',Validators.required]
+      })
     } else {
       this.showLateDeclarationUI = false;
-    }    
+    }
     this.preselectNoButton();
-    
   }
 
   onCloseClick() {
@@ -76,9 +79,9 @@ export class UserDashboardComponent {
     }
     this.conflictOfInterestControl.setValue(0);
   }
-  noConflictClick(content: TemplateRef<any>): void{
+  noConflictClick(content: TemplateRef<any>): void {
     this.modalService.dismissAll();
-    this.modalService.open(content, { centered: true, })    
+    this.modalService.open(content, { centered: true, })
     const noButton = document.getElementById('noButton');
     const yesButton = document.getElementById('yesButton');
     if (noButton && yesButton) {
@@ -100,9 +103,27 @@ export class UserDashboardComponent {
     }
     this.conflictOfInterestControl.setValue(1);
     this.preselectYesButton();
+    this.declarationForm = this.fb.group({
+      file: ['',],
+      identityNo: ['', Validators.required],
+      description: ['', Validators.required],
+      reasons: ['',]
+    })
+    console.log(this.date)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (this.date < today) {
+      this.showLateDeclarationUI = true;       
+       this.declarationForm = this.fb.group({
+        file: ['',Validators.required],
+        identityNo: ['',Validators.required ],
+        description: ['',Validators.required],
+        reasons: ['',Validators.required]
+      })
+    }     
   }
 
-  yesConflictClick():void {
+  yesConflictClick(): void {
     this.conflictOfInterestControl.setValue(1);
   }
 
@@ -139,32 +160,34 @@ export class UserDashboardComponent {
     if (this.assignmentId) {
       const declaration = {
         assignmentId: this.assignmentId,
-        identityNo: this.declarationForm.get('identityNo').value,       
-        haveConflict: haveConflict,       
+        identityNo: this.declarationForm.get('identityNo').value,
+        haveConflict: haveConflict,
         description: this.declarationForm.get('description').value,
         reasons: this.declarationForm.get('reasons').value
-      };    
+      };
       // console.log(declaration)
-    formData.append('declaration', JSON.stringify(declaration));
-    formData.append('file', this.declarationForm.get('file').value);
-    this.httpService.postData(`${ApiEndPoints.DECLARATION_POST}`, formData,).subscribe({
-      next: (response) => {
-        console.log(response)
-        this.modalService.dismissAll();
-        // this.declarationForm.reset()
-        this.openSuccessModal(this.nocontent)
-         
-      },
-      error: (error) => {
-        console.error("There was an error!", error);
-        
-      },
-    })
-    
+      formData.append('declaration', JSON.stringify(declaration));
+      formData.append('file', this.declarationForm.get('file').value);
+      this.httpService.postData(`${ApiEndPoints.DECLARATION_POST}`, formData,).subscribe({
+        next: (response) => {
+          console.log(response)
+          this.modalService.dismissAll();
+          // this.declarationForm.reset()
+          this.openSuccessModal(this.nocontent)
+
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+
+        },
+      })
+
+    }
+
   }
-  
+  cancelDeclarations(): void { 
+    // this.declarationForm.reset();
   }
-canceltDeclarations():void{}
 
   handleFileInput(files: FileList): void {
     if (files.length > 0) {

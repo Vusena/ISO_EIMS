@@ -77,60 +77,42 @@
                             <button id="yesButton" class="yes_no_button mb-2"
                                 (click)="onConflictClick(yescontent)">Yes</button>
                         </div>
-                        <!-- <div *ngIf="conflictOfInterest===0">
-                            <div class="row">
-                                <div class="textfonts">Identity No</div>
-                                <mat-form-field appearance="outline" formControlName="identityNo">
-                                    <input class="modal_textarea" matInput>
-                                    <mat-error style="font-size: 11px;"></mat-error>
-                                    <mat-error style="font-size: 11px;"
-                                        *ngIf="declarationForm.get('identityNo').hasError('required')">Identity No
-                                        is required</mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="row">
-                                <div class="textfonts">Description of Conflict of Interest</div>
-                                <mat-form-field appearance="outline" formControlName="description">
-                                    <textarea class="modal_textarea" matInput>
+                        <form [formGroup]="declarationForm" (ngSubmit)="submitDeclarations()">
+                            <div *ngIf="showLateDeclarationUI">
+                                <div class="row mb-2">
+                                    <div class="textfonts">Reasons for late Declaration</div>
+                                    <mat-form-field appearance="outline">
+                                        <textarea class="modal_textarea" matInput formControlName="reasons">
                                     </textarea>
-                                    <mat-error style="font-size: 11px;"
-                                        *ngIf="declarationForm.get('description').hasError('required')">Identity No
-                                        is required</mat-error>
-                                </mat-form-field>
+                                        <mat-error style="font-size: 11px;"
+                                            *ngIf="declarationForm.get('reasons').hasError('required')"> Provide
+                                            reasons for late declaration</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row mt-1 mb-2">
+                                    <mat-form-field appearance="fill">
+                                        <input matInput formControlName="file" type="file"
+                                            (change)="handleFileInput($event.target.files)" multiple>
+                                        <mat-error style="font-size: 11px;"  
+                                            *ngIf="declarationForm.get('file').hasError('required')"> File upload is
+                                            required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
                             </div>
-                        </div> -->
 
-
-                        <div *ngIf="showLateDeclarationUI">
-                            <div class="row mt-1">
-                                <div class="textfonts">Reasons for late Declaration</div>
-                                <mat-form-field appearance="outline">
-                                    <textarea class="modal_textarea" matInput >
-                                    </textarea>
-                                    <mat-error style="font-size: 11px;"></mat-error>
-                                </mat-form-field>
+                            <div class="col-12 mb-2  d-flex justify-content-between">
+                                <button class=" assign-role" style="width: 150px;" type="button"
+                                >Cancel
+                                    <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                                </button>
+                                <button class="assign-rolee" style="width: 150px;" [disabled]="!declarationForm.valid">
+                                    Submit
+                                    <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                                </button>
                             </div>
-                            <div class="row">
-                                <mat-form-field appearance="fill">
-                                    <input matInput formControlname="file" type="file" 
-                                        (change)="handleFileInput($event.target.files)" multiple>
-                                    <mat-error style="font-size: 11px;"></mat-error>
-                                </mat-form-field>
-                            </div>
-                        </div>
-
-                        <div class="col-12 mb-2 d-flex justify-content-between">
-                            <button class=" assign-role" style="width: 150px;">
-                                Cancel
-                                <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
-                            </button>
-                            <button class="assign-rolee" style="width: 150px;" (click)="submitDeclarations()">
-                                Submit
-                                <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
-                            </button>
-
-                        </div>
-
+                        </form>
                     </div>
                 </ng-template>
 
@@ -181,11 +163,12 @@
                         <div style="display: flex; align-items: center; margin-top: 15px;">
                             <p style="margin-right: 10px;  font-weight: bold;color:#133B3A; ">
                                 Do you have a Conflict of Interest?</p>
-                            <button id="nbutton" class="yes_no_button mb-2 me-2" (click)="noConflictClick(content)" >No</button>
-                            <button id="ybutton" class="yes_no_button mb-2" (click)="yesConflictClick()" >Yes</button>
+                            <button id="nbutton" class="yes_no_button mb-2 me-2"
+                                (click)="noConflictClick(content)">No</button>
+                            <button id="ybutton" class="yes_no_button mb-2" (click)="yesConflictClick()">Yes</button>
                         </div>
 
-                        <form [formGroup]="declarationForm" >
+                        <form [formGroup]="declarationForm" (ngSubmit)="submitDeclarations()">
                             <div class="row p-0">
                                 <div class="textfonts">Identity No</div>
                                 <mat-form-field appearance="outline">
@@ -223,17 +206,19 @@
                                     <mat-form-field appearance="fill">
                                         <input matInput type="file" formControlName="file"
                                             (change)="handleFileInput($event.target.files)" multiple>
-                                        <mat-error class="p-0" style="font-size: 11px;"></mat-error>
+                                        <mat-error class="p-0" style="font-size: 11px;"
+                                        *ngIf="declarationForm.get('file').hasError('required')"> File upload is
+                                        required</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="col-12 mb-2 mt-3 d-flex justify-content-between">
-                                <button class=" assign-role" style="width: 150px;" (click)="cancelDeclarations()">
+                                <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelDeclarations()">
                                     Cancel
                                     <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
                                 </button>
-                                <button class="assign-rolee" style="width: 150px;"  [disabled]="!declarationForm.valid"
-                                 (click)="submitDeclarations()"> Submit
+                                <button class="assign-rolee" style="width: 150px;" [disabled]="!declarationForm.valid">
+                                    Submit
                                     <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
                                 </button>
                             </div>
