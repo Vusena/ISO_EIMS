@@ -1,5 +1,5 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { HttpService } from 'app/core/services/http.service';
@@ -8,12 +8,13 @@ import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.scss'
+  styleUrl: './admin-dashboard.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class AdminDashboardComponent implements OnInit {
 
   @ViewChild('content') content: TemplateRef<any>;
-  @ViewChild('content') nocontent: TemplateRef<any>;
+  @ViewChild('nocontent') nocontent: TemplateRef<any>;
   @ViewChild('content') yescontent: TemplateRef<any>;
 
   Roles: any;
@@ -22,27 +23,36 @@ export class AdminDashboardComponent implements OnInit {
   rolesAndPrivileges: any;
   roleName: any;
   retrievedPrivileges: any;
-
   searchResults: any[];
-
   searchControl = new FormControl('');
   filteredResults: any[];
   selectedUser: any;
   members: any[] = [];
   isUserSelected: boolean = false;
-
   isSelected: boolean = false;
   foundRole: any;
   isCheckedPriviledge: boolean = false;
-
   status_code: any;
   alertMessage: string;
   errorMessage: string;
    privileges:any[];
-
+   
   isRequestSuccessful: boolean = false;
 
-  constructor(private httpService: HttpService,  private modalService: NgbModal) {
+  declarationForm:FormGroup;
+  notifications: any[] = [];
+  headers: any;
+  title: any;
+  description: any;
+  selectedNotification: any;
+  showLateDeclarationUI: boolean; 
+  conflictOfInterest: any;
+  conflictOfInterestControl = new FormControl(null);
+  assignmentId: number;
+  date: any;
+  
+
+  constructor(private httpService: HttpService, private modalService: NgbModal, private fb: FormBuilder) {
 
   }
 
@@ -51,7 +61,7 @@ export class AdminDashboardComponent implements OnInit {
     this.getUserRoles();
     this.getUserPriviledges();
     this.getRolesAndPrivileges();
-    
+    this.getNotifications();
     this.searchControl.valueChanges
       // .pipe(startWith(''), debounceTime(300), distinctUntilChanged())
       .subscribe((searchInput: string) => {
@@ -65,7 +75,13 @@ export class AdminDashboardComponent implements OnInit {
           result.phone.includes(searchInput.toLowerCase())
         );
         // console.log('Filtered Results:', this.filteredResults);
-      });
+      }); 
+      this.declarationForm = this.fb.group({
+        file: ['',],
+        identityNo: ['',],
+        description: ['',],
+        reasons: ['',]
+      }) 
 
   }
 
@@ -258,23 +274,169 @@ export class AdminDashboardComponent implements OnInit {
         })
     }
   }
-
-  openVerticallyCentered(content: TemplateRef<any>) {
-    this.modalService.open(content, { centered: true,});
-    
+ 
+  openVerticallyCentered(content: TemplateRef<any>, notification: any) {
+    this.modalService.open(content, { centered: true, });
+    this.selectedNotification = notification;
+    this.assignmentId = notification.assignmentId;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const notificationDateArray = notification.date;
+    const notificationDate = new Date(notificationDateArray[0], notificationDateArray[1] - 1, notificationDateArray[2]);    
+    this.date=notificationDate
+    if (notificationDate < today) {
+      this.showLateDeclarationUI = true;             
+       this.declarationForm = this.fb.group({
+        file: ['',Validators.required],
+        identityNo: ['', ],
+        description: ['',],
+        reasons: ['',Validators.required]
+      })
+    } else {
+      this.showLateDeclarationUI = false;
+    }
+    this.preselectNoButton();
   }
   onCloseClick() {
     this.modalService.dismissAll('Close click');
     location.reload();
   }
-  onNoConflictClick(nocontent: TemplateRef<any>):void{
-    this.modalService.dismissAll();
-    this.modalService.open(nocontent, { centered: true,})
-   
+
+  onNoConflictClick(): void {
+    // this.modalService.dismissAll();
+    // this.modalService.open(nocontent, { centered: true, })    
+    const noButton = document.getElementById('noButton');
+    const yesButton = document.getElementById('yesButton');
+    if (noButton && yesButton) {
+      noButton.classList.add('selected');
+      yesButton.classList.remove('selected');
+    }
+    this.conflictOfInterestControl.setValue(0);
   }
-  onConflictClick(yescontent: TemplateRef<any>):void{
+  noConflictClick(content: TemplateRef<any>): void {
     this.modalService.dismissAll();
-    this.modalService.open(yescontent, { centered: true,})
+    this.modalService.open(content, { centered: true, })
+    const noButton = document.getElementById('noButton');
+    const yesButton = document.getElementById('yesButton');
+    if (noButton && yesButton) {
+      noButton.classList.add('selected');
+      yesButton.classList.remove('selected');
+    }
+    this.conflictOfInterestControl.setValue(0);
+  }
+
+  onConflictClick(yescontent: TemplateRef<any>): void {
+    this.modalService.dismissAll();
+    this.modalService.open(yescontent, { centered: true, })
+    this.conflictOfInterest = 1;
+    const noButton = document.getElementById('noButton');
+    const yesButton = document.getElementById('yesButton');
+    if (noButton && yesButton) {
+      yesButton.classList.add('selected');
+      noButton.classList.remove('selected');
+    }
+    this.conflictOfInterestControl.setValue(1);
+    this.preselectYesButton();
+    this.declarationForm = this.fb.group({
+      file: ['',],
+      identityNo: ['', Validators.required],
+      description: ['', Validators.required],
+      reasons: ['',]
+    })
+    // console.log(this.date)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (this.date < today) {
+      this.showLateDeclarationUI = true;       
+       this.declarationForm = this.fb.group({
+        file: ['',Validators.required],
+        identityNo: ['',Validators.required ],
+        description: ['',Validators.required],
+        reasons: ['',Validators.required]
+      })
+    }     
+  }
+
+  yesConflictClick(): void {
+    this.conflictOfInterestControl.setValue(1);
+  }
+
+  preselectNoButton(): void {
+    const noButton = document.getElementById('noButton');
+    if (noButton) {
+      noButton.classList.add('selected');
+    }
+  }
+  preselectYesButton(): void {
+    const ybutton = document.getElementById('ybutton');
+    if (ybutton) {
+      ybutton.classList.add('selected');
+    }
+  }
+
+  getNotifications(): void {
+    this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
+      next: (response) => {
+        this.notifications = response.data
+      },
+      error: (error) => {
+        console.error("There was an error!", error);
+      },
+    })
+  }
+
+  submitDeclarations(): void {
+    let haveConflict = 0;
+    const formData = new FormData();
+    if (this.conflictOfInterestControl.value !== null && this.conflictOfInterestControl.value !== undefined) {
+      haveConflict = this.conflictOfInterestControl.value;
+    }
+    if (this.assignmentId) {
+      const declaration = {
+        assignmentId: this.assignmentId,
+        identityNo: this.declarationForm.get('identityNo').value,
+        haveConflict: haveConflict,
+        description: this.declarationForm.get('description').value,
+        reasons: this.declarationForm.get('reasons').value
+      };
+      // console.log(declaration)
+      formData.append('declaration', JSON.stringify(declaration));
+      formData.append('file', this.declarationForm.get('file').value);
+      this.httpService.postData(`${ApiEndPoints.DECLARATION_POST}`, formData,).subscribe({
+        next: (response) => {
+          // console.log(response)
+          this.modalService.dismissAll();
+          // this.declarationForm.reset()
+          this.openSuccessModal(this.nocontent)
+
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+        },
+      })
+    } 
+    console.log(this.declarationForm)   
+  }
+
+  cancelDeclarations(): void { 
+    // this.declarationForm.reset();   
+    // this.declarationForm.patchValue({
+    //   description: '',
+    //   file: '',
+    //   identityNo: '',
+    //   reasons: ''
+    // });   
+  }
+  
+  handleFileInput(files: FileList): void {
+    if (files.length > 0) {
+      // If only one file is allowed, use the first file in the list
+      const file = files.item(0);
+      this.declarationForm.get('file').setValue(file);
+    }
+  }
+  openSuccessModal(nocontent: TemplateRef<any>) {
+    this.modalService.open(nocontent, { centered: true });
   }
 }
 

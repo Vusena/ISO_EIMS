@@ -61,6 +61,7 @@ export class UserDashboardComponent {
       this.showLateDeclarationUI = false;
     }
     this.preselectNoButton();
+    
   }
 
   onCloseClick() {
@@ -109,7 +110,7 @@ export class UserDashboardComponent {
       description: ['', Validators.required],
       reasons: ['',]
     })
-    console.log(this.date)
+    // console.log(this.date)
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     if (this.date < today) {
@@ -170,7 +171,7 @@ export class UserDashboardComponent {
       formData.append('file', this.declarationForm.get('file').value);
       this.httpService.postData(`${ApiEndPoints.DECLARATION_POST}`, formData,).subscribe({
         next: (response) => {
-          console.log(response)
+          // console.log(response)
           this.modalService.dismissAll();
           // this.declarationForm.reset()
           this.openSuccessModal(this.nocontent)
@@ -178,17 +179,23 @@ export class UserDashboardComponent {
         },
         error: (error) => {
           console.error("There was an error!", error);
-
         },
       })
-
-    }
-
+    } 
+    console.log(this.declarationForm)  
   }
+
   cancelDeclarations(): void { 
-    // this.declarationForm.reset();
+    this.declarationForm.reset();   
+    this.declarationForm.patchValue({
+      description: '',
+      file: '',
+      identityNo: '',
+      reasons: ''
+    });
+   
   }
-
+  
   handleFileInput(files: FileList): void {
     if (files.length > 0) {
       // If only one file is allowed, use the first file in the list
@@ -198,6 +205,5 @@ export class UserDashboardComponent {
   }
   openSuccessModal(nocontent: TemplateRef<any>) {
     this.modalService.open(nocontent, { centered: true });
-
   }
 }
