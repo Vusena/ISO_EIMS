@@ -5,7 +5,7 @@
         </nav>
     </div>
 
-    <div class="container align-items-center">
+    <div class="container align-items-center mt-4">
         <div class="row justify-content-md-center">
             <!-- COLUMN 1 -->
             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -137,8 +137,7 @@
                                     {{notification.header}}
                                 </div>
                                 <div class="col-3">
-                                    <button class=" col-12 complete_task"
-                                        (click)="openVerticallyCentered(this.content,notification)">
+                                    <button class=" col-12 complete_task" (click)="checkAction(notification)">
                                         Complete Task
                                     </button>
                                 </div>
@@ -208,7 +207,7 @@
                                     <mat-form-field appearance="fill">
                                         <input matInput formControlName="file" type="file"
                                             (change)="handleFileInput($event.target.files)" multiple>
-                                        <mat-error style="font-size: 11px;"  
+                                        <mat-error style="font-size: 11px;"
                                             *ngIf="declarationForm.get('file').hasError('required')"> File upload is
                                             required
                                         </mat-error>
@@ -217,13 +216,17 @@
                             </div>
 
                             <div class="col-12 mb-2  d-flex justify-content-between">
-                                <button class="cancel" style="width: 150px;" type="button" (click)="cancelDeclarations()"
-                                >Cancel
+                                <button class="cancel" style="width: 150px;" type="button"
+                                    (click)="cancelDeclarations()">Cancel
                                     <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
                                 </button>
                                 <button class="submit" style="width: 150px;" [disabled]="!declarationForm.valid">
-                                    Submit
-                                    <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                                    <div *ngIf="isLoading" id="loading"></div>
+                                    <span *ngIf="!isLoading">
+                                        Submit
+                                        <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1"
+                                            alt="Submit Icon">
+                                    </span>
                                 </button>
                             </div>
                         </form>
@@ -320,13 +323,14 @@
                                         <input matInput type="file" formControlName="file"
                                             (change)="handleFileInput($event.target.files)" multiple>
                                         <mat-error class="p-0" style="font-size: 11px;"
-                                        *ngIf="declarationForm.get('file').hasError('required')"> File upload is
-                                        required</mat-error>
+                                            *ngIf="declarationForm.get('file').hasError('required')"> File upload is
+                                            required</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="col-12 mb-2 mt-3 d-flex justify-content-between">
-                                <button class="cancel" style="width: 150px;" type="button" (click)="cancelDeclarations()">
+                                <button class="cancel" style="width: 150px;" type="button"
+                                    (click)="cancelDeclarations()">
                                     Cancel
                                     <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
                                 </button>
@@ -334,6 +338,52 @@
                                     Submit
                                     <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
                                 </button>
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+
+                <ng-template #colreview let-modal>
+                    <div class="modal-header no-border"
+                        style="display: flex; align-items: start; justify-content: space-between;">
+                        <p style="color: #707070; font-size: 11px;">
+                            {{selectedNotification.header}}</p>
+                        <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
+                            (click)="modal.dismiss('Cross click')">Close
+                            <!-- <span aria-hidden="true">&times;</span> -->
+                            <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-title" style="color: #741110; font-weight: bold;">{{selectedNotification.title}}
+                        </p>
+                        <p class="p-0" style="color: #133B3A; font-weight: bold; ">
+                            <img class="me-1" style="height:20px;"
+                                src="../../../../../assets/icons/vuesax-bold-info-circle.svg">HOD Remarks
+                        </p>
+                        <p style="line-height: 1.0; " class="ms-4">{{selectedNotification.description}}</p>
+                        <form [formGroup]="remarksForm" (ngSubmit)="submitRemarks()">
+                            <div class="row p-0 ms-2">
+                                <div style="font-weight: bold; color:#133B3A;">My Remarks</div>
+                                <mat-form-field appearance="outline">
+                                    <input class="modal_textarea" matInput formControlName="remarks">
+                                    <mat-error style="font-size: 11px;"
+                                        *ngIf="remarksForm.get('remarks').hasError('required')"> Please provide your
+                                        remarks</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="row p-0 ms-2">
+                                <div class="col-12 mb-2  d-flex justify-content-between">
+                                    <button class="cancel" style="width: 150px;" type="button"
+                                        (click)="cancelRemarks()">Cancel
+                                        <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                                    </button>
+                                    <button class="submit" style="width: 150px;" [disabled]="!remarksForm.valid">
+                                        Submit
+                                        <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1"
+                                            alt="Submit Icon">
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>

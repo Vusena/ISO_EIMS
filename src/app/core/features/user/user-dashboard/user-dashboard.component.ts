@@ -13,6 +13,8 @@ import { HttpService } from 'app/core/services/http.service';
 })
 export class UserDashboardComponent {
   @ViewChild('nocontent') nocontent: TemplateRef<any>;
+  @ViewChild('content') content: TemplateRef<any>;
+  @ViewChild('colreview') colreview:TemplateRef<any>;
 
   notifications: any[] = [];
   headers: any;
@@ -25,6 +27,8 @@ export class UserDashboardComponent {
   conflictOfInterestControl = new FormControl(null);
   assignmentId: number;
   date: any;
+  remarksForm: FormGroup;
+  isLoading: boolean = false;
 
   constructor(private modalService: NgbModal, private httpService: HttpService, private fb: FormBuilder,
     private snackBar: MatSnackBar) { }
@@ -37,12 +41,16 @@ export class UserDashboardComponent {
       identityNo: ['',],
       description: ['',],
       reasons: ['',]
-    })     
+    })  
+    this.remarksForm = new FormGroup({
+      remarks: new FormControl('', Validators.required)
+    })
   }
 
   openVerticallyCentered(content: TemplateRef<any>, notification: any) {
     this.modalService.open(content, { centered: true, });
     this.selectedNotification = notification;
+    console.log(this.selectedNotification)
     this.assignmentId = notification.assignmentId;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -64,6 +72,29 @@ export class UserDashboardComponent {
     
   }
 
+  checkAction(notification) {
+    switch (notification.action) {
+      case 'CoIGReview':
+        this.openCoIGReviewModal(this.colreview, notification);
+        break;
+      case 'CoIGDeclare':
+        this.openVerticallyCentered(this.content, notification);
+        break;
+      // add more cases for other actions
+      default:
+        console.log('Unknown action');
+    }
+  }
+  
+  openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {  
+    console.log("This works")  
+    this.selectedNotification = notification;
+    console.log(this.selectedNotification)
+    this.modalService.open(colreview, { centered: true, });
+    
+  }
+  
+  
   onCloseClick() {
     this.modalService.dismissAll('Close click');
     location.reload();
@@ -145,6 +176,7 @@ export class UserDashboardComponent {
     this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
       next: (response) => {
         this.notifications = response.data
+        console.log(this.notifications)
       },
       error: (error) => {
         console.error("There was an error!", error);
@@ -165,17 +197,13 @@ export class UserDashboardComponent {
         haveConflict: haveConflict,
         description: this.declarationForm.get('description').value,
         reasons: this.declarationForm.get('reasons').value
-      };
-      // console.log(declaration)
+      };      
       formData.append('declaration', JSON.stringify(declaration));
       formData.append('file', this.declarationForm.get('file').value);
       this.httpService.postData(`${ApiEndPoints.DECLARATION_POST}`, formData,).subscribe({
-        next: (response) => {
-          // console.log(response)
-          this.modalService.dismissAll();
-          // this.declarationForm.reset()
+        next: (response) => {          
+          this.modalService.dismissAll();          
           this.openSuccessModal(this.nocontent)
-
         },
         error: (error) => {
           console.error("There was an error!", error);
@@ -192,8 +220,7 @@ export class UserDashboardComponent {
       file: '',
       identityNo: '',
       reasons: ''
-    });
-   
+    });   
   }
   
   handleFileInput(files: FileList): void {
@@ -205,5 +232,24 @@ export class UserDashboardComponent {
   }
   openSuccessModal(nocontent: TemplateRef<any>) {
     this.modalService.open(nocontent, { centered: true });
+  }
+  submitRemarks():void{   
+    const remarksData= {
+    declarationId: this.selectedNotification.declarationId,
+    status: "REVIEWED",
+    remarks: this.remarksForm.get('remarks').value
+    };   
+    this.httpService.postData(ApiEndPoints.REMARKS_POST, remarksData).subscribe({
+      next: (response) => {      
+        this.modalService.dismissAll();          
+        this.openSuccessModal(this.nocontent)
+      },
+      error: (error) => {
+        console.error("There was an error!", error);
+      },
+    });
+  }
+  cancelRemarks(): void { 
+    this.remarksForm.reset();       
   }
 }

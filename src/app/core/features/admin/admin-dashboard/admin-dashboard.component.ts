@@ -15,7 +15,8 @@ export class AdminDashboardComponent implements OnInit {
 
   @ViewChild('content') content: TemplateRef<any>;
   @ViewChild('nocontent') nocontent: TemplateRef<any>;
-  @ViewChild('content') yescontent: TemplateRef<any>;
+  @ViewChild('content') yescontent: TemplateRef<any>; 
+  @ViewChild('colreview') colreview:TemplateRef<any>;
 
   Roles: any;
   Priviledges: any;
@@ -50,7 +51,8 @@ export class AdminDashboardComponent implements OnInit {
   conflictOfInterestControl = new FormControl(null);
   assignmentId: number;
   date: any;
-  
+  remarksForm: FormGroup;
+  isLoading: boolean = false; 
 
   constructor(private httpService: HttpService, private modalService: NgbModal, private fb: FormBuilder) {
 
@@ -82,6 +84,9 @@ export class AdminDashboardComponent implements OnInit {
         description: ['',],
         reasons: ['',]
       }) 
+      this.remarksForm = this.fb.group({
+        remarks:['', Validators.required]
+      })
 
   }
 
@@ -386,6 +391,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   submitDeclarations(): void {
+    this.isLoading=true;
     let haveConflict = 0;
     const formData = new FormData();
     if (this.conflictOfInterestControl.value !== null && this.conflictOfInterestControl.value !== undefined) {
@@ -408,24 +414,47 @@ export class AdminDashboardComponent implements OnInit {
           this.modalService.dismissAll();
           // this.declarationForm.reset()
           this.openSuccessModal(this.nocontent)
-
+        },
+        complete: () => {
+          this.isLoading = false;
         },
         error: (error) => {
           console.error("There was an error!", error);
+          this.isLoading=false;
         },
       })
-    } 
-    console.log(this.declarationForm)   
+    }     
+  }
+
+  checkAction(notification) {
+    switch (notification.action) {
+      case 'CoIGReview':
+        this.openCoIGReviewModal(this.colreview, notification);
+        break;
+      case 'CoIGDeclare':
+        this.openVerticallyCentered(this.content, notification);
+        break;
+      // add more cases for other actions
+      default:
+        console.log('Unknown action');
+    }
+  }
+  openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {  
+    console.log("This works")  
+    this.selectedNotification = notification;
+    console.log(this.selectedNotification)
+    this.modalService.open(colreview, { centered: true, });
+    
   }
 
   cancelDeclarations(): void { 
-    // this.declarationForm.reset();   
-    // this.declarationForm.patchValue({
-    //   description: '',
-    //   file: '',
-    //   identityNo: '',
-    //   reasons: ''
-    // });   
+    this.declarationForm.reset();   
+    this.declarationForm.patchValue({
+      description: '',
+      file: '',
+      identityNo: '',
+      reasons: ''
+    });   
   }
   
   handleFileInput(files: FileList): void {
@@ -437,6 +466,26 @@ export class AdminDashboardComponent implements OnInit {
   }
   openSuccessModal(nocontent: TemplateRef<any>) {
     this.modalService.open(nocontent, { centered: true });
+  }
+  submitRemarks():void{   
+    const remarksData= {
+    declarationId: this.selectedNotification.declarationId,
+    status: "REVIEWED",
+    remarks: this.remarksForm.get('remarks').value
+    };   
+    this.httpService.postData(ApiEndPoints.REMARKS_POST, remarksData).subscribe({
+      next: (response) => {      
+        this.modalService.dismissAll();    
+        this.openSuccessModal(this.nocontent);
+        this.remarksForm.reset()
+      },
+      error: (error) => {
+        console.error("There was an error!", error);
+      },
+    });
+  }
+  cancelRemarks(): void { 
+    this.remarksForm.reset();       
   }
 }
 

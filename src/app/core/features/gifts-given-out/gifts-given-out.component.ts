@@ -116,7 +116,7 @@ export class GiftsGivenOutComponent implements OnInit {
       description: this.giftForm.get('description').value,
       value: this.giftForm.get('value').value,
     };
-    console.log("Gift data", giftData)
+    // console.log("Gift data", giftData)
     this.httpService.postData(ApiEndPoints.GIFTS_GIVEN_OUT_STORE, giftData).subscribe({
       next: (response) => {
         // console.log(response)

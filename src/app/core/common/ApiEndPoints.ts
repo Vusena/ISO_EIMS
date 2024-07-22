@@ -31,6 +31,7 @@ export enum ApiEndPoints {
     GROUP_CONFLICTS_SEARCH="api/v1/coi-group/search",
     GROUP_CONFLICTS_INITIATE="api/v1/coi-group/initiate",
     GET_NOTIFICATIONS="api/v1/notifications",
-    DECLARATION_POST="api/v1/coi-group/declare"
+    DECLARATION_POST="api/v1/coi-group/declare",
+    REMARKS_POST="api/v1/coi-group/review"
 
 }
