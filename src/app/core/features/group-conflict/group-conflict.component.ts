@@ -25,7 +25,7 @@ export class GroupConflictComponent implements OnInit {
   showResultDetails: boolean = false;
   selectedMembers: string[] = [];
   options: string[] = ['Appointing Officer', 'Member'];
-  selectedOption :string='Chairperson';
+  selectedOption: string = 'Chairperson';
   option: string;
 
   status_code: number;
@@ -40,7 +40,9 @@ export class GroupConflictComponent implements OnInit {
   selectedFile: File | null = null;
   giftForm: any;
   isValidated = false;
-  appointor:any;
+  appointor: any;
+  conflictOfInterestControl = new FormControl(null);
+  showConflictDescription = false;
 
 
   constructor(private httpService: HttpService, private authService: AuthService, private datePipe: DatePipe, private fb: FormBuilder,
@@ -51,19 +53,50 @@ export class GroupConflictComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getLoggedInUser()
+    this.getLoggedInUser();
+    this.preselectNoButton();
     this.groupConflictForm = this.fb.group({
       identityNo: ['', Validators.required],
       date: ['', Validators.required],
       title: ['', Validators.required],
       assignmentDesc: ['', Validators.required],
       venue: ['', Validators.required],
-      haveConflict: ['', Validators.required],
       conflictDesc: ['',],
       reasons: ['',],
       file: ['',],
       legalReqAgreed: ['', Validators.required]
     })
+    // Subscribe to date changes
+    this.groupConflictForm.get('date').valueChanges.subscribe(() => {
+      this.updateValidators();
+    });
+
+    // Initial validator update
+    this.updateValidators();
+  }
+
+
+  updateValidators() {
+    const reasonsControl = this.groupConflictForm.get('reasons');
+    const fileControl = this.groupConflictForm.get('file');
+    const conflictDescControl = this.groupConflictForm.get('conflictDesc');
+  
+    if (this.isLateDeclaration()) {
+      reasonsControl.setValidators(Validators.required);
+      fileControl.setValidators(Validators.required);
+    } else {
+      reasonsControl.clearValidators();
+      fileControl.clearValidators();
+    }  
+    if (this.showConflictDescription) {
+      conflictDescControl.setValidators(Validators.required);
+    } else {
+      conflictDescControl.clearValidators();
+    }
+  
+    reasonsControl.updateValueAndValidity();
+    fileControl.updateValueAndValidity();
+    conflictDescControl.updateValueAndValidity();
   }
 
   onSubmit(event: any): void {
@@ -85,10 +118,8 @@ export class GroupConflictComponent implements OnInit {
 
           if (err.status === 400) {
             this.errorMessage = err.error.description;
-
           }
           else {
-
           }
         }
       })
@@ -147,14 +178,14 @@ export class GroupConflictComponent implements OnInit {
       const staffNumbers = membersData.map(member => member.staffNo);
       // console.log(staffNumbers)
       const formData = new FormData();
-      let haveConflictNumber;
+     
       const formattedDate = this.datePipe.transform(this.groupConflictForm.get('date').value, 'yyyy-MM-dd');
-      const haveConflictValue = this.groupConflictForm.get('haveConflict').value;
-      if (haveConflictValue === 'yes') {
-        haveConflictNumber = 1;
-      } else {
-        haveConflictNumber = 2;
+      
+      let haveConflict = 0;
+      if (this.conflictOfInterestControl.value !== null && this.conflictOfInterestControl.value !== undefined) {
+        haveConflict = this.conflictOfInterestControl.value;
       }
+      console.log(this.conflictOfInterestControl, "conflictOfInterestControl")
       const declaration = {
         appointor: this.appointor,
         identityNo: this.groupConflictForm.get('identityNo').value,
@@ -162,18 +193,18 @@ export class GroupConflictComponent implements OnInit {
         title: this.groupConflictForm.get('title').value,
         assignmentDesc: this.groupConflictForm.get('assignmentDesc').value,
         venue: this.groupConflictForm.get('venue').value,
-        haveConflict: haveConflictNumber,
+        haveConflict: haveConflict,
         conflictDesc: this.groupConflictForm.get('conflictDesc').value,
         reasons: this.groupConflictForm.get('reasons').value,
         members: staffNumbers
       };
-      
+      console.log(declaration)
       formData.append('declaration', JSON.stringify(declaration));
       formData.append('file', this.groupConflictForm.get('file').value);
       this.httpService.postData(ApiEndPoints.GROUP_CONFLICTS_INITIATE, formData).subscribe({
         next: (response) => {
           console.log(response);
-          this.groupConflictForm.reset();
+          // this.groupConflictForm.reset();
           this.openVerticallyCentered(this.content);
         },
         error: (error) => {
@@ -256,12 +287,12 @@ export class GroupConflictComponent implements OnInit {
     // If all options are selected, proceed with further validation
     if (isValid) {
       // Additional validation logic...
-      this.appointor=appointorStaff
+      this.appointor = appointorStaff
       // console.log('All members have selected an option.');
       // console.log("appointor",this.appointor )
       this.errorMessage = '';
       this.isValidated = true;
-       
+
       this.snackBar.open('Thank for validating', 'Close', {
         duration: 5000,
         verticalPosition: 'top',
@@ -287,5 +318,44 @@ export class GroupConflictComponent implements OnInit {
     this.modalService.dismissAll('Close click');
     location.reload();
   }
+
+  onNoConflictClick(): void {
+    const noButton = document.getElementById('noButton');
+    const yesButton = document.getElementById('yesButton');
+    if (noButton && yesButton) {
+      noButton.classList.add('selected');
+      yesButton.classList.remove('selected');
+    }
+    this.conflictOfInterestControl.setValue(0);
+    this.showConflictDescription = false;
+    this.updateValidators();
+  }
+
+  onConflictClick(): void {
+    const noButton = document.getElementById('noButton');
+    const yesButton = document.getElementById('yesButton');
+    if (noButton && yesButton) {
+      yesButton.classList.add('selected');
+      noButton.classList.remove('selected');
+    }
+    this.conflictOfInterestControl.setValue(1);
+    this.preselectYesButton();
+    this.showConflictDescription = true;
+    this.updateValidators();
+  }
+
+  preselectNoButton(): void {
+    const noButton = document.getElementById('noButton');
+    if (noButton) {
+      noButton.classList.add('selected');
+    }
+  }
+  preselectYesButton(): void {
+    const ybutton = document.getElementById('ybutton');
+    if (ybutton) {
+      ybutton.classList.add('selected');
+    }
+  }
+
 
 }

@@ -52,7 +52,6 @@
   background-color: #FFFFFF;
 }
 
-.file_input:hover {}
 
 .material-icons {
   margin-right: 5px;
@@ -96,6 +95,16 @@
   text-align: left;
 }
 
+.yes_no_button {
+  width: 100px;
+  height: 30px;
+  border-radius: 30px;
+  border: 1px solid #707070;
+}
+  .yes_no_button.selected {
+    background-color: #E12827;
+    color: #fff;
+    }
 
 .button-container {
   display: flex;
@@ -302,25 +311,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 0;
-
 }
-
 .user {
   font-size: 16px;
   font-weight: 600;
   padding-left: 15px;
   color: #133B3A;
   border-bottom: 1px solid #ccc;
-
 }
-
 .select.mat-mdc-form-field {
   padding: 0;
   margin: 0;
   height: 40px;
-
 }
-
 
 .mat-mdc-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-mdc-text-field-wrapper {
   background-color: #FFFFFF;
@@ -342,15 +345,19 @@
 }
 
 .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
-  padding-top: 0;
+  padding-top: 16px;
   padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
+  // padding-left: 0;
+  // padding-right: 0;
 }
-
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: none;
 }
+
+
+ .mat-mdc-form-field-error-wrapper {  
+   padding: 0 !important;
+ }
 
 .mat-select {
   font-size: 14px;
@@ -387,6 +394,10 @@
 }
 
 
+// .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+//  padding-top: 0 !important; 
+// padding-bottom: 0 !important; 
+// }
 
 @media screen and (max-width: 771px) {
   .xyz {

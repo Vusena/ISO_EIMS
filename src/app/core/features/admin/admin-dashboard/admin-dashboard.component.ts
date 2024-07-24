@@ -299,6 +299,12 @@ export class AdminDashboardComponent implements OnInit {
       })
     } else {
       this.showLateDeclarationUI = false;
+      this.declarationForm = this.fb.group({     
+        identityNo: ['', Validators.required], 
+        file: ['',],     
+        description: ['',],
+        reasons: ['',]    
+      }) 
     }
     this.preselectNoButton();
   }
@@ -383,6 +389,7 @@ export class AdminDashboardComponent implements OnInit {
     this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
       next: (response) => {
         this.notifications = response.data
+        console.log(this.notifications)
       },
       error: (error) => {
         console.error("There was an error!", error);
@@ -439,12 +446,9 @@ export class AdminDashboardComponent implements OnInit {
         console.log('Unknown action');
     }
   }
-  openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {  
-    console.log("This works")  
-    this.selectedNotification = notification;
-    console.log(this.selectedNotification)
-    this.modalService.open(colreview, { centered: true, });
-    
+  openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {    
+    this.selectedNotification = notification;   
+    this.modalService.open(colreview, { centered: true, });    
   }
 
   cancelDeclarations(): void { 

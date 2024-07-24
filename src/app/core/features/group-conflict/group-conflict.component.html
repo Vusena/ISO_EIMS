@@ -61,7 +61,7 @@
               <mat-form-field class="w-100 select" appearance="none">
                 <mat-select style="font-size: 12px; font-weight: 500;" disabled [(ngModel)]="selectedOption">
                   <mat-option value="Chairperson">
-                   Chairperson
+                    Chairperson
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -199,15 +199,6 @@
               </div>
             </div>
 
-            <!-- <div class="row">
-              <div class="col-lg-12 p-0 ">
-                <div class=" textfonts">Assignment Description</div>
-                <mat-form-field appearance="outline" class="p-0 w-100">
-                  <input matInput style="font-size: 13px;" placeholder="Type here">
-                </mat-form-field>
-              </div>
-            </div> -->
-
             <div class="row pb-3 mt-1">
               <div class="col-12 p-0">
                 <div class=" textfonts">Assignment Description</div>
@@ -221,21 +212,18 @@
               </div>
             </div>
 
-            <div class="row mt-1 pb-3 mt-1">
-              <div class="col-md-6 p-0 ">
-                <div class="textfonts">Do you have a conflict?</div>
-                <mat-form-field appearance="outline" class="p-0" style="width: 260px;">
-                  <mat-select matInput placeholder="Yes" formControlName="haveConflict" style="font-size: 12px;">
-                    <mat-option value="yes">Yes</mat-option>
-                    <mat-option value="no">No</mat-option>
-                  </mat-select>
-                  <mat-error style="font-size: 11px;"
-                    *ngIf="groupConflictForm.get('haveConflict').hasError('required')">Please Select an
-                    option</mat-error>
-                </mat-form-field>
+            <div class="row mt-1 pb-3 mt-1">             
+              <div style="display: flex; align-items: center; margin-top: 15px;" class="mb-2">
+                <p style="margin-right: 10px; font-weight: bold; color: #133B3A;">
+                  Do you have a Conflict of Interest?
+                </p>
+                <button id="noButton" type="button" class="yes_no_button mb-2 me-2" (click)="onNoConflictClick()">No</button>
+                <button id="yesButton" type="button" class="yes_no_button mb-2" (click)="onConflictClick()">Yes</button>
               </div>
+            </div>
 
-              <div class="col-md-6 p-0" *ngIf="groupConflictForm.get('haveConflict').value === 'yes'">
+            <div class="row mt-1 pb-3 mt-1" *ngIf="showConflictDescription">
+              <div class="col-md-12 p-0">
                 <div class="textfonts">Conflict Description</div>
                 <mat-form-field appearance="outline" class="p-0 w-100">
                   <input matInput style="font-size: 12px;" formControlName="conflictDesc" placeholder="Type here">
@@ -246,7 +234,7 @@
               </div>
             </div>
 
-            <div class="row mt-2 pb-3 mt-1">
+            <div class="row mb-1">
               <!-- <div class="col-lg-6 col-sm-12 col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="agree-to" id="legal-req" value="legal-req">
@@ -281,11 +269,14 @@
               </div>
             </div>
 
-
-            <div class="row pb-3 mt-1 file_input " *ngIf="isLateDeclaration()">
-              <mat-form-field>
-                <input matInput formControlname="file" type="file" (change)="handleFileInput($event.target.files)"
+            <div class="row mt-1 mb-2" *ngIf="isLateDeclaration()">
+              <mat-form-field appearance="fill">
+                <input matInput formControlName="file" type="file" (change)="handleFileInput($event.target.files)"
                   multiple>
+                <mat-error style="font-size: 11px;" *ngIf="groupConflictForm.get('file').hasError('required')"> File
+                  upload is
+                  required
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -297,8 +288,8 @@
                 </button>
               </div>
               <div class="col-6">
-                <button type="button" class="btn  btn-block btn-rounded" style="background-color: #E12827;"
-                  [disabled]="!groupConflictForm.valid" (click)="submitGroupConflictDetails()">
+                <button type="button" type="submit" class="btn btn-block btn-rounded" style="background-color: #E12827;"
+                  [disabled]="!groupConflictForm.valid" >
                   Submit
                   <img src="../../../../assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
                 </button>

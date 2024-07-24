@@ -163,6 +163,7 @@ export class GiftsGivenOutComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.giftsGivenOutHistory();
   }
+  
   onHistoryItemClick(itemId: number): void {
     console.log(itemId)
     this.giftsGivenOutProgress(itemId);

@@ -29,6 +29,7 @@ export class UserDashboardComponent {
   date: any;
   remarksForm: FormGroup;
   isLoading: boolean = false;
+  
 
   constructor(private modalService: NgbModal, private httpService: HttpService, private fb: FormBuilder,
     private snackBar: MatSnackBar) { }
@@ -50,7 +51,7 @@ export class UserDashboardComponent {
   openVerticallyCentered(content: TemplateRef<any>, notification: any) {
     this.modalService.open(content, { centered: true, });
     this.selectedNotification = notification;
-    console.log(this.selectedNotification)
+    // console.log(this.selectedNotification)
     this.assignmentId = notification.assignmentId;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -67,9 +68,14 @@ export class UserDashboardComponent {
       })
     } else {
       this.showLateDeclarationUI = false;
-    }
-    this.preselectNoButton();
-    
+      this.declarationForm = this.fb.group({     
+        identityNo: ['', Validators.required], 
+        file: ['',],     
+        description: ['',],
+        reasons: ['',]    
+      }) 
+    }     
+    this.preselectNoButton();    
   }
 
   checkAction(notification) {
@@ -86,12 +92,9 @@ export class UserDashboardComponent {
     }
   }
   
-  openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {  
-    console.log("This works")  
-    this.selectedNotification = notification;
-    console.log(this.selectedNotification)
-    this.modalService.open(colreview, { centered: true, });
-    
+  openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {     
+    this.selectedNotification = notification;  
+    this.modalService.open(colreview, { centered: true, });    
   }
   
   
@@ -185,6 +188,7 @@ export class UserDashboardComponent {
   }
 
   submitDeclarations(): void {
+    console.log("clicked button")
     let haveConflict = 0;
     const formData = new FormData();
     if (this.conflictOfInterestControl.value !== null && this.conflictOfInterestControl.value !== undefined) {
@@ -197,7 +201,8 @@ export class UserDashboardComponent {
         haveConflict: haveConflict,
         description: this.declarationForm.get('description').value,
         reasons: this.declarationForm.get('reasons').value
-      };      
+      };  
+      console.log(declaration)    
       formData.append('declaration', JSON.stringify(declaration));
       formData.append('file', this.declarationForm.get('file').value);
       this.httpService.postData(`${ApiEndPoints.DECLARATION_POST}`, formData,).subscribe({
@@ -210,7 +215,9 @@ export class UserDashboardComponent {
         },
       })
     } 
+    
     console.log(this.declarationForm)  
+    
   }
 
   cancelDeclarations(): void { 

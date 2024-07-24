@@ -224,18 +224,26 @@
 }
 
 .assign-rolee {
-  //  width: 100px ;
-  height: 40px;
+  height: 30px;
   color: #F2F2F2;
   background: #E12827;
-  opacity: 1;
   font-family: "Roboto";
-  font-size: 13px;
+  font-size: 12px;
   font-family: Roboto;
   border-radius: 20px;
-  padding-top: 10px;
-  width: 100px;
   font-weight: bold;
+  border: none;
+}
+.assign-role {
+  height: 30px;
+  color: #E12827;
+  background: #F2F2F2;
+  font-family: "Roboto";
+  font-size: 12px;
+  font-family: Roboto;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
 }
 
 .no-border {

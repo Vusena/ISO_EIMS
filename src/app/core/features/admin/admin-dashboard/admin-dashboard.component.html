@@ -130,40 +130,55 @@
             <!-- SECOND COLUNM -->
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="container card3" style="height: 280px; overflow-y: auto;">
-                    <div *ngFor="let notification of notifications" style="margin-bottom: 20px;">
-                        <div class="row">
-                            <div class="col-12 mb-3 d-flex align-items-center justify-content-between ">
-                                <div class="col-9 p-0 " style="color: #808080; font-size: 11px;">
-                                    {{notification.header}}
+                    
+                    <div *ngIf="notifications.length > 0">
+                        <!-- your existing code here -->
+                        <div *ngFor="let notification of notifications" style="margin-bottom: 20px;">
+                            <div class="row">
+                                <div class="col-12 mb-3 d-flex align-items-center justify-content-between ">
+                                    <div class="col-9 p-0 " style="color: #808080; font-size: 11px;">
+                                        {{notification.header}}
+                                    </div>
+                                    <div class="col-3">
+                                        <button class=" col-12 assign-rolee" (click)="checkAction(notification)">
+                                            Complete Task
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-3">
-                                    <button class=" col-12 complete_task" (click)="checkAction(notification)">
-                                        Complete Task
-                                    </button>
-                                </div>
+                                <p class="mb-1" style="color: #133B3A; font-size: 12px; font-weight: bold; ">
+                                    {{notification.title}}</p>
+                                <p style="font-style: 12px; line-height: 1.0;">{{notification.description}}</p>
                             </div>
-                            <p class="mb-1" style="color: #133B3A; font-size: 12px; font-weight: bold; ">
-                                {{notification.title}}</p>
-                            <p style="font-style: 12px; line-height: 1.0;">{{notification.description}}</p>
+                            <!-- <div class="row mb-2 p-3">
+                                <div class="d-flex justify-content-between">
+                                    <a href="javascript:void(0)" class="btn btn-group-text"
+                                        style="line-height: 1; color: #dfdfdf">declared</a>
+                                    <a href="javascript:void(0)" class="btn btn-group-text"
+                                        style="line-height: 1; color: #dfdfdf">pending</a>
+                                    <a href="javascript:void(0)" class="btn btn-group-text"
+                                        style="line-height: 1; color: #dfdfdf">complete</a>
+                                </div>
+                                <div class="btn-group" style="background-color: #dfdfdf; border: none; height: 15px">
+                                    <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
+                                    <a href="javascrYear ipt:void(0)" class="btn" style="line-height: 1"></a>
+                                    <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
+                                </div>
+                            </div> -->
                         </div>
-                        <!-- <div class="row mb-2 p-3">
-                            <div class="d-flex justify-content-between">
-                                <a href="javascript:void(0)" class="btn btn-group-text"
-                                    style="line-height: 1; color: #dfdfdf">declared</a>
-                                <a href="javascript:void(0)" class="btn btn-group-text"
-                                    style="line-height: 1; color: #dfdfdf">pending</a>
-                                <a href="javascript:void(0)" class="btn btn-group-text"
-                                    style="line-height: 1; color: #dfdfdf">complete</a>
-                            </div>
-                            <div class="btn-group" style="background-color: #dfdfdf; border: none; height: 15px">
-                                <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
-                                <a href="javascrYear ipt:void(0)" class="btn" style="line-height: 1"></a>
-                                <a href="javascript:void(0)" class="btn" style="line-height: 1"></a>
-                            </div>
-                        </div> -->
+                    </div>
+                
+
+                <div *ngIf="notifications.length === 0">
+                    <div style="margin-bottom: 20px;">
+                        <div class="row">
+                            <p class="mb-1" style="color: #133B3A; font-size: 12px; font-weight: bold; ">
+                                You do not have pending tasks</p>
+                            <p style="font-style: 12px; line-height: 1.0;">Your pending tasks will be
+                                displayed here </p>
+                        </div>
                     </div>
                 </div>
-
+            </div>
                 <ng-template #content let-modal>
                     <div class="modal-header no-border"
                         style="display: flex; align-items: start; justify-content: space-between;">
@@ -191,6 +206,15 @@
                                 (click)="onConflictClick(yescontent)">Yes</button>
                         </div>
                         <form [formGroup]="declarationForm" (ngSubmit)="submitDeclarations()">
+                            <div class="row p-0">
+                                <div class="textfonts">Identity No</div>
+                                <mat-form-field appearance="outline">
+                                    <input class="modal_textarea" matInput formControlName="identityNo">
+                                    <mat-error style="font-size: 11px;"
+                                        *ngIf="declarationForm.get('identityNo').hasError('required')">Provide Identity
+                                        number</mat-error>
+                                </mat-form-field>
+                            </div>
                             <div *ngIf="showLateDeclarationUI">
                                 <div class="row mb-2">
                                     <div class="textfonts">Reasons for late Declaration</div>
@@ -216,17 +240,13 @@
                             </div>
 
                             <div class="col-12 mb-2  d-flex justify-content-between">
-                                <button class="cancel" style="width: 150px;" type="button"
-                                    (click)="cancelDeclarations()">Cancel
+                                <button class="btn p-0" style="width: 150px; background-color: #FFFFFF; border-radius: 20px; height: 30px; border: #E12827 1px solid; font-size: 13px;"
+                                    type="button" (click)="cancelDeclarations()">Cancel
                                     <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
                                 </button>
-                                <button class="submit" style="width: 150px;" [disabled]="!declarationForm.valid">
-                                    <div *ngIf="isLoading" id="loading"></div>
-                                    <span *ngIf="!isLoading">
-                                        Submit
-                                        <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1"
-                                            alt="Submit Icon">
-                                    </span>
+                                <button type="submit" class="btn p-0" style="width: 150px; background-color: #E12827; border-radius: 20px; height: 30px;  font-size: 13px;"
+                                    [disabled]="!declarationForm.valid">Submit
+                                    <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
                                 </button>
                             </div>
                         </form>
@@ -329,13 +349,12 @@
                                 </div>
                             </div>
                             <div class="col-12 mb-2 mt-3 d-flex justify-content-between">
-                                <button class="cancel" style="width: 150px;" type="button"
-                                    (click)="cancelDeclarations()">
-                                    Cancel
+                                <button class="btn p-0" style="width: 150px; background-color: #FFFFFF; border-radius: 20px; height: 30px; border: #E12827 1px solid; font-size: 13px;"
+                                    type="button" (click)="cancelDeclarations()">Cancel
                                     <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
                                 </button>
-                                <button class="submit" style="width: 150px;" [disabled]="!declarationForm.valid">
-                                    Submit
+                                <button type="submit" class="btn p-0" style="width: 150px; background-color: #E12827; border-radius: 20px; height: 30px;  font-size: 13px;"
+                                    [disabled]="!declarationForm.valid">Submit
                                     <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
                                 </button>
                             </div>
@@ -360,7 +379,13 @@
                         <p class="p-0" style="color: #133B3A; font-weight: bold; ">
                             <img class="me-1" style="height:20px;"
                                 src="../../../../../assets/icons/vuesax-bold-info-circle.svg">HOD Remarks
-                        </p>
+                        </p>                    
+                    <p class="ms-4 p-0">
+                        Declarant name:{{selectedNotification.declarant.name}}
+                    </p>
+                    <p class="ms-4 p-0">
+                      Declarant staffNo: {{selectedNotification.declarant.staffNo}}
+                    </p>
                         <p style="line-height: 1.0; " class="ms-4">{{selectedNotification.description}}</p>
                         <form [formGroup]="remarksForm" (ngSubmit)="submitRemarks()">
                             <div class="row p-0 ms-2">
@@ -383,6 +408,17 @@
                                         <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1"
                                             alt="Submit Icon">
                                     </button>
+
+                                    <!-- <button class="btn p-0" style="width: 150px; background-color: #FFFFFF; border-radius: 20px; height: 30px; border: #E12827 1px solid; font-size: 13px;"
+                                    type="button" (click)="cancelDeclarations()">Cancel
+                                    <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
+                                </button>
+                                <button type="submit" class="btn p-0" style="width: 150px; background-color: #E12827; border-radius: 20px; height: 30px;  font-size: 13px;"
+                                    [disabled]="!declarationForm.valid">Submit
+                                    <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                                </button> -->
+
+                                    
                                 </div>
                             </div>
                         </form>
