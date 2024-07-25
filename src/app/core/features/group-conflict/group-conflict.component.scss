@@ -393,6 +393,20 @@
   cursor: pointer;
 }
 
+.unique.mat-mdc-form-field-infix {
+  padding-top: 8px;
+  padding-bottom: 16px;
+} 
+
+.history-item {
+transition: background-color 0.3s; /* Adds a smooth transition effect */
+}
+
+.history-item:hover {
+background-color: #00000029;
+}
+
+
 
 // .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
 //  padding-top: 0 !important; 

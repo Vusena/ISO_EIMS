@@ -73,11 +73,11 @@
 
                     <div class="row mt-3">
                         <div class="col">
-                            <p class="assign-role">Assign Role</p>
+                            <p class="text2">Assign Role</p>
                         </div>
                     </div>
 
-                    <div class="row mb-5">
+                    <div class="row mb-2">
                         <ng-container *ngFor="let role of Roles">
                             <div class="col-6 mb-3">
                                 <button (click)="getPrivileges(role.name)" class="w-100 button-sm"
@@ -408,7 +408,7 @@
                                         type="button" (click)="cancelRemarks()">Cancel
                                         <img src="../../../../../assets/icons/main-layout-icons/clear-icon.svg">
                                     </button>
-                                    <button class="submit" [disabled]="!remarksForm.valid"
+                                    <button class="btn p-0" [disabled]="!remarksForm.valid"
                                         style="width: 150px; background-color: #E12827; border-radius: 20px; height: 30px;  font-size: 13px;">
                                         Submit
                                         <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1"

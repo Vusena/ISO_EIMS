@@ -43,7 +43,14 @@ export class GroupConflictComponent implements OnInit {
   appointor: any;
   conflictOfInterestControl = new FormControl(null);
   showConflictDescription = false;
-
+  history: any;
+  length: number; //total number of items or records
+  pageSize: number = 5; // specifies the number of items or records to be displayed on a single page.
+  pageSizeOptions: number[] = [5, 10, 15, 20]; //This is an array that defines the set of options available for the user to select
+  currentPage: number = 0; //holds the current page number that the user is viewing
+  historyProgress: any;
+  historyDeclaration: any;
+  historyItemClicked: boolean = false;
 
   constructor(private httpService: HttpService, private authService: AuthService, private datePipe: DatePipe, private fb: FormBuilder,
     private modalService: NgbModal, private snackBar: MatSnackBar) {
@@ -51,10 +58,10 @@ export class GroupConflictComponent implements OnInit {
       members: this.fb.array([])
     });
   }
-
   ngOnInit(): void {
     this.getLoggedInUser();
     this.preselectNoButton();
+    this.groupConflictHistory();
     this.groupConflictForm = this.fb.group({
       identityNo: ['', Validators.required],
       date: ['', Validators.required],
@@ -70,9 +77,13 @@ export class GroupConflictComponent implements OnInit {
     this.groupConflictForm.get('date').valueChanges.subscribe(() => {
       this.updateValidators();
     });
-
     // Initial validator update
     this.updateValidators();
+    this.historyProgress = [
+      // Add default objects representing the initial state of each step
+      { actor: 'Once you declare', action: 'This will be your progress bar to track which stage the declaration is at.' },
+      { actor: '', action: '' },
+    ];
   }
 
 
@@ -80,20 +91,20 @@ export class GroupConflictComponent implements OnInit {
     const reasonsControl = this.groupConflictForm.get('reasons');
     const fileControl = this.groupConflictForm.get('file');
     const conflictDescControl = this.groupConflictForm.get('conflictDesc');
-  
+
     if (this.isLateDeclaration()) {
       reasonsControl.setValidators(Validators.required);
       fileControl.setValidators(Validators.required);
     } else {
       reasonsControl.clearValidators();
       fileControl.clearValidators();
-    }  
+    }
     if (this.showConflictDescription) {
       conflictDescControl.setValidators(Validators.required);
     } else {
       conflictDescControl.clearValidators();
     }
-  
+
     reasonsControl.updateValueAndValidity();
     fileControl.updateValueAndValidity();
     conflictDescControl.updateValueAndValidity();
@@ -178,9 +189,9 @@ export class GroupConflictComponent implements OnInit {
       const staffNumbers = membersData.map(member => member.staffNo);
       // console.log(staffNumbers)
       const formData = new FormData();
-     
+
       const formattedDate = this.datePipe.transform(this.groupConflictForm.get('date').value, 'yyyy-MM-dd');
-      
+
       let haveConflict = 0;
       if (this.conflictOfInterestControl.value !== null && this.conflictOfInterestControl.value !== undefined) {
         haveConflict = this.conflictOfInterestControl.value;
@@ -356,6 +367,56 @@ export class GroupConflictComponent implements OnInit {
       ybutton.classList.add('selected');
     }
   }
+  groupConflictHistory() {
+    this.httpService.getAllnominees(ApiEndPoints.GIFTS_GIVEN_OUT_GET, null, this.currentPage, this.pageSize).subscribe({
+      next: (res) => {
+        this.history = res.data.content;
+      },
+      error: () => {
 
+      },
+    });
+  }
+  onHistoryItemClick(itemId: number): void {
+    // console.log(itemId)
+    this.historyItemClicked = true;
+    this.giftsGivenOutProgress(itemId);
+  }
 
+  giftsGivenOutProgress(id: number) {
+    const urlWithId = `${ApiEndPoints.GROUP_CONFLICTS_GET_PROGRESS}/${id}`;
+    this.httpService.getById(urlWithId).subscribe({
+      next: (res) => {
+        this.historyProgress = res.data.progress;
+        this.historyDeclaration = res.data.declaration;
+        console.log(this.historyDeclaration)
+        const date = new Date(res.data.declaration.assignment_date)        
+        this.groupConflictForm.patchValue({
+          identityNo:this.historyDeclaration.declarant_id_no,
+          date: date,
+          title:this.historyDeclaration.assignment_title,
+          assignmentDesc: this.historyDeclaration.assignment_description,
+          venue: this.historyDeclaration.venue,
+          conflictDesc: this.historyDeclaration.description,
+          reasons: this.historyDeclaration.reasons,
+          // file: this.historyDeclaration.file,
+          // legalReqAgreed: this.historyDeclaration.legalReqAgreed
+        });
+
+      },
+      error: () => {
+        // ... error handling
+      },
+    });
+  }
+
+  clearField(): void {
+    this.groupConflictForm.reset();
+    this.historyItemClicked = false;
+    // this.historyProgress = [
+    //   // Add default objects representing the initial state of each step
+    //   { actor: 'Once you declare', action: 'This will be your progress bar to track which stage the declaration is at.' },
+    //   { actor: '', action: '' },
+    // ];
+  }
 }
