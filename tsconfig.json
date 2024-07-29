@@ -3,7 +3,7 @@
   "compilerOptions": {
     "downlevelIteration": true,
     "importHelpers": true,
-    "outDir": "./dist/out-tsc",
+    "outDir": "eims_test/out-tsc",
     "baseUrl": "src",
     "sourceMap": true,
     "declaration": false,

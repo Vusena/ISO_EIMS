@@ -85,7 +85,7 @@
               <div class="col-md-4 p-1">
                 <div class="form-label small">Value of Gift</div>
                 <mat-form-field appearance="outline" class="w-100">
-                  <input matInput type="number" formControlName="value" placeholder="Type here..">
+                  <input matInput type="number" formControlName="value" min="0" placeholder="Type here..">
                   <mat-error *ngIf="giftForm.get('value').hasError('required')">
                     Please enter the value of the gift
                   </mat-error>
@@ -132,15 +132,15 @@
               </div>
             </div>
 
-            <div class="row mt-2">
-              <div class="col-lg-6 col-sm-12">
+            <div class="row mb-1 mt-1">
+              <div class="col-lg-12 col-sm-12 col-md-12">
                 <div class="form-check terms">
-                  <input class="form-check-input" type="checkbox" name="agree-to" value="legal-req"
-                         formControlName="legalReqAgreed">
+                  <input class="form-check-input" type="checkbox" name="agree-to" value="legal-req" formControlName="legalReqAgreed">
                   <label class="form-check-label" htmlFor="legal-req" style="font-size: 12px;">
-                    I agree to the <span style="text-decoration: underline;"
-                                         title="I do hereby declare that the information provided herein is accurate, complete and true to the best of my knowledge in line with sections 46 (1) (d) and 46 (2) of the Leadership and Integrity Act, 2012 and 12 (3) of the Public Officers Ethics Act, 2003.">
-                      Legal Requirements</span>
+                    I agree to the <span class="tooltip-container">
+                      <span class="tooltip-text">Legal Requirements</span>
+                      <span class="tooltip">I do hereby declare that the information provided herein is accurate, complete and true to the best of my knowledge in line with sections 46 (1) (d) and 46 (2) of the Leadership and Integrity Act, 2012 and 12 (3) of the Public Officers Ethics Act, 2003.</span>
+                    </span>
                   </label>
                 </div>
               </div>
@@ -156,7 +156,7 @@
               <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
               </lottie-player>
               <div class="text-center">
-                <p style="font-size: 15px; font-weight: bold;">Your Nomination has been submitted successfully.</p>
+                <p style="font-size: 15px; font-weight: bold;">Your declaration has been submitted successfully.</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
@@ -167,13 +167,13 @@
               <div class="col-6">
                 <button type="button" class="btn btn-primary btn-block btn-rounded" (click)="clearField()"
                         style="background-color: #FFFFFF; color: #E12827; border: #E12827 1px solid;">Clear
-                  <img src="./assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
+                  <img src="assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
                 </button>
               </div>
               <div class="col-6">
                 <button type="submit" class="btn  btn-block btn-rounded" style="background-color: #E12827;"
                         [disabled]="!giftForm.valid">Submit
-                  <img src="./assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                  <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
                 </button>
               </div>
             </div>

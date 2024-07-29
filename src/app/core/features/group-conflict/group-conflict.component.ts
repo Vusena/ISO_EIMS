@@ -71,7 +71,7 @@ export class GroupConflictComponent implements OnInit {
       conflictDesc: ['',],
       reasons: ['',],
       file: ['',],
-      legalReqAgreed: ['', Validators.required]
+      legalReqAgreed: [false, Validators.requiredTrue]
     })
     // Subscribe to date changes
     this.groupConflictForm.get('date').valueChanges.subscribe(() => {
