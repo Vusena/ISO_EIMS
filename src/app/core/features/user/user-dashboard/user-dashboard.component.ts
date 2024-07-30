@@ -188,6 +188,7 @@ export class UserDashboardComponent {
   }
 
   submitDeclarations(): void {
+    this.isLoading=true;
     console.log("clicked button")
     let haveConflict = 0;
     const formData = new FormData();
@@ -209,6 +210,9 @@ export class UserDashboardComponent {
         next: (response) => {          
           this.modalService.dismissAll();          
           this.openSuccessModal(this.nocontent)
+        },
+        complete: () => {
+          this.isLoading = false;
         },
         error: (error) => {
           console.error("There was an error!", error);
@@ -240,7 +244,8 @@ export class UserDashboardComponent {
   openSuccessModal(nocontent: TemplateRef<any>) {
     this.modalService.open(nocontent, { centered: true });
   }
-  submitRemarks():void{   
+  submitRemarks():void{  
+    this.isLoading=true; 
     const remarksData= {
     declarationId: this.selectedNotification.declarationId,
     status: "REVIEWED",
@@ -251,8 +256,12 @@ export class UserDashboardComponent {
         this.modalService.dismissAll();          
         this.openSuccessModal(this.nocontent)
       },
+      complete: () => {
+        this.isLoading = false;
+      },
       error: (error) => {
         console.error("There was an error!", error);
+        this.isLoading = false;
       },
     });
   }

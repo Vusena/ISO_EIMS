@@ -237,12 +237,12 @@
   border-radius: 15px;
   opacity: 0.9;
   align-items: center;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: 11px;
+  padding-right: 12px;
   margin-bottom: 20px;
   max-height: 678px;
   min-height: 678px;
-  overflow-y: auto;
+  
 }
 
 .mat-options-font{
@@ -307,6 +307,36 @@
   visibility: visible;
   opacity: 1;
 }
+
+#loading {
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, .3);
+  border-radius: 50%; 
+  border-top-color: #EFEFEF;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  display: inline-block;
+  margin: 0 auto; 
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
 
 @media screen and (max-width: 771px) {
   .xyz {
@@ -376,13 +406,15 @@
 .history-item:hover {
   background-color: #00000029;
 }
-
-
-  .officer_button{
+ .officer_button{
     display:inline; 
     background-color: #EFEFEF;
     border-radius: 5px;
   }
+
+  .mat-mdc-form-field-error-wrapper {  
+    padding: 0 !important;
+  } 
 
   @media screen and (max-width: 771px) {
      .info {

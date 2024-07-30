@@ -247,8 +247,11 @@
                                 </button>
                                 <button type="submit" class="btn p-0"
                                     style="width: 150px; background-color: #E12827; border-radius: 20px; height: 30px;  font-size: 13px;"
-                                    [disabled]="!declarationForm.valid">Submit
-                                    <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                                    [disabled]="!declarationForm.valid">
+                                    <div *ngIf="isLoading" id="loading"></div>
+                                    <span *ngIf="!isLoading">Submit</span>
+                                    <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class=""
+                                        alt="Submit" />
                                 </button>
                             </div>
                         </form>
@@ -358,8 +361,11 @@
                                 </button>
                                 <button type="submit" class="btn p-0"
                                     style="width: 150px; background-color: #E12827; border-radius: 20px; height: 30px;  font-size: 13px;"
-                                    [disabled]="!declarationForm.valid">Submit
-                                    <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                                    [disabled]="!declarationForm.valid">
+                                    <div *ngIf="isLoading" id="loading"></div>
+                                    <span *ngIf="!isLoading">Submit</span>
+                                    <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class=""
+                                        alt="Submit" />
                                 </button>
                             </div>
                         </form>
@@ -381,8 +387,8 @@
                         <p class="modal-title" style="color: #741110; font-weight: bold;">{{selectedNotification.title}}
                         </p>
                         <p class="p-0" style="color: #133B3A; font-weight: bold; ">
-                            <img class="me-1" style="height:20px;"
-                                src="assets/icons/vuesax-bold-info-circle.svg">HOD Remarks
+                            <img class="me-1" style="height:20px;" src="assets/icons/vuesax-bold-info-circle.svg">HOD
+                            Remarks
                         </p>
                         <p class="ms-4 p-0">
                             Declarant name:{{selectedNotification.declarant.name}}
@@ -410,9 +416,10 @@
                                     </button>
                                     <button class="btn p-0" [disabled]="!remarksForm.valid"
                                         style="width: 150px; background-color: #E12827; border-radius: 20px; height: 30px;  font-size: 13px;">
-                                        Submit
-                                        <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1"
-                                            alt="Submit Icon">
+                                        <div *ngIf="isLoading" id="loading"></div>
+                                        <span *ngIf="!isLoading">Submit</span>
+                                        <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class=""
+                                            alt="Submit" />
                                     </button>
                                 </div>
                             </div>

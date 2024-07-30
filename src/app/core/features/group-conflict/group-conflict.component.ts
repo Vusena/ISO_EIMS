@@ -51,6 +51,8 @@ export class GroupConflictComponent implements OnInit {
   historyProgress: any;
   historyDeclaration: any;
   historyItemClicked: boolean = false;
+  isLoading = false;
+  statusCode:any;
 
   constructor(private httpService: HttpService, private authService: AuthService, private datePipe: DatePipe, private fb: FormBuilder,
     private modalService: NgbModal, private snackBar: MatSnackBar) {
@@ -182,16 +184,15 @@ export class GroupConflictComponent implements OnInit {
     }
   }
 
-  submitGroupConflictDetails() {
+  submitGroupConflictDetails() {   
     if (this.isValidated) {
+      this.isLoading = true;
       const membersData = this.members.value;
       // console.log("MEMBERS DATA", membersData)
       const staffNumbers = membersData.map(member => member.staffNo);
       // console.log(staffNumbers)
       const formData = new FormData();
-
       const formattedDate = this.datePipe.transform(this.groupConflictForm.get('date').value, 'yyyy-MM-dd');
-
       let haveConflict = 0;
       if (this.conflictOfInterestControl.value !== null && this.conflictOfInterestControl.value !== undefined) {
         haveConflict = this.conflictOfInterestControl.value;
@@ -214,12 +215,23 @@ export class GroupConflictComponent implements OnInit {
       formData.append('file', this.groupConflictForm.get('file').value);
       this.httpService.postData(ApiEndPoints.GROUP_CONFLICTS_INITIATE, formData).subscribe({
         next: (response) => {
-          console.log(response);
-          // this.groupConflictForm.reset();
-          this.openVerticallyCentered(this.content);
+          this.statusCode = response.status;         
+          if (this.statusCode === 200) {         
+            this.openVerticallyCentered(this.content);
+         }      
+        },
+        complete() {
+          this.Loading=false;
         },
         error: (error) => {
           console.error("There was an error!", error);
+          if (error.status === 400) {
+            this.snackBar.open('err.error.description','Close', {
+              duration: 5000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center'
+            });
+          }    
         },
       });
     }
@@ -233,6 +245,7 @@ export class GroupConflictComponent implements OnInit {
   }
 
   validate(): void {
+    this.isLoading=false
     // const membersData = this.members.value;
     // console.log("MEMBERS DATA", membersData)
     // const staffNumbers = membersData.map(member => member.staffNo);
@@ -371,12 +384,14 @@ export class GroupConflictComponent implements OnInit {
     this.httpService.getAllnominees(ApiEndPoints.GIFTS_GIVEN_OUT_GET, null, this.currentPage, this.pageSize).subscribe({
       next: (res) => {
         this.history = res.data.content;
+        console.log(this.history)
       },
       error: () => {
 
       },
     });
   }
+
   onHistoryItemClick(itemId: number): void {
     // console.log(itemId)
     this.historyItemClicked = true;

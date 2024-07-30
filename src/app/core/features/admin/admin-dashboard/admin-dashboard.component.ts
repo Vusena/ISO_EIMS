@@ -483,7 +483,11 @@ export class AdminDashboardComponent implements OnInit {
         this.openSuccessModal(this.nocontent);
         this.remarksForm.reset()
       },
+      complete: () => {
+        this.isLoading = false;
+      },
       error: (error) => {
+        this.isLoading = false;
         console.error("There was an error!", error);
       },
     });

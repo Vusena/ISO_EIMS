@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { OfficerType } from 'app/core/common/officerEnums';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Occasion {
   id: number;
@@ -56,6 +57,8 @@ export class GiftsGivenOutComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 15, 20]; //This is an array that defines the set of options available for the user to select
   currentPage:number=0; //holds the current page number that the user is viewing
   historyId:number;
+  isLoading = false;
+  statusCode:any;
 
   @ViewChild('content') content: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -64,7 +67,8 @@ export class GiftsGivenOutComponent implements OnInit {
     private httpService: HttpService,
     private datePipe: DatePipe,
     private modalService: NgbModal,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
   ) {
     this.giftForm = this.fb.group({
       // declarationDate: [{value: '', disabled: true}, Validators.required],
@@ -77,7 +81,21 @@ export class GiftsGivenOutComponent implements OnInit {
       description: ['', Validators.required],
       legalReqAgreed: [false, Validators.requiredTrue]
     });
+    this.giftForm.get('occasionId').valueChanges.subscribe(value => {
+      this.updateSpecifiedValidation(value);
+    });
   }
+
+  updateSpecifiedValidation(occasionId: number) {
+    const specifiedControl = this.giftForm.get('specified');
+    if (occasionId === 5) { // Assuming 5 is the ID for "Other"
+      specifiedControl.setValidators([Validators.required]);
+    } else {
+      specifiedControl.clearValidators();
+    }
+    specifiedControl.updateValueAndValidity();
+  }
+
 
   ngOnInit(): void {
     this.getOccasions();
@@ -106,6 +124,7 @@ export class GiftsGivenOutComponent implements OnInit {
   }
 
   submitGiftGivenDetails(): void {
+    this.isLoading = true;
     const formattedDate = this.datePipe.transform(this.giftForm.get('dateIssued').value, 'yyyy-MM-dd');
     const giftData = {
       recipient: this.giftForm.get('recipient').value,
@@ -119,12 +138,23 @@ export class GiftsGivenOutComponent implements OnInit {
     // console.log("Gift data", giftData)
     this.httpService.postData(ApiEndPoints.GIFTS_GIVEN_OUT_STORE, giftData).subscribe({
       next: (response) => {
-        // console.log(response)
-        this.alertMessage = response.body.description
-        this.openVerticallyCentered(this.content);
-        this.clearField()
+        this.statusCode = response.status;       
+        if (this.statusCode === 200) {         
+           this.openVerticallyCentered(this.content);
+           this.clearField()
+        }        
+      },
+      complete() {
+        this.isLoading=false;
       },
       error: (error) => {
+        if (error.status === 400) {
+          this.snackBar.open('err.error.description','Close', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
+          });
+        }         
         console.error("There was an error!", error);
       },
     });

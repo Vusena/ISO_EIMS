@@ -82,7 +82,6 @@ export class IntergrityAwardAdminComponent implements OnInit {
           // console.log(res.status)
           this.status_code = res.status;
           // console.log('status code ', this.status_code);
-
           if (this.status_code === 200) {
             this.errorMessage = "";
             // this.cd.detectChanges();
@@ -90,7 +89,6 @@ export class IntergrityAwardAdminComponent implements OnInit {
             this.department = this.krastafflist.department;
             this.region = this.krastafflist.region;
             this.staff_number = this.krastafflist.staffNo;
-
           } 
         },
         error: (err) => {
