@@ -1,0 +1,11 @@
+<div class="container p-0 ">
+  <!-- <app-tabs > </app-tabs> -->
+  <div *ngIf="isAdmin()">
+       <app-admin-dashboard></app-admin-dashboard>
+  </div>
+
+  <div *ngIf="isUser()">
+      <div >
+       <app-user-dashboard></app-user-dashboard>
+    </div>
+  </div>

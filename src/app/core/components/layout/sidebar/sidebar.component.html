@@ -1,0 +1,60 @@
+<div class="sidebar-wrapper">
+  <div class="logo">
+    <div class="logo-img ">
+      <img src="./assets/img/main/eims-logo.png" style=" width: 170px;
+        position:absolute;" />
+    </div>
+  </div>
+
+
+  
+    <div class="div1 ">
+      <ul class="nav ">
+        <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
+          <a [routerLink]="[menuItem.path]">
+
+            <img class="icons" src="assets/icons/{{menuItem.icon}}" alt="{{menuItem.title}}">
+            <!-- <i class="nc-icon {{menuItem.icon}}"></i> -->
+            <span class="title">{{menuItem.title}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="div2 ">
+      <ul class="nav">
+        <li>
+          <a routerLink="/policies">
+            <img class="icons" src="./assets/icons/policies-icon.png">
+            <span class="title">Policies</span>
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/faqs">
+            <img class="icons" src="./assets/icons/faqs-icon.png">
+            <span class="title">FAQs</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/" (click)="logout()">
+            <img class="icons" src="./assets/icons/logout-icon.png">
+            <span class="title">Log Out</span>
+          </a>
+        </li>
+
+        <li class="other">
+          <p style="margin-bottom: 5px;">Version 1.2.1</p>
+        </li>
+
+        <li class="other">
+          <div>
+            <img src="./assets/icons/iso-icon.png">
+            <span>9001:2015 certified</span>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  
+</div>

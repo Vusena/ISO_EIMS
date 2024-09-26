@@ -1,0 +1,90 @@
+.material-icons {
+  margin-right: 5px;
+  color: #BFBFBF;
+}
+
+.search-bar {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.yes_no_button {
+  width: 100px;
+  height: 30px;
+  border-radius: 30px;
+  border: 1px solid #707070;
+}
+
+.yes_no_button.selected {
+  background-color: #E12827;
+  color: #fff;
+}
+
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+}
+
+.search-bar {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.member-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
+
+.user {
+  font-size: 16px;
+  font-weight: 600;
+  padding-left: 15px;
+  color: #133B3A;
+  border-bottom: 1px solid #ccc;
+}
+
+.mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 20px;
+}
+
+.select.mat-mdc-form-field {
+  height: 20px;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  height: 0;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background-color: #fff !important;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field-disabled {
+  background-color: #fff !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: #fff !important;
+}
+
+.mdc-text-field--filled {
+  --mdc-filled-text-field-active-indicator-height: 0 !important;
+  --mdc-filled-text-field-focus-active-indicator-height: 0 !important;
+}
+
+

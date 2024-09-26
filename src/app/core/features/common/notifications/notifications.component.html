@@ -1,0 +1,36 @@
+<p>{{test}}</p>
+<div>
+    <div *ngIf="notifications.length > 0">
+        <div *ngFor="let notification of notifications" style="margin-bottom: 20px;">
+            <div class="row p-2" style="background-color:#F2F2F2; border-radius: 15px;">
+                <div class="col-12 mb-3 d-flex align-items-center justify-content-between ">
+                    <div class="col-9 p-0 " style="color: #808080; font-size: 11px;">
+                        {{ notification.header }}
+                    </div>
+                    <div class="col-3">
+                        <!-- <button class=" col-12 assign-rolee" (click)="checkAction(notification)">
+                            Complete Task
+                        </button> -->
+                    </div>
+                </div>
+                <p class="mb-1" style="color: #133B3A; font-size: 12px; font-weight: bold; ">
+                    {{notification.title}}
+                </p>
+                <p style="font-style: 12px; line-height: 1.0;">
+                    {{ notification.description}}
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div *ngIf="notifications.length === 0">
+        <div style="margin-bottom: 20px;">
+            <div class="row">
+                <p class="mb-1" style="color: #133B3A; font-size: 12px; font-weight: bold; ">
+                    You do not have pending tasks</p>
+                <p style="font-style: 12px; line-height: 1.0;">Your pending tasks will be
+                    displayed here </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,311 @@
+.header-nav {
+  height: 50px;
+  width: 100%;
+  padding-left: 15px;
+  opacity: 1;
+  margin-bottom: 10px;
+
+}
+
+.dashboard-heading {
+  font-family: "Roboto";
+  font-size: 20px;
+  font-weight: 700;
+
+}
+
+.card1 {
+  background-color: #FFFFFF;
+  border: 1px solid #EFEFEF;
+  border-radius: 15px;
+  opacity: 0.9;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  min-height: 678px;
+
+  
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+}
+
+.search-container:hover {
+  border-bottom: 2px solid #E12827;
+  /* Change border color on hover */
+
+}
+
+.material-icons {
+  margin-right: 5px;
+   color: #BFBFBF;
+   display: inline-flex;
+   vertical-align: bottom;
+}
+
+
+.search-bar {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+
+.line-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+}
+
+.line-text {
+  margin-right: auto;
+  padding: 10px;
+
+}
+
+.delete-icon {
+  color: #BFBFBF;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.button-sm {
+  border: 1px solid #707070;
+  padding: 8px 25px;
+  /* Increase the width of the first button */
+  font-size: 14px;
+  color: #707070;
+  border-radius: 20px;
+  /* Add rounded corners */
+}
+
+.button-lg {
+  border: 1px solid #707070;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #707070;
+  border-radius: 20px;
+  /* Add rounded corners */
+}
+
+.staff-details {
+  font-size: 14px;
+  color: #133B3A;
+  font-weight: 600;
+}
+
+.actual-details {
+  font-size: 12px;
+}
+
+.confirm-button {
+  border: #707070 solid 1px;
+  font-size: 14px;
+  color: #707070;
+  transition: border 0.2s ease;
+}
+
+.confirm-button:hover {
+  border: #E12827 solid 2px;
+  color: #E12827
+}
+
+.confirm-button:active {
+  background-color: #E12827;
+
+  color: #E12827
+}
+
+.success {
+  font-size: 24px;
+  font-weight: 400;
+  color: #133B3A;
+}
+
+.modal-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+//  SECOND COLUMN  
+
+.card2 {
+  margin-bottom: 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #EFEFEF;
+  border-radius: 15px;
+  opacity: 0.9;
+  flex-direction: row;
+  align-items: flex-start;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 15px;
+  min-height: 678px;
+}
+
+.warning {
+  width: 100%;
+}
+
+
+.card3 {
+  margin-bottom: 15px;
+  margin-top: 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #EFEFEF;
+  border-radius: 15px;
+  opacity: 0.9;
+  flex-direction: row;
+  align-items: flex-start;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 15px;
+  min-height: 678px;
+ 
+  //  margin-left: 10px;
+  //  margin-right: 10px;
+
+}
+
+.card4 {
+  background-color: #FFFFFF;
+  border: 1px solid #EFEFEF;
+  border-radius: 15px;
+  opacity: 0.9;
+  align-items: center;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  min-height: 678px;
+  
+}
+
+::ng-deep .custom-mat-form-field {
+  height: 50px !important;
+}
+
+.xyz {
+  width: 30%;
+
+}
+
+.textfonts {
+  font-size: 11px;
+  color: #000000;
+}
+
+.btn-rounded {
+  border-radius: 25px;
+  width: 100%;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  }
+
+.nominate-button:active {
+  box-shadow: 0 0 5px 0 rgba(225, 40, 39, 0.5);
+  transform: translateY(-4px);
+}
+
+.hascontent {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  align-items: stretch;
+ 
+}
+
+.class-passport {
+  width: 170px;
+}
+
+// ::ng-deep.custom-mat-form-field input[disabled] {
+//   opacity: 0.5; /* adjust the opacity to your liking */
+//   cursor: not-allowed; /* change the cursor to indicate it's disabled */
+//   background-color: #ccc; /* change the background color to a greyish tone */
+//   color: #666; /* change the text color to a greyish tone */
+// }
+
+// .alertss{
+//   position: absolute;
+//   top: 0; /* Adjust this value to position the error message */
+//   // margin-top: 130px;
+//   // left: 0; /* Adjust this value to position the error message */
+//   // z-index: 10; /* Ensures the error message stays on top */
+//    }
+
+#loading {
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, .3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .xyz {
+    width: 100%;
+  }
+
+  .declaration-title {
+    width: 100%;
+  }
+
+  .class-passport {
+    width: 100%;
+  }
+
+  .warning {
+    width: 100%;
+    margin-bottom: 80px;
+  }
+
+  .add-memberbtn {
+    position: relative;
+    /* Change position to relative */
+    margin-top: 350px;
+    /* Reduce margin-top */
+    width: 100%;
+    /* Reduce width */
+    bottom: auto;
+    /* Remove bottom */
+  }
+}
+

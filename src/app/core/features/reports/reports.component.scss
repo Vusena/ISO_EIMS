@@ -1,0 +1,170 @@
+  
+.header-nav {
+    height: 50px;
+    width: 100%;
+    padding-left: 15px;
+    opacity: 1;
+    margin-bottom: 10px;
+   color: #133B3A;
+  
+  }
+    
+  .dashboard-heading {
+    font-family: "Roboto";
+    font-size: 20px;
+    font-weight: 700;
+    width:100%;
+  
+  }
+  
+
+  .card1 {
+    background-color: #FFFFFF;
+    border: 1px solid #EFEFEF;
+    border-radius: 15px;
+    opacity: 0.9;
+    flex-direction: row;
+    margin-bottom: 20px;
+    min-height: 678px;
+    padding:20px;
+ 
+   
+  }
+  
+  .card2 {
+    background-color: #F2F2F2;
+    border: 1px solid #EFEFEF;
+    border-radius: 15px;
+    opacity: 0.9;
+    height:150px;
+    width:30%;
+  }
+
+  .card3 {
+    background-color: #FFFFFF;
+    border: 1px solid #EFEFEF;
+    border-radius: 15px;
+    opacity: 0.9;
+    flex-direction: row;
+    align-items: flex-start;
+    padding-left: 25px;
+    padding-right: 25px;
+    min-height: 678px;
+    //  margin-left: 10px;
+    //  margin-right: 10px;
+  
+  }
+
+   .schedule{
+    color: #570C0C;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .textfonts {
+    font-size: 13px;
+    color: #000000;
+  }
+  .xyz {
+    width: 100%;
+  
+  }
+  .buttonn {
+    border-radius: 25px;
+  }
+
+  .buttonn:focus {
+    outline: 1px solid #E12827; /* Change the outline color and style as desired */
+  }
+
+  .buttonn:hover {
+    outline: 1px solid #E12827; /* Change the outline color and style as desired */
+  }
+
+
+  .thisbutton:focus {
+    outline: 1px solid #E12827; /* Change the outline color and style as desired */
+  }
+
+  .thisbutton:hover {
+    outline: 1px solid #E12827; /* Change the outline color and style as desired */
+  }
+  .validation{
+    font-size: 12px;
+    color:red;
+  }
+  .votes{
+    color:#133B3A;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "Roboto";
+  }
+.table{
+  background-color: #F2F2F2;
+}
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+  font-weight: bold;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+ 
+}
+
+.search-bar {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+ 
+}
+.searchtable{
+width:30%
+}
+
+.thisbutton{
+  border: 1px #707070 solid;
+  width:30%;
+  color:#707070;
+}
+
+@media (max-width: 991px) {
+  .card2 {
+    width: 100%;
+  }
+  .search-container{
+    width:100%;
+    
+  }
+  .thisbutton{
+    width: 90%;
+   margin-bottom: 20px;
+  }
+  .dashboard-heading{
+    font-size: 15px;
+  }
+   .searchtable{
+    width: 100%;
+   } 
+
+}
+  
+  

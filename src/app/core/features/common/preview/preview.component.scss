@@ -1,0 +1,16 @@
+.filled-button {
+    background-color: #E12827;
+    color: #FFFFFF;
+  }
+  .responsive-width{
+    width:700px;
+  }
+
+  @media screen and (max-width: 771px) {
+    .xyz {
+      width: 100%;
+    }
+    .responsive-width{
+      width:100%;
+    }
+  }

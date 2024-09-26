@@ -1,0 +1,276 @@
+.bg-login {
+    display: flex;
+    background-image: url("../../../../../assets/img/auth-imgs/auth-bg.svg");
+    background-size: cover;    
+    height: 100vh;    
+    width: 100vw;
+    justify-content:center;
+    align-items:center;
+    margin: 0;
+    overflow: auto;
+   
+}
+
+.login-wrapper {
+    // min-height: 480px;
+    width: 800px; 
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.35);
+    margin:0;  
+    border-radius: 12px; 
+    display: flex;
+}
+
+.card{
+    flex:1;
+    margin:0;
+}
+
+.text-center {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+.banner {
+    display: flex;
+    background-color:#f4f0ef;
+    border-radius: 12px 0 0 12px;
+    flex-direction: column;  
+    justify-content: space-between;
+    // min-height: 480px;
+};
+
+.message1{
+    font-size: 20px;
+    color:#402D27;
+    text-align: left;
+    font-weight: bold;
+    
+
+};
+
+.message2{
+font-size: 12px;
+color:#402D27;
+margin-top: 12px;
+padding-top: 20px;
+text-align: left;
+
+
+};
+
+.message3{
+    font-size: 12px;
+    color:#402D27;
+    padding-top: 20px;
+    text-align: left;
+   
+
+}
+
+.login-form{
+    background-color: #fffefe;
+    border-radius: 0 12px 12px 0;
+    display: flex;
+    // min-height: 360px;
+    flex-direction: column;
+    justify-content:space-around;
+    align-items: center;
+  
+}
+
+.eims-logo-container {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:20px;
+    padding:0; 
+    
+ }
+
+.eims-logo {
+    width: 250px;
+    overflow: visible;
+    margin: 0px;
+    margin-bottom: 20px;
+    // object-fit: contain;
+}
+
+.form-container{
+    justify-content:space-around;
+    width: 280px;
+    height:300px;
+    margin-bottom: 10px;
+    padding:0;
+    box-sizing: border-box;
+   
+    }
+    
+.form-group {
+             margin-top: 15px;
+    }
+
+ .alertss{
+position: absolute;
+top: 0; /* Adjust this value to position the error message */
+margin-top: 130px;
+// // left: 0; /* Adjust this value to position the error message */
+z-index: 10; /* Ensures the error message stays on top */
+ }
+    
+.form-control {
+    flex: 1!important;
+    border-radius: 0.375rem!important;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+ }
+
+.input-group-text {
+    border-radius: 0.375rem!important;
+}
+
+.outlink {
+    color: #9F8D88;
+    font-size: 12px;
+}
+.error-text {
+    font-size: 10px;
+}
+
+.form-control{
+    background-color: #F2F2F2;
+}
+
+
+.input-field {
+    outline: none;
+    flex: 1;
+    border: none;
+    border-radius: 0.375rem;
+    height: calc(1.5em + 1.25rem + 2px);
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #8898aa;
+    background-color: #F2F2F2;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.buttonn{
+  margin-top: 80px;
+  
+}
+
+
+.submit-btn  {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    border-radius: 30px;
+    outline: none;
+    border: solid #E12827  ;
+    border-width: 1px;
+    background-color:#FFE0E0;
+    margin: 0;
+    width:100%;
+    height: 40px;
+}
+
+#loading {
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, .3);
+    border-radius: 50%;
+    border-top-color: #E12827;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+
+@keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  @-webkit-keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+
+@media only screen and (min-width: 823px) {
+    .login-wrapper {
+        width: 750px;
+     box-sizing: border-box;
+       
+        /* Add any other styles for laptop screens here */
+    }
+  
+}
+
+
+
+// using media queries
+@media only screen and (max-width: 822px) {
+    .login-wrapper {
+        width: 750px;
+        }
+        .alertss{
+            margin-top: 110px;
+        }
+}
+
+// for ipad mini
+@media only screen and (max-width: 770px) {
+    .login-wrapper {
+        width: 520px;
+        min-height: 360px;
+        margin-top: 20px;
+    }
+
+    .login-form{
+        min-height: 360px;
+        border-radius: 12px 12px 12px 12px;
+    }
+    .loginform {
+        height: 100%;
+    }
+    .banner {
+        display: none;
+    }
+}
+// for ipad mini
+@media only screen and (max-width: 415px) {
+    .login-wrapper {
+        width: 360px;
+    }
+
+}
+// for ipad mini
+@media only screen and (max-width: 390px) {
+    .login-wrapper {
+        width: 334px;
+    }
+}
+@media only screen and (max-width: 365px) {
+    .login-wrapper {
+        width: 310px;
+    }
+}
+@media only screen and (max-width: 280px) {
+    .login-wrapper {
+        width: 250px;
+    }
+}
+
+
+
+
+
+
+//  @media (max-width: 768px) { .banner, .login-form { width: 100%; display: block; } }
+
+

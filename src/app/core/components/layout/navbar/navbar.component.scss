@@ -1,0 +1,50 @@
+.color {
+    background-color: #ffffff;
+    // opacity: 1;
+}
+
+// .fixed-top{
+//     position: fixed;
+// }
+
+
+.form-control {
+    border: none;
+}
+
+.lower-border {
+    border-bottom: solid rgba(0, 0, 0, 0.25);
+    // margin-bottom: 10px;
+
+}
+
+input[type="text"].form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+.small-icon {
+    font-size: 20px;
+    width: 16px;
+    height: 16px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.bell-icon {
+    margin-left: 15px;
+    margin-top: 12px;
+    margin-right: 12px;
+}
+
+@media (min-width: 992px) {
+    .dropdown-menu-right {
+        right: auto;
+        /* Allow the browser to determine the right positioning */
+        left: -2px;
+        /* Adjust the left position as needed */
+        min-width: 200px;
+        /* Set a minimum width for larger screens */
+    }
+}

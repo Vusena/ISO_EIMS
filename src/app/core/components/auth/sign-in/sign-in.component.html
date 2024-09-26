@@ -1,0 +1,124 @@
+<!-- Page content -->
+<!-- <div class="container mt--8 pb-0"> -->
+<div class="row d-flex  bg-login ">
+  <!-- Inner content class="col-lg-5 col-md-7"-->
+  <div class="login-wrapper ">
+    <div class="card h-100 " style="border-radius: 12px;">
+      <!-- <div class="card-header bg-transparent pb-5"> </div> -->
+      <div class="card-body p-0 h-100 row no-gutters">
+        <div class="banner col-md-6 p-4">
+          <div class="text-center ">
+            <h5 class="message1"> Hello and welcome to Ethics Information Management
+              System</h5>
+
+            <h5 class="message2">“Integrity, transparency and the fight against corruption
+              have to be part of the culture. They have to be taught as fundamental values.”</h5>
+
+            <h5 class="message3"> -Angel Gurria,OECD Secretary General</h5>
+
+          </div>
+
+
+          <!-- Banner inside -->
+          <div>
+            <img src="./assets/img/auth-imgs/banner.svg" alt="..." width="100%" height="220px">
+          </div>
+        </div>
+
+        <div class="col-md-6 login-form">
+          <!-- KRA Logo -->
+          <div class="eims-logo-container " style="height:40%;">
+            <img class="eims-logo" src="./assets/img/auth-imgs/eims-logo.png">
+          </div>
+          <!-- Login Form -->
+
+          <div class="form-container">
+            <form [formGroup]="Form" (ngSubmit)="onSubmit()">
+              <!-- ERROR MESSAGE -->
+              <div class="alert alert-danger alertss p-1" *ngIf="errorMessage">
+                <small class="error-text">{{errorMessage}}</small>
+              </div>
+              <div class="alert alert-success p-1" *ngIf="successMessage">
+                <small class="error-text">{{successMessage}}</small>
+              </div>
+
+              <!-- Input fields -->
+              <div class="form-group">
+                <div class="input-group">
+                  <!-- <div class="input-group-prepend">
+                          <span class="input-group-text">
+                          <mat-icon>account_circle</mat-icon>
+                        </span>
+                      </div> -->
+                  <input class="form-control" formControlName="username" required placeholder="Enter Username(domain)"
+                    type="text"
+                    [ngClass]="{ 'is-invalid': !Form.get('username').valid && Form.get('username').touched }" />
+
+                  <span class="invalid-feedback p-1 pt-0 mt-0 pl-2">
+                    <span class="text-left" *ngIf="!Form.get('username').valid">
+                      Enter your Domain credentials
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group ">
+                <div class="input-group input-group-alternative">
+                  <!-- <div class="input-group-prepend">
+                          <span class="input-group-text"><mat-icon>lock</mat-icon>
+                          </span>
+                        </div> -->
+                  <input formControlName="password" class="form-control" placeholder="Enter Password(domain)"
+                    [type]="fieldTextType ? 'text' : 'password'" [ngClass]="{ 'is-invalid': 
+                          Form.get('password').touched && !Form.get('password').valid }">
+
+                  <!-- <div class="input-group-append">
+                          <span class="input-group-text " >
+                            
+                                <mat-icon (click)="ToggleFieldTextType()">
+                                  {{ fieldTextType ? 'visibility' : 'visibility_off' }}
+                                </mat-icon>
+                          </span>
+                        </div> -->
+                  <!-- VALIDATION -->
+                  <span class="invalid-feedback w-100 p-1 pt-0 mt-0 pl-2">
+                    <span class="text-left" *ngIf="!Form.get('password').valid">
+                      Enter password
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="buttonn ">
+                <div class="col-12">
+                  <button type="submit" class="submit-btn">
+                    <div *ngIf="isLoading" id="loading"></div>
+                    <span *ngIf="!isLoading"> Login </span>
+                    <img *ngIf="!isLoading" src="./assets/img/auth-imgs/login-icon.png" alt="Icon"
+                      class="icon-after-login">
+                  </button>
+                </div>
+              </div>
+
+              <!-- <div class="row mt-2 "  >
+                       <div class="col-6 mb-0">
+                        <a [routerLink]="['/sign-up']" class="">
+                          <small class="outlink">Sign up</small>
+                        </a>
+                      </div> 
+                      <div class="col-6 mb-0 ">
+                        <a [routerLink]="['/forgot-password']" class="float-right">
+                          <small class="outlink">Forgot password?</small>
+                        </a>
+                      </div> 
+                    </div> -->
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- </div> -->
