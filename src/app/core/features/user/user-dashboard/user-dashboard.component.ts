@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { HttpService } from 'app/core/services/http.service';
-import { NotificationsComponent } from 'app/core/features/common/notifications/notifications.component';
+
 
 @Component({
   selector: 'app-user-dashboard',
@@ -122,7 +122,6 @@ export class UserDashboardComponent {
     this.selectedNotification = notification;
     this.modalService.open(CoIISupReview, { centered: true, });
   }
-
 
   onCloseClick() {
     this.modalService.dismissAll('Close click');

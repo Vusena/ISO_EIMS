@@ -1,0 +1,70 @@
+
+
+// .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+//     padding-top: 10px !important; 
+//     padding-bottom: 0 !important; 
+//   }
+//   .mdc-text-field {
+//     padding: 20px 10px!important;  
+//   }
+//   .modal_textarea{
+//     font-size: 12px; 
+//     width:100%;
+//   }
+//   .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+//    padding-top: 0 !important; 
+//   padding-bottom: 0 !important; 
+//   }
+  
+  .mat-mdc-form-field-error-wrapper {  
+    padding: 0 !important;
+  }
+
+  .semi-bold {
+    font-weight: 600;
+    font-size: 12px;
+  }
+  
+
+#loading {
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, .3);
+    border-radius: 50%; 
+    border-top-color: #EFEFEF;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+    display: inline-block;
+    margin: 0 auto; 
+  }
+  @keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  @-webkit-keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  
+  @keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  @-webkit-keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+

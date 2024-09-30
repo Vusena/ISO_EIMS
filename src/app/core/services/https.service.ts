@@ -12,13 +12,12 @@ export class HttpsService {
   headers: HttpHeaders;
 
   constructor(private http: HttpClient, authService: AuthService) {
-    this.headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    })
-
     if (authService.isLoggedIn()) {
-      this.headers = this.headers.append('Authorization', 'Bearer ' + authService.getAuthorizationToken());
+      this.headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + authService.getAuthorizationToken()
+      });
+    } else {
+      this.headers = new HttpHeaders();
     }
   }
 

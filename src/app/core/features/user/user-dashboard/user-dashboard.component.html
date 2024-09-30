@@ -66,14 +66,14 @@
                                      
                 </div>
 
-                <ng-template #content let-modal>
+                <!-- <ng-template #content let-modal>
                     <div class="modal-header no-border"
                         style="display: flex; align-items: start; justify-content: space-between;">
                         <p style="color: #707070; font-size: 11px;">{{selectedNotification.header}}</p>
                         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
-                            (click)="modal.dismiss('Cross click')">Close
+                            (click)="modal.dismiss('Cross click')">Close -->
                             <!-- <span aria-hidden="true">&times;</span> -->
-                            <img src="assets/icons/main-layout-icons/clear-icon.svg">
+                            <!-- <img src="assets/icons/main-layout-icons/clear-icon.svg">
                         </button>
                     </div>
                     <div class="modal-body">
@@ -146,18 +146,18 @@
                             </div>
                         </form>
                     </div>
-                </ng-template>
+                </ng-template> -->
 
 
-                <ng-template #nocontent let-modal>
+                <!-- <ng-template #nocontent let-modal>
                     <div class="modal-header" style="border:none">
                         <div class="col d-flex justify-content-center">
                             <p style="padding-top: 20px; font-size: 16px;">SUCCESS</p>
                         </div>
                         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
-                            (click)="modal.dismiss('Cross click')">Close
+                            (click)="modal.dismiss('Cross click')">Close -->
                             <!-- <span aria-hidden="true">&times;</span> -->
-                            <img src="assets/icons/main-layout-icons/clear-icon.svg">
+                            <!-- <img src="assets/icons/main-layout-icons/clear-icon.svg">
                         </button>
                     </div>
                     <div class="modal-body" style="margin-bottom: 20px;">
@@ -168,20 +168,20 @@
                             <p style="font-size: 15px; font-weight: bold;">Your action has been completed
                                 successfully.</p>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
       </div> -->
-                </ng-template>
+                <!-- </ng-template>
 
                 <ng-template #yescontent let-modal>
                     <div class="modal-header no-border"
                         style="display: flex; align-items: start; justify-content: space-between;">
                         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
                         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
-                            (click)="modal.dismiss('Cross click')">Close
+                            (click)="modal.dismiss('Cross click')">Close -->
                             <!-- <span aria-hidden="true">&times;</span> -->
-                            <img src="assets/icons/main-layout-icons/clear-icon.svg">
+                            <!-- <img src="assets/icons/main-layout-icons/clear-icon.svg">
                         </button>
                     </div>
                     <div class="modal-body">
@@ -261,17 +261,17 @@
                             </div>
                         </form>
                     </div>
-                </ng-template>
+                </ng-template> -->
 
-                <ng-template #colreview let-modal>
+                <!-- <ng-template #colreview let-modal>
                     <div class="modal-header no-border"
                         style="display: flex; align-items: start; justify-content: space-between;">
                         <p style="color: #707070; font-size: 11px;">
                             {{selectedNotification.header}}</p>
                         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
-                            (click)="modal.dismiss('Cross click')">Close
+                            (click)="modal.dismiss('Cross click')">Close -->
                             <!-- <span aria-hidden="true">&times;</span> -->
-                            <img src="assets/icons/main-layout-icons/clear-icon.svg">
+                            <!-- <img src="assets/icons/main-layout-icons/clear-icon.svg">
                         </button>
                     </div>
                     <div class="modal-body">
@@ -287,9 +287,9 @@
                         <p class="ms-4 p-0">
                             Declarant staffNo: {{selectedNotification.declarant.staffNo}}
                         </p>
-                        <p style="line-height: 1.0; " class="ms-4">{{selectedNotification.description}}</p>
+                        <p style="line-height: 1.0; " class="ms-4">{{selectedNotification.description}}</p> -->
 
-                        <form [formGroup]="remarksForm" (ngSubmit)="submitRemarks()">
+                        <!-- <form [formGroup]="remarksForm" (ngSubmit)="submitRemarks()">
                             <div class="row p-0 ms-2">
                                 <div style="font-weight: bold; color:#133B3A;">Remarks</div>
                                 <mat-form-field appearance="outline">
@@ -313,19 +313,19 @@
                                     </button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                </ng-template>
+                        </form> -->
+                    <!-- </div>
+                </ng-template> -->
 
-                <ng-template #CoIISupReview let-modal>
+                <!-- <ng-template #CoIISupReview let-modal>
                     <div class="modal-header no-border"
                         style="display: flex; align-items: start; justify-content: space-between;">
                         <p style="color: #707070; font-size: 11px;">
                             {{selectedNotification.header}}</p>
                         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
-                            (click)="modal.dismiss('Cross click')">Close
+                            (click)="modal.dismiss('Cross click')">Close -->
                             <!-- <span aria-hidden="true">&times;</span> -->
-                            <img src="assets/icons/main-layout-icons/clear-icon.svg">
+                            <!-- <img src="assets/icons/main-layout-icons/clear-icon.svg">
                         </button>
                     </div>
                     <div class="modal-body">
@@ -359,7 +359,7 @@
                                         *ngIf="remarksForm.get('remarks').hasError('required')">Provide your
                                         remarks</mat-error>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
 
                             <!-- <mat-form-field class="w-100" appearance="outline">
                                 <mat-select placeholder="status" formControlName="status">
@@ -371,7 +371,7 @@
                                   Please select the nature of conflict
                                 </mat-error>
                               </mat-form-field>                               -->
-
+<!-- 
                             <div class="row p-0 ms-2">
                                 <div class="col-12 mb-2  d-flex justify-content-between">
                                     <button class=" assign-role" style="width: 150px;" type="button"
@@ -388,7 +388,7 @@
                             </div>
                         </form>
                     </div>
-                </ng-template>
+                </ng-template> -->
 
 
 

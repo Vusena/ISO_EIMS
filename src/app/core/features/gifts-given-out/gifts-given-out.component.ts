@@ -100,6 +100,7 @@ export class GiftsGivenOutComponent implements OnInit {
 
   getUser(): void {
     this.user = this.authService.getLoggedInUser();
+    console.log(this.user)
   }
 
   getOccasions(): void {
@@ -226,9 +227,7 @@ export class GiftsGivenOutComponent implements OnInit {
 
   post(): void {
     this.isLoading = true;
-
     const formValues = this.formGroup.getRawValue();
-
     const data = {
       recipient: formValues.recipient,
       officer: formValues.officerType,
