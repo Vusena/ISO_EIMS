@@ -145,6 +145,7 @@ export class GroupConflictComponent implements OnInit {
 
   getUser(): void {
     this.user = this.authService.getLoggedInUser();
+    console.log(this.user)
     this.username = this.user.data.name
   }
 
@@ -348,17 +349,6 @@ export class GroupConflictComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
   submit(): void {
     this.alertSearch.isOpen = false;
     this.validateMembers(); // Re-validate the form data before submitting
@@ -369,7 +359,7 @@ export class GroupConflictComponent implements OnInit {
 
   preview() {
     const formValues = this.declarationForm.getRawValue();
-
+    console.log(formValues)
     const data = [
       {
         label: "PERSONAL DETAILS",
@@ -503,9 +493,7 @@ export class GroupConflictComponent implements OnInit {
 
   post() {
     this.isLoading = true;
-
     const formValues = this.declarationForm.getRawValue();
-
     const declaration = {
       appointor: this.appointor,
       identityNo: formValues.identityNo,
@@ -514,11 +502,8 @@ export class GroupConflictComponent implements OnInit {
       assignmentDesc: formValues.assignmentDesc,
       venue: formValues.venue,
       haveConflict: this.haveConflict,
-
       conflictDesc: formValues.conflictDesc,
-
       reasons: formValues.reasons,
-
       members: this.members
     };
 
@@ -532,7 +517,6 @@ export class GroupConflictComponent implements OnInit {
           this.isLoading = false;
           this.openVerticallyCentered(this.content);
           //this.form.reset();
-
         }
       },
       complete() {
@@ -540,11 +524,9 @@ export class GroupConflictComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading = false;
-
         this.alertSubmit.message = error.message;
         this.alertSubmit.title = "Oops!";
         this.alertSubmit.type = "danger";
-
         this.alertSubmit.isOpen = true;
       },
     });

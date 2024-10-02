@@ -50,8 +50,11 @@ export class NotificationsComponent {
   isLoading: boolean = false;
   isSubmitting = false;
   individualRemarks:FormGroup  
+  reasonCheck:boolean;
+  fileToDownload :any;
+  fileName:any;
 
-  name = 'World';
+ 
 
   constructor(
     private modalService: NgbModal,
@@ -113,10 +116,10 @@ export class NotificationsComponent {
     this.modalService.open(content, { centered: true, });
     this.selectedNotification = notification;
     console.log(this.selectedNotification)
-    this.assignmentId = notification.assignmentId;
+    this.assignmentId = notification.assignment.id;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const notificationDateArray = notification.date;
+    const notificationDateArray = notification.assignment.date;
     const notificationDate = new Date(notificationDateArray[0], notificationDateArray[1] - 1, notificationDateArray[2]);
     this.date = notificationDate
     if (notificationDate < today) {
@@ -135,15 +138,20 @@ export class NotificationsComponent {
         file: ['',],
         description: ['',],
         reasons: ['',],
-        agree:['',]
+        agree:['', Validators.requiredTrue]
       })
     }
     this.preselectNoButton();
   }
+
   openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
     console.log(this.selectedNotification)
-    this.modalService.open(colreview, { centered: true, });
+    this.modalService.open(colreview, { centered: true, });    
+    const checkTimee = notification.declaration.reasons.trim() !== '';
+    this.reasonCheck = checkTimee;
+    this.fileToDownload = "http://10.153.3.22" + notification.declaration.filePath;
+    this.fileName = notification.declaration.fileName;
   }
   onCloseClick() {
     this.modalService.dismissAll('Close click');
@@ -304,7 +312,7 @@ export class NotificationsComponent {
   submitRemarks(): void {
     this.isLoading = true;
     const remarksData = {
-      declarationId: this.selectedNotification.declarationId,
+      declarationId: this.selectedNotification.declaration.id,      
       status: "REVIEWED",
       remarks: this.remarksForm.get('remarks').value
     };
