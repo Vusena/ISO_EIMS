@@ -3,9 +3,11 @@ import { Component, signal, TemplateRef, ViewChild, ViewEncapsulation } from '@a
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatOptionModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
@@ -22,11 +24,13 @@ import { HttpService } from 'app/core/services/http.service';
     MatButtonModule,
     MatExpansionModule,
     MatCheckboxModule,
-    NgbPopoverModule
+    NgbPopoverModule,
+    MatSelectModule,
+    MatOptionModule
   ],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.scss',
-  
+
 })
 
 export class NotificationsComponent {
@@ -35,10 +39,11 @@ export class NotificationsComponent {
   @ViewChild('content') content: TemplateRef<any>;
   @ViewChild('colreview') colreview: TemplateRef<any>;
   @ViewChild('CoIISupReview') CoIISupReview: TemplateRef<any>;
+  @ViewChild('CoIIDeclarantReview') CoIIDeclarantReview: TemplateRef<any>;
 
   readonly panelOpenState = signal(false);
 
-  notifications: any[] = [] 
+  notifications: any[] = []
   selectedNotification: any;
   showLateDeclarationUI: boolean;
   declarationForm: FormGroup;
@@ -47,14 +52,15 @@ export class NotificationsComponent {
   assignmentId: number;
   date: any;
   remarksForm: FormGroup;
+  individualForm: FormGroup;
   isLoading: boolean = false;
   isSubmitting = false;
-  individualRemarks:FormGroup  
-  reasonCheck:boolean;
-  fileToDownload :any;
-  fileName:any;
-
- 
+  individualRemarks: FormGroup
+  reasonCheck: boolean;
+  fileToDownload: any;
+  fileName: any;
+  alertMessage: "string";
+  errorMessage:"string";
 
   constructor(
     private modalService: NgbModal,
@@ -70,13 +76,30 @@ export class NotificationsComponent {
       identityNo: ['',],
       description: ['',],
       reasons: ['',],
-      agree:['']
+      agree: ['']
     })
     this.remarksForm = new FormGroup({
       remarks: new FormControl('', Validators.required),
-      
+
+    })
+    this.individualForm = this.fb.group({
+      individualRemarks: ['', Validators.required],
+      status: ['', Validators.required],
+
     })
   }
+
+  actions: any = [
+    { value: "ACCEPTED", name: 'Accept declaration' },
+    { value: "REJECTED", name: 'Reject declaration' },
+    { value: "REVERTED", name: 'Revert declaration' },
+    { value: "ESCALATED_HOD", name: 'Escalate Declaration to HOD' }
+  ];
+
+  declarantActions: any = [
+    { value: "COMPLETED", name: 'Complete declaration' },
+    { value: "DISPUTED", name: 'Dispute remarks'},
+  ];
 
   getNotifications(): void {
     this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
@@ -101,6 +124,9 @@ export class NotificationsComponent {
       case 'CoIISupReview':
         this.openCoIISupReview(this.CoIISupReview, notification);
         break;
+      case 'CoIIDeclarantReview':
+        this.openCoIIDeclarantReview(this.CoIIDeclarantReview, notification);
+        break;
       // add more cases for other actions
       default:
         console.log('Unknown action');
@@ -109,6 +135,7 @@ export class NotificationsComponent {
 
   openCoIISupReview(CoIISupReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
+    console.log(this.selectedNotification)
     this.modalService.open(CoIISupReview, { centered: true, });
   }
 
@@ -129,7 +156,7 @@ export class NotificationsComponent {
         identityNo: ['', Validators.required],
         description: ['',],
         reasons: ['', Validators.required],
-        agree:['', Validators.requiredTrue]
+        agree: ['', Validators.requiredTrue]
       })
     } else {
       this.showLateDeclarationUI = false;
@@ -138,7 +165,7 @@ export class NotificationsComponent {
         file: ['',],
         description: ['',],
         reasons: ['',],
-        agree:['', Validators.requiredTrue]
+        agree: ['', Validators.requiredTrue]
       })
     }
     this.preselectNoButton();
@@ -147,12 +174,20 @@ export class NotificationsComponent {
   openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
     console.log(this.selectedNotification)
-    this.modalService.open(colreview, { centered: true, });    
+    this.modalService.open(colreview, { centered: true, });
     const checkTimee = notification.declaration.reasons.trim() !== '';
     this.reasonCheck = checkTimee;
     this.fileToDownload = "http://10.153.3.22" + notification.declaration.filePath;
     this.fileName = notification.declaration.fileName;
   }
+
+  openCoIIDeclarantReview(CoIIDeclarantReview: TemplateRef<any>, notification: any) {
+    this.selectedNotification = notification;
+    console.log(this.selectedNotification);
+    this.modalService.open(CoIIDeclarantReview, { centered: true, });
+  }
+
+
   onCloseClick() {
     this.modalService.dismissAll('Close click');
     location.reload();
@@ -199,7 +234,7 @@ export class NotificationsComponent {
       identityNo: ['', Validators.required],
       description: ['', Validators.required],
       reasons: ['',],
-      agree:['', Validators.requiredTrue]
+      agree: ['', Validators.requiredTrue]
     })
     // console.log(this.date)
     const today = new Date();
@@ -211,7 +246,7 @@ export class NotificationsComponent {
         identityNo: ['', Validators.required],
         description: ['', Validators.required],
         reasons: ['', Validators.required],
-        agree:['', Validators.requiredTrue]
+        agree: ['', Validators.requiredTrue]
       })
     }
   }
@@ -312,7 +347,7 @@ export class NotificationsComponent {
   submitRemarks(): void {
     this.isLoading = true;
     const remarksData = {
-      declarationId: this.selectedNotification.declaration.id,      
+      declarationId: this.selectedNotification.declaration.id,
       status: "REVIEWED",
       remarks: this.remarksForm.get('remarks').value
     };
@@ -334,4 +369,55 @@ export class NotificationsComponent {
   cancelRemarks(): void {
     this.remarksForm.reset();
   }
-}
+  // Submit Declarations
+  submitIndividualRemarks() {
+    console.log(this.selectedNotification.action)     
+      const declarationId = this.selectedNotification.declarationId;
+      const individualRemarksData = {
+        declarationId: declarationId,
+        status: this.individualForm.get('status').value,
+        remarks: this.individualForm.get('individualRemarks').value
+      };
+      this.httpService.postData(ApiEndPoints.INDIVIDUAL_SUPERVISOR_REVEIW_POST, individualRemarksData).subscribe({
+        next: (response) => {
+          this.modalService.dismissAll();
+          this.openSuccessModal(this.nocontent)
+          this.getNotifications();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+          this.isLoading = false;
+          this.errorMessage = error.error.description
+        },
+      });
+    }  
+    
+    submitDeclarantRemarks(){
+      console.log(this.selectedNotification.action)     
+      const declarationId = this.selectedNotification.declarationId;
+      const individualRemarksData = {
+        declarationId: declarationId,
+        status: this.individualForm.get('status').value,
+        remarks: this.individualForm.get('individualRemarks').value
+      };
+      this.httpService.postData(ApiEndPoints.INDIVIDUAL_DECLARANT_ACTION_POST, individualRemarksData).subscribe({
+        next: (response) => {
+          this.modalService.dismissAll();
+          this.openSuccessModal(this.nocontent)
+          this.getNotifications();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+          this.isLoading = false;
+          this.errorMessage = error.error.description
+        },
+      });
+    }
+  }
+

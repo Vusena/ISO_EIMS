@@ -208,8 +208,7 @@ mat-error {
   background-color: #FFFFFF;
   border: 1px solid #EFEFEF;
   border-radius: 15px;
-  opacity: 0.9;
-  align-items: center;
+  opacity: 0.9; 
   padding-left: 11px;
   padding-right: 12px;
   margin-bottom: 20px;
@@ -266,3 +265,8 @@ mat-error {
   display: inline-block;
   margin: 0 auto;
 }
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+  z-index: 10000 !important;
+  }
+

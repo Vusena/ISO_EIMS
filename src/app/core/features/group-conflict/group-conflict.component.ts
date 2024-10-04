@@ -172,9 +172,7 @@ export class GroupConflictComponent implements OnInit {
 
   onSearch(event: any): void {
     event.preventDefault();
-
     const data = { staffNo: this.searchText };
-
     this.service.post(`${Constants.BASE_URL}/coi-group/search`, data).subscribe({
         next: (response: any) => {
           let staff = response.data;

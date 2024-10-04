@@ -1,4 +1,3 @@
-
 <!-- List ALL NOTIFICATIONS -->
 <div *ngIf="notifications.length > 0">
     <div *ngFor="let notification of notifications" style="margin-bottom: 20px;">
@@ -14,10 +13,21 @@
                 </div>
             </div>
             <p class="mb-1" style="color: #133B3A; font-size: 12px; font-weight: bold; ">
-                {{notification.assignment.title}}
+                <span *ngIf="(notification.action == 'CoIGDeclare' || notification.action == 'CoIGReview') else others">
+                    {{notification.assignment.title}}
+                </span>
+                <ng-template #others>
+                    {{notification.nature}}
+                </ng-template>
             </p>
+
             <p style="font-style: 12px; line-height: 1.0;">
-                {{ notification.assignment.description}}
+                <span *ngIf="(notification.action == 'CoIGDeclare' || notification.action == 'CoIGReview') else others">
+                    {{notification.assignment.description}}
+                </span>
+                <ng-template #others>
+                    {{notification.description}}
+                </ng-template>
             </p>
         </div>
     </div>
@@ -46,22 +56,22 @@
     </div>
     <div class="modal-body">
         <p class="modal-title" style="color: #741110; font-weight: bold;">{{selectedNotification.assignment.title}}
-        </p>       
+        </p>
         <p class="p-0 text-center"
-                style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
-                <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
-                Assignment Details
-            </p>
-            <p class="p-0 ">
-                <strong> Assignment Date:</strong> {{selectedNotification.assignment.formattedDate}}
-            </p>           
-          
-            <p class="p-0 ">
-                <strong> Assignment Venue:</strong> {{selectedNotification.assignment.venue}}
-            </p>
-            <p class="p-0 ">
-                <strong> Assignment Description:</strong> {{selectedNotification.assignment.description}}
-            </p>
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
+            Assignment Details
+        </p>
+        <p class="p-0 ">
+            <strong> Assignment Date:</strong> {{selectedNotification.assignment.formattedDate}}
+        </p>
+
+        <p class="p-0 ">
+            <strong> Assignment Venue:</strong> {{selectedNotification.assignment.venue}}
+        </p>
+        <p class="p-0 ">
+            <strong> Assignment Description:</strong> {{selectedNotification.assignment.description}}
+        </p>
         <form [formGroup]="declarationForm" (ngSubmit)="submitDeclarations()">
             <div class="row ">
                 <div class="semi-bold" style="color: #133B3A;">ID/Passport No</div>
@@ -198,20 +208,20 @@
             {{selectedNotification.title}}
         </p>
         <p class="p-0 text-center"
-        style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
-        <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
-        Assignment Details
-    </p>
-    <p class="p-0 ">
-        <strong> Assignment Date:</strong> {{selectedNotification.assignment.formattedDate}}
-    </p>           
-  
-    <p class="p-0 ">
-        <strong> Assignment Venue:</strong> {{selectedNotification.assignment.venue}}
-    </p>
-    <p class="p-0 ">
-        <strong> Assignment Description:</strong> {{selectedNotification.assignment.description}}
-    </p>
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
+            Assignment Details
+        </p>
+        <p class="p-0 ">
+            <strong> Assignment Date:</strong> {{selectedNotification.assignment.formattedDate}}
+        </p>
+
+        <p class="p-0 ">
+            <strong> Assignment Venue:</strong> {{selectedNotification.assignment.venue}}
+        </p>
+        <p class="p-0 ">
+            <strong> Assignment Description:</strong> {{selectedNotification.assignment.description}}
+        </p>
 
 
         <div style="display: flex; align-items: center; margin-top: 15px;">
@@ -343,12 +353,6 @@
                 <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
                 Declarant Details
             </p>
-            <!-- <p class="p-0">
-                <strong>Declarant name:</strong> {{selectedNotification.declarant.name}}
-            </p>
-            <p class="p-0 ">
-                <strong> Declarant staffNo: </strong> {{selectedNotification.declarant.staffNo}}
-            </p> -->
             <table class="table">
                 <thead>
                     <tr>
@@ -357,7 +361,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr >
+                    <tr>
                         <td>{{ selectedNotification.declarant.name }}</td>
                         <td>{{ selectedNotification.declarant.staffNo }}</td>
                     </tr>
@@ -374,7 +378,7 @@
             </p>
             <p class="p-0" *ngIf="reasonCheck">
                 <strong> Reasons for late Declaration:</strong> {{selectedNotification.declaration.reasons}}
-            </p> 
+            </p>
             <!-- <p class="p-0">
                 <strong>Physical Form</strong>
                 <a [href]="fileToDownload" target="_blank" download>{{ fileName }}</a>
@@ -386,11 +390,12 @@
                 <strong> Assignment Description:</strong> {{selectedNotification.assignment.description}}
             </p>
             <p class="p-0 ">
-                <strong> Have conflict of Interest:</strong> {{ selectedNotification.declaration.haveConflict ? 'YES' : 'NO' }}
+                <strong> Have conflict of Interest:</strong> {{ selectedNotification.declaration.haveConflict ? 'YES' :
+                'NO' }}
             </p>
             <p class="p-0" *ngIf="selectedNotification.declaration.haveConflict">
-            <strong>Description of Conflict:</strong> {{ selectedNotification.declaration.description }}
-        </p>
+                <strong>Description of Conflict:</strong> {{ selectedNotification.declaration.description }}
+            </p>
             <div class="p-0">
                 <p class="p-0 text-center"
                     style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
@@ -457,65 +462,204 @@
 </ng-template>
 
 <ng-template #CoIISupReview let-modal>
+    <ngb-alert>
+        <strong>{{alertMessage }}</strong>
+      </ngb-alert>
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
-        <p style="color: #707070; font-size: 11px;">
-            {{selectedNotification.header}}</p>
+        <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
             (click)="modal.dismiss('Cross click')">Close
             <!-- <span aria-hidden="true">&times;</span> -->
             <img src="assets/icons/main-layout-icons/clear-icon.svg">
         </button>
     </div>
-    <div class="modal-body">
-        <p class="modal-title" style="color: #741110; font-weight: bold;">{{selectedNotification.title}}
+    <div class="modal-body px-3 py-2 ">
+        <p class="text-center"
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
+            Declarant Details
         </p>
-        <p class="p-0" style="color: #133B3A; font-weight: bold; ">
-            <img class="me-1" style="height:20px;" src="assets/icons/vuesax-bold-info-circle.svg">
-            Supervisor remarks
+        <!-- <p class="p-0">
+            <strong>Declarant name:</strong> {{selectedNotification.declarant.name}}
         </p>
-        <p class="ms-4 p-0" style="line-height: 1.0;">
-            Declarant name:{{selectedNotification.declarant.name}}
-        </p>
-        <p class="ms-4 p-0" style="line-height: 1.0;">
-            Declarant staffNo: {{selectedNotification.declarant.staffNo}}
-        </p>
-        <p class="ms-4 p-0" style="line-height: 1.0;">
-            Venue: {{selectedNotification.venue}}
-        </p>
-        <p class="ms-4 p-0" style="line-height: 1.0;">
-            Nature: {{selectedNotification.nature}}
-        </p>
+        <p class="p-0 ">
+            <strong> Declarant staffNo: </strong> {{selectedNotification.declarant.staffNo}}
+        </p> -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Declarant name</th>
+                    <th>Declarant staffNo</th>
+                    <!-- <th>ID./Passport No.</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ selectedNotification.declarant.name }}</td>
+                    <td>{{ selectedNotification.declarant.staffNo }}</td>
+                    <!-- <td>{{ selectedNotification.declarant.staffNo }}</td> -->
+                </tr>
+            </tbody>
+        </table>
 
-        <p style="line-height: 1.0; " class="ms-4">{{selectedNotification.description}}</p>
+        <p class="p-0 text-center"
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
+            Declaration Details
+        </p>
+        <p class="p-0 ">
+            <strong> Assignment Date:</strong> {{selectedNotification.formattedDate}}
+        </p>      
+         <p class="p-0 ">
+            <strong> Assignment Venue:</strong> {{selectedNotification.venue}}
+        </p>
+        <!-- <p class="p-0 ">
+            <strong>Nature of Assignment:</strong> {{selectedNotification.nature}}
+        </p> -->
+        <p class="p-0 ">
+            <strong>Nature of Conflict:</strong> {{selectedNotification.nature}}
+        </p>
+        <p class="p-0 ">
+            <strong> Assignment Description:</strong> {{selectedNotification.description}}
+        </p>     
+        
+        <form [formGroup]="individualForm" (ngSubmit)="submitIndividualRemarks()">
+            <div style="font-weight: bold; color:#133B3A;">Choose Course of Action</div>
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-select placeholder="Status" formControlName="status" class="px-2 pt-1">
+                    <mat-option class="mat-options-font" *ngFor="let item of actions"
+                        [value]="item.value">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="individualForm.get('status').hasError('required')">
+                    Please select an action
+                </mat-error>
+            </mat-form-field>
 
-        <form [formGroup]="remarksForm" (ngSubmit)="submitRemarks()">
-            <div class="row p-0 ms-2">
+            <div class="row p-0 mb-2">
                 <div style="font-weight: bold; color:#133B3A;">Remarks</div>
                 <mat-form-field appearance="outline">
-                    <input class="modal_textarea" matInput formControlName="remarks">
-                    <mat-error style="font-size: 11px;" *ngIf="remarksForm.get('remarks').hasError('required')">Provide
+                    <textarea class="modal_textarea px-2 pt-1" matInput cdkTextareaAutosize cdkAutosizeMinRows="4"
+                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="individualRemarks" placeholder="Type here..">
+                     </textarea>
+                    <mat-error style="font-size: 11px;" *ngIf="individualForm.get('individualRemarks').hasError('required')">Provide
                         your
                         remarks</mat-error>
                 </mat-form-field>
             </div>
 
-            <!-- <mat-form-field class="w-100" appearance="outline">
-                <mat-select placeholder="status" formControlName="status">
-                  <mat-option class="mat-options-font" *ngFor="let status of statuses" [value]="status.value">
-                    {{status.name}}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="remarksForm.get('status').hasError('required')">
-                  Please select the nature of conflict
-                </mat-error>
-              </mat-form-field>                               -->
-
-            <div class="row p-0 ms-2">
-                <div class="col-12 mb-2  d-flex justify-content-between">
+            <div class="row p-0 ">
+                <div class="col-12 mb-2 d-flex justify-content-between">
                     <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
                         <img src="assets/icons/main-layout-icons/clear-icon.svg">
                     </button>
-                    <button class="assign-rolee" style="width: 150px;" [disabled]="!remarksForm.valid">
+                    <button class="assign-rolee" style="width: 150px;" [disabled]="!individualForm.valid">
+                        <div *ngIf="isLoading" id="loading"></div>
+                        <span *ngIf="!isLoading">Submit</span>
+                        <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #CoIIDeclarantReview let-modal>
+    <div class="p-3">        
+        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="alertss p-2" (closed)="errorMessage = false">
+          <span style="font-size: 12px">{{ errorMessage }}</span>
+        </ngb-alert>
+      </div>
+
+    <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
+        <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
+        <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">Close
+            <!-- <span aria-hidden="true">&times;</span> -->
+            <img src="assets/icons/main-layout-icons/clear-icon.svg">
+        </button>
+    </div>
+    <div class="modal-body px-3 py-2 ">
+        <p class="text-center"
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
+            Declarant Details
+        </p>
+        <!-- <p class="p-0">
+            <strong>Declarant name:</strong> {{selectedNotification.declarant.name}}
+        </p>
+        <p class="p-0 ">
+            <strong> Declarant staffNo: </strong> {{selectedNotification.declarant.staffNo}}
+        </p> -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Declarant name</th>
+                    <th>Declarant staffNo</th>
+                    <!-- <th>ID./Passport No.</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ selectedNotification.declarant.name }}</td>
+                    <td>{{ selectedNotification.declarant.staffNo }}</td>
+                    <!-- <td>{{ selectedNotification.declarant.staffNo }}</td> -->
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="p-0 text-center"
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
+            Declaration Details
+        </p>
+        <p class="p-0 ">
+            <strong> Assignment Date:</strong> {{selectedNotification.formattedDate}}
+        </p>      
+         <p class="p-0 ">
+            <strong> Assignment Venue:</strong> {{selectedNotification.venue}}
+        </p>
+        <!-- <p class="p-0 ">
+            <strong>Nature of Assignment:</strong> {{selectedNotification.nature}}
+        </p> -->
+        <p class="p-0 ">
+            <strong>Nature of Conflict:</strong> {{selectedNotification.nature}}
+        </p>
+        <p class="p-0 ">
+            <strong> Assignment Description:</strong> {{selectedNotification.description}}
+        </p> 
+        <form [formGroup]="individualForm" (ngSubmit)="submitDeclarantRemarks()">
+            <div style="font-weight: bold; color:#133B3A;">Choose Course of Action</div>
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-select placeholder="Choose Course of Action" formControlName="status" class="px-2 pt-1">
+                    <mat-option class="mat-options-font" *ngFor="let item of declarantActions"
+                        [value]="item.value">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="individualForm.get('status').hasError('required')">
+                    Please select an action
+                </mat-error>
+            </mat-form-field>
+
+            <div class="row p-0 mb-2">
+                <div style="font-weight: bold; color:#133B3A;">Remarks</div>
+                <mat-form-field appearance="outline">
+                    <textarea class="modal_textarea px-2 pt-1" matInput cdkTextareaAutosize cdkAutosizeMinRows="4"
+                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="individualRemarks" placeholder="Type here..">
+                     </textarea>
+                    <mat-error style="font-size: 11px;" *ngIf="individualForm.get('individualRemarks').hasError('required')">Provide
+                        your
+                        remarks</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row p-0 ">
+                <div class="col-12 mb-2 d-flex justify-content-between">
+                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
+                        <img src="assets/icons/main-layout-icons/clear-icon.svg">
+                    </button>
+                    <button class="assign-rolee" style="width: 150px;" [disabled]="!individualForm.valid">
                         <div *ngIf="isLoading" id="loading"></div>
                         <span *ngIf="!isLoading">Submit</span>
                         <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />

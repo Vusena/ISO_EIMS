@@ -19,8 +19,8 @@ import {PageEvent} from "@angular/material/paginator";
 export class IndividualConflictComponent implements OnInit {
   history: any;
   page = 0;
-  size = 4;
-  length = 0;
+  size = 6;
+  length:any;
   progress: any;
   declaration: any;
 
@@ -82,7 +82,7 @@ export class IndividualConflictComponent implements OnInit {
   }
 
   getUser(): void {
-    this.user = this.authService.getLoggedInUser();
+    this.user = this.authService.getLoggedInUser();   
   }
 
   getNatures(): void {
@@ -121,7 +121,6 @@ export class IndividualConflictComponent implements OnInit {
 
   preview() {
     const formValues = this.formGroup.getRawValue();
-
     const data: any = [
       {
         label: "PERSONAL DETAILS",
@@ -266,9 +265,7 @@ export class IndividualConflictComponent implements OnInit {
       next: (response: any) => {
         this.progress = response.data.progress;
         this.declaration = response.data.declaration;
-
         const date = new Date(this.declaration.assignment_date)
-
         this.formGroup.patchValue({
           date: date,
           identityNo: this.declaration.declarant_id_no,
@@ -276,17 +273,14 @@ export class IndividualConflictComponent implements OnInit {
           nature: this.declaration.assignment_title,
           description: this.declaration.description
         });
-
         this.formGroup.disable()
       },
       error: () => {},
     });
   }
 
-
   clear() {
     this.formGroup.reset();
-
     this.progress = [
       {
         title: 'Once you declare',
