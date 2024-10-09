@@ -58,7 +58,11 @@ export class IndividualConflictComponent implements OnInit {
   ) {
     this.formGroup = this.formBuilder.group({
       date: ['', Validators.required],
-      identityNo: ['', Validators.required],
+      identityNo: ['',[
+          Validators.required,
+          Validators.pattern('^[0-9]*$'), 
+          Validators.maxLength(8) // 
+        ]],
       venue: ['', Validators.required],
       nature: ['', Validators.required],
       nocId: ['', Validators.required],
@@ -120,6 +124,16 @@ export class IndividualConflictComponent implements OnInit {
   }
 
   preview() {
+    let supName = "";
+    let supStaffNo = "";
+    let department="";
+    if (this.user.data.supervisor != null) {
+      supName = this.user.data.supervisor.name;
+      supStaffNo = this.user.data.supervisor.staffNo;     
+    } 
+    else if(this.user.data.department!=null) {
+      department=this.user.data.department;
+    } 
     const formValues = this.formGroup.getRawValue();
     const data: any = [
       {
@@ -148,12 +162,12 @@ export class IndividualConflictComponent implements OnInit {
       },
       {
         label: "Supervisor Name",
-        value: this.user.data.supervisor.name,
+        value: supName,
         class: "col-sm-6"
       },
       {
         label: "Supervisor Personal No.",
-        value: this.user.data.supervisor.staffNo,
+        value: supStaffNo,
         class: "col-sm-6"
       },
 

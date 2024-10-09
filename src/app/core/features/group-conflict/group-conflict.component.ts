@@ -95,7 +95,11 @@ export class GroupConflictComponent implements OnInit {
     this.getHistory();
 
     this.declarationForm = this.fb.group({
-      identityNo: ['', Validators.required],
+      identityNo: ['', [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'), 
+        Validators.maxLength(8) // 
+      ]],
       date: ['', Validators.required],
       title: ['', Validators.required],
       assignmentDesc: ['', Validators.required],
@@ -356,6 +360,16 @@ export class GroupConflictComponent implements OnInit {
   }
 
   preview() {
+    let supName = "";
+    let supStaffNo = "";
+    let department="";
+    if (this.user.data.supervisor != null) {
+      supName = this.user.data.supervisor.name;
+      supStaffNo = this.user.data.supervisor.staffNo;     
+    } 
+    else if(this.user.data.department!=null) {
+      department=this.user.data.department;
+    }
     const formValues = this.declarationForm.getRawValue();
     console.log(formValues)
     const data = [
@@ -375,12 +389,22 @@ export class GroupConflictComponent implements OnInit {
       },
       {
         label: "Department:",
-        value: this.user.data.department,
+        value: department,
         class: "col-sm-6 pb-1"
       },
       {
         label: "Designation:",
         value: this.user.data.grade.description,
+        class: "col-sm-6 pb-1"
+      },
+      {
+        label: "Supervisor Name:",
+        value: supName,
+        class: "col-sm-6 pb-1"
+      },
+      {
+        label: "Supervisor Personal No.:",
+        value: supStaffNo,
         class: "col-sm-6 pb-1"
       },
       {

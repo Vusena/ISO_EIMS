@@ -39,6 +39,8 @@ export enum ApiEndPoints {
     INDIVIDUAL_CONFLICTS_PROGRESS="api/v1/coi-individual",
     INDIVIDUAL_SUPERVISOR_REVEIW_POST="api/v1/coi-individual-review/supervisor",
     INDIVIDUAL_DECLARANT_ACTION_POST="api/v1/coi-individual-review/declarant",// either accepts or reverts
+    INDIVIDUAL_HOD_REVEIW_POST="api/v1/coi-individual-review/hod",
+    INDIVIDUAL_HOD_ISO_REVIEW="api/v1/coi-individual-review/hod-iso",
 
     GROUP_CONFLICTS_SEARCH="api/v1/coi-group/search",
     GROUP_CONFLICTS_INITIATE="api/v1/coi-group/initiate",

@@ -164,9 +164,15 @@
                 <div class="col-md-4 px-1">
                   <div class="small">ID/Passport No</div>
                   <mat-form-field appearance="outline" class="p-0 w-100">
-                    <input matInput formControlName="identityNo" placeholder="Type here">
+                    <input matInput formControlName="identityNo" placeholder="Type here" maxlength="8">
                     <mat-error *ngIf="declarationForm.get('identityNo').hasError('required')">
                       ID/Passport Number is required</mat-error>
+                      <mat-error *ngIf="declarationForm.get('identityNo').hasError('pattern')">
+                        Only numeric values are allowed
+                      </mat-error>
+                      <mat-error *ngIf="declarationForm.get('identityNo').hasError('maxlength')">
+                        Maximum 8 digits allowed
+                      </mat-error>
                   </mat-form-field>
                 </div>
               </div>

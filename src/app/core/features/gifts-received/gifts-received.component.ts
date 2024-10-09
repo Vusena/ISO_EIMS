@@ -52,17 +52,23 @@ export class GiftsReceivedComponent implements OnInit {
     private datePipe: DatePipe,
     private decimalPipe: DecimalPipe
   ) {
+
     this.formGroup = this.fb.group({
       dateReceived: ['', Validators.required],
       dateSurrendered: ['', Validators.required],
       conferrer: ['', Validators.required],
-      identityNo: ['', Validators.required],
+      identityNo: ['', [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'), 
+        Validators.maxLength(8)  
+      ]],
       value: ['', [Validators.required, Validators.min(1)]],
       occasionId: ['', Validators.required],
       specified: ['',],
       description: ['', Validators.required],
       agree: [false, Validators.requiredTrue]
     });
+    
     this.formGroup.get('occasionId').valueChanges.subscribe(value => {
       this.updateSpecifiedValidation(value);
     });
@@ -131,8 +137,17 @@ export class GiftsReceivedComponent implements OnInit {
   }
 
   preview() {
+    let supName = "";
+    let supStaffNo = "";
+    let department="";
+    if (this.user.data.supervisor != null) {
+      supName = this.user.data.supervisor.name;
+      supStaffNo = this.user.data.supervisor.staffNo;     
+    } 
+    else if(this.user.data.department!=null) {
+      department=this.user.data.department;
+    } 
     const formValues = this.formGroup.getRawValue();
-
     const occasionValue = formValues.occasionId === 5 ? formValues.specified :
       this.occasions.find((o: { id: number; }) => o.id === formValues.occasionId)?.name || '';
 

@@ -40,6 +40,7 @@ export class NotificationsComponent {
   @ViewChild('colreview') colreview: TemplateRef<any>;
   @ViewChild('CoIISupReview') CoIISupReview: TemplateRef<any>;
   @ViewChild('CoIIDeclarantReview') CoIIDeclarantReview: TemplateRef<any>;
+  @ViewChild('CoIIHoDReview') CoIIHoDReview: TemplateRef<any>
 
   readonly panelOpenState = signal(false);
 
@@ -60,7 +61,7 @@ export class NotificationsComponent {
   fileToDownload: any;
   fileName: any;
   alertMessage: "string";
-  errorMessage:"string";
+  errorMessage: "string";
 
   constructor(
     private modalService: NgbModal,
@@ -98,7 +99,12 @@ export class NotificationsComponent {
 
   declarantActions: any = [
     { value: "COMPLETED", name: 'Complete declaration' },
-    { value: "DISPUTED", name: 'Dispute remarks'},
+    { value: "DISPUTED", name: 'Dispute remarks' },
+  ];
+
+  hodActions: any = [
+    { value: "ACCEPTED", name: 'Complete declaration' },
+    { value: "ESCALATED_HOD_ISO", name: 'Escalated to HOD ISO' },
   ];
 
   getNotifications(): void {
@@ -127,6 +133,9 @@ export class NotificationsComponent {
       case 'CoIIDeclarantReview':
         this.openCoIIDeclarantReview(this.CoIIDeclarantReview, notification);
         break;
+       case 'CoIIHoDReview':
+        this.openCoIIHoDReview(this.CoIIHoDReview, notification);
+        break;
       // add more cases for other actions
       default:
         console.log('Unknown action');
@@ -135,7 +144,7 @@ export class NotificationsComponent {
 
   openCoIISupReview(CoIISupReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification)
+    console.log(this.selectedNotification, "openCoIISupReview() has been called")
     this.modalService.open(CoIISupReview, { centered: true, });
   }
 
@@ -153,7 +162,11 @@ export class NotificationsComponent {
       this.showLateDeclarationUI = true;
       this.declarationForm = this.fb.group({
         file: ['', Validators.required],
-        identityNo: ['', Validators.required],
+        identityNo: ['', [
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.maxLength(8) // 
+        ]],
         description: ['',],
         reasons: ['', Validators.required],
         agree: ['', Validators.requiredTrue]
@@ -161,7 +174,11 @@ export class NotificationsComponent {
     } else {
       this.showLateDeclarationUI = false;
       this.declarationForm = this.fb.group({
-        identityNo: ['', Validators.required],
+        identityNo: ['', [
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.maxLength(8) // 
+        ]],
         file: ['',],
         description: ['',],
         reasons: ['',],
@@ -187,6 +204,11 @@ export class NotificationsComponent {
     this.modalService.open(CoIIDeclarantReview, { centered: true, });
   }
 
+  openCoIIHoDReview(CoIIHoDReview: TemplateRef<any>, notification: any) {
+    this.selectedNotification = notification;
+    console.log(this.selectedNotification);
+    this.modalService.open(CoIIHoDReview, { centered: true, });
+   }
 
   onCloseClick() {
     this.modalService.dismissAll('Close click');
@@ -231,7 +253,11 @@ export class NotificationsComponent {
     this.preselectYesButton();
     this.declarationForm = this.fb.group({
       file: ['',],
-      identityNo: ['', Validators.required],
+      identityNo: ['', [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'),
+        Validators.maxLength(8)
+      ]],
       description: ['', Validators.required],
       reasons: ['',],
       agree: ['', Validators.requiredTrue]
@@ -243,7 +269,11 @@ export class NotificationsComponent {
       this.showLateDeclarationUI = true;
       this.declarationForm = this.fb.group({
         file: ['', Validators.required],
-        identityNo: ['', Validators.required],
+        identityNo: ['', [
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.maxLength(8)
+        ]],
         description: ['', Validators.required],
         reasons: ['', Validators.required],
         agree: ['', Validators.requiredTrue]
@@ -318,9 +348,7 @@ export class NotificationsComponent {
         },
       })
     }
-
     // console.log(this.declarationForm)  
-
   }
 
   cancelDeclarations(): void {
@@ -371,53 +399,55 @@ export class NotificationsComponent {
   }
   // Submit Declarations
   submitIndividualRemarks() {
-    console.log(this.selectedNotification.action)     
-      const declarationId = this.selectedNotification.declarationId;
-      const individualRemarksData = {
-        declarationId: declarationId,
-        status: this.individualForm.get('status').value,
-        remarks: this.individualForm.get('individualRemarks').value
-      };
-      this.httpService.postData(ApiEndPoints.INDIVIDUAL_SUPERVISOR_REVEIW_POST, individualRemarksData).subscribe({
-        next: (response) => {
-          this.modalService.dismissAll();
-          this.openSuccessModal(this.nocontent)
-          this.getNotifications();
-        },
-        complete: () => {
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error("There was an error!", error);
-          this.isLoading = false;
-          this.errorMessage = error.error.description
-        },
-      });
-    }  
-    
-    submitDeclarantRemarks(){
-      console.log(this.selectedNotification.action)     
-      const declarationId = this.selectedNotification.declarationId;
-      const individualRemarksData = {
-        declarationId: declarationId,
-        status: this.individualForm.get('status').value,
-        remarks: this.individualForm.get('individualRemarks').value
-      };
-      this.httpService.postData(ApiEndPoints.INDIVIDUAL_DECLARANT_ACTION_POST, individualRemarksData).subscribe({
-        next: (response) => {
-          this.modalService.dismissAll();
-          this.openSuccessModal(this.nocontent)
-          this.getNotifications();
-        },
-        complete: () => {
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error("There was an error!", error);
-          this.isLoading = false;
-          this.errorMessage = error.error.description
-        },
-      });
-    }
+    this.isLoading = true;
+    console.log(this.selectedNotification.action)
+    const declarationId = this.selectedNotification.declarationId;
+    const individualRemarksData = {
+      declarationId: declarationId,
+      status: this.individualForm.get('status').value,
+      remarks: this.individualForm.get('individualRemarks').value
+    };
+    this.httpService.postData(ApiEndPoints.INDIVIDUAL_SUPERVISOR_REVEIW_POST, individualRemarksData).subscribe({
+      next: (response) => {
+        this.modalService.dismissAll();
+        this.openSuccessModal(this.nocontent)
+        this.getNotifications();
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error("There was an error!", error);
+        this.isLoading = false;
+        this.errorMessage = error.error.description
+      },
+    });
   }
+
+  submitDeclarantRemarks() {
+    console.log(this.selectedNotification.action)
+    this.isLoading = true;
+    const declarationId = this.selectedNotification.declarationId;
+    const individualRemarksData = {
+      declarationId: declarationId,
+      status: this.individualForm.get('status').value,
+      remarks: this.individualForm.get('individualRemarks').value
+    };
+    this.httpService.postData(ApiEndPoints.INDIVIDUAL_DECLARANT_ACTION_POST, individualRemarksData).subscribe({
+      next: (response) => {
+        this.modalService.dismissAll();
+        this.openSuccessModal(this.nocontent)
+        this.getNotifications();
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error("There was an error!", error);
+        this.isLoading = false;
+        this.errorMessage = error.error.description
+      },
+    });
+  }
+}
 

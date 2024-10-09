@@ -100,9 +100,15 @@
                 <div class="col-md-4 px-1">
                   <div class="small">Recipient ID. No.</div>
                   <mat-form-field appearance="outline" class="w-100">
-                    <input type="text" matInput formControlName="identityNo" placeholder="ID. No." />
+                    <input type="text" matInput formControlName="identityNo" placeholder="ID. No." maxlength="8"/>
                     <mat-error *ngIf="formGroup.get('identityNo').hasError('required')">
                       Recipient ID. No. is required
+                    </mat-error>
+                    <mat-error *ngIf="formGroup.get('identityNo').hasError('pattern')">
+                      Only numeric values are allowed
+                    </mat-error>
+                    <mat-error *ngIf="formGroup.get('identityNo').hasError('maxlength')">
+                      Maximum 8 digits allowed
                     </mat-error>
                   </mat-form-field>
                 </div>

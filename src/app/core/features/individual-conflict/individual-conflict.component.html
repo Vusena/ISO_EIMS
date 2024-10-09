@@ -55,7 +55,8 @@
                 <div class="col-md-4 px-1">
                   <div class="small">Declaration Date</div>
                   <mat-form-field appearance="outline" class="w-100">
-                    <input matInput [matDatepicker]="declared" [value]="today" placeholder="{{ today | date:'M/d/yyyy' }}" disabled>
+                    <input matInput [matDatepicker]="declared" [value]="today"
+                      placeholder="{{ today | date:'M/d/yyyy' }}" disabled>
                     <mat-datepicker-toggle matIconSuffix [for]="declared"></mat-datepicker-toggle>
                     <mat-datepicker #declared></mat-datepicker>
                   </mat-form-field>
@@ -64,7 +65,8 @@
                 <div class="col-md-4 px-1">
                   <div class="small">Assignment Date</div>
                   <mat-form-field appearance="outline" class="w-100">
-                    <input matInput formControlName="date" [matDatepicker]="assignment" placeholder="{{ today | date:'M/d/yyyy' }}" />
+                    <input matInput formControlName="date" [matDatepicker]="assignment"
+                      placeholder="{{ today | date:'M/d/yyyy' }}" />
                     <mat-datepicker-toggle matIconSuffix [for]="assignment"></mat-datepicker-toggle>
                     <mat-datepicker #assignment></mat-datepicker>
                     <mat-error *ngIf="formGroup.get('date').hasError('required')">
@@ -76,11 +78,18 @@
                 <div class="col-md-4 px-1">
                   <div class="small">ID./Passport No.</div>
                   <mat-form-field appearance="outline" class="w-100">
-                    <input type="text" matInput formControlName="identityNo" placeholder="ID. No." />
+                    <input type="text" matInput formControlName="identityNo" placeholder="ID. No." maxlength="8"/>
                     <mat-error *ngIf="formGroup.get('identityNo').hasError('required')">
                       ID./Passport No. is required
                     </mat-error>
+                    <mat-error *ngIf="formGroup.get('identityNo').hasError('pattern')">
+                      Only numeric values are allowed
+                    </mat-error>
+                    <mat-error *ngIf="formGroup.get('identityNo').hasError('maxlength')">
+                      Maximum 8 digits allowed
+                    </mat-error>
                   </mat-form-field>
+                  
                 </div>
               </div>
 
@@ -124,14 +133,8 @@
                 <div class="col-12 px-1">
                   <div class="small">Description of Conflict</div>
                   <mat-form-field appearance="outline" class="w-100">
-                    <textarea matInput
-                              cdkTextareaAutosize
-                              #autosize="cdkTextareaAutosize"
-                              cdkAutosizeMinRows="4"
-                              cdkAutosizeMaxRows="4"
-                              maxlength="150"
-                              formControlName="description"
-                              placeholder="Type here..">
+                    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="4"
+                      cdkAutosizeMaxRows="4" maxlength="150" formControlName="description" placeholder="Type here..">
                     </textarea>
                     <mat-error *ngIf="formGroup.get('description').hasError('required')">
                       Gift description is required
@@ -156,8 +159,8 @@
                       </mat-expansion-panel-header>
                       <p>
                         I do hereby declare that the information provided herein is accurate,
-                          complete and true to the best of my knowledge in line with sections 46 (1) (d) and 46 (2) of the
-                          Leadership and Integrity Act, 2012 and 12 (3) of the Public Officers Ethics Act, 2003.
+                        complete and true to the best of my knowledge in line with sections 46 (1) (d) and 46 (2) of the
+                        Leadership and Integrity Act, 2012 and 12 (3) of the Public Officers Ethics Act, 2003.
                       </p>
                     </mat-expansion-panel>
                   </mat-accordion>
@@ -183,15 +186,19 @@
                 </div>
                 <div class="col-6">
 
-                  <button *ngIf="!previewed" type="submit" class="btn btn-block btn-rounded filled-button" [disabled]="!formGroup.valid" >
+                  <button *ngIf="!previewed" type="submit" class="btn btn-block btn-rounded filled-button"
+                    [disabled]="!formGroup.valid">
                     <span>Preview</span>
                     <img src="./assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit" />
                   </button>
 
-                  <button *ngIf="previewed" type="submit" class="btn  btn-block btn-rounded filled-button" [disabled]="!formGroup.valid || isLoading">
-                    <div *ngIf="isLoading" id="loading"></div>
-                    <span *ngIf="!isLoading">Submit</span>
-                    <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
+                  <button *ngIf="previewed" type="submit" class="btn  btn-block btn-rounded filled-button"
+                    [disabled]="!formGroup.valid || isLoading">
+                    <div class="d-flex align-items-center justify-content-center">
+                      <div *ngIf="isLoading" id="loading"></div>
+                      <span *ngIf="!isLoading">Submit</span>
+                      <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
+                    </div>
                   </button>
                 </div>
               </div>
@@ -199,7 +206,7 @@
 
             <div class="col-12 mt-4 d-flex justify-content-end" *ngIf="backButtonControl">
               <button (click)="backButton()" type="button" class="btn btn-rounded"
-                  style="background-color: #E12827; width: 25%; color: #FFFFFF; font-size: 13px;">
+                style="background-color: #E12827; width: 25%; color: #FFFFFF; font-size: 13px;">
                 BACK
               </button>
             </div>
@@ -208,18 +215,13 @@
         </div>
       </div>
 
-<!-- CARD3 -->
+      <!-- CARD3 -->
       <div class="col-lg-3 col-md-12 col-sm-12">
         <div class="history-card h-100 d-flex flex-column">
-          <app-history
-            [items]="history" (itemClickedEmitter)="onHistoryItemClick($event)"
-          >
+          <app-history [items]="history" (itemClickedEmitter)="onHistoryItemClick($event)">
           </app-history>
           <div class="flex-grow-1"></div>
-          <mat-paginator [length]="length"
-                         (page)="handlePageEvent($event)"
-                         [pageSize]="size"
-                         [hidePageSize]="true">
+          <mat-paginator [length]="length" (page)="handlePageEvent($event)" [pageSize]="size" [hidePageSize]="true">
           </mat-paginator>
         </div>
       </div>

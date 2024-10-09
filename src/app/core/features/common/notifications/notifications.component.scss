@@ -7,6 +7,12 @@
   font-size: 12px;
 }
 
+.danger-alert {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: #f5c6cb;
+}
+
 #loading {
   text-align: center;
   width: 20px;
@@ -18,12 +24,6 @@
   -webkit-animation: spin 1s ease-in-out infinite;
   display: inline-block;
   margin: 0 auto;
-}
-
-.alertss {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: #f5c6cb;
 }
 
 @keyframes spin {

@@ -60,7 +60,19 @@ export class GiftsGivenOutComponent implements OnInit {
     private decimalPipe: DecimalPipe,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-  ) {
+  ) {}
+
+  updateSpecifiedValidation(occasionId: number) {
+    const specifiedControl = this.formGroup.get('specified');
+    if (occasionId === 5) { // Assuming 5 is the ID for "Other"
+      specifiedControl.setValidators([Validators.required]);
+    } else {
+      specifiedControl.clearValidators();
+    }
+    specifiedControl.updateValueAndValidity();
+  }
+
+  ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       dateIssued: ['', Validators.required],
       occasionId: ['', Validators.required],
@@ -75,19 +87,6 @@ export class GiftsGivenOutComponent implements OnInit {
     this.formGroup.get('occasionId').valueChanges.subscribe(value => {
       this.updateSpecifiedValidation(value);
     });
-  }
-
-  updateSpecifiedValidation(occasionId: number) {
-    const specifiedControl = this.formGroup.get('specified');
-    if (occasionId === 5) { // Assuming 5 is the ID for "Other"
-      specifiedControl.setValidators([Validators.required]);
-    } else {
-      specifiedControl.clearValidators();
-    }
-    specifiedControl.updateValueAndValidity();
-  }
-
-  ngOnInit(): void {
     this.progress = [
       { title: 'Once you declare', description: 'This will be your progress bar to track which stage the declaration is at.' },
       { title: '', description: '' },
@@ -137,12 +136,24 @@ export class GiftsGivenOutComponent implements OnInit {
     this.previewed ? this.post() : this.preview();
   }
 
-  preview() {
+  preview() {    
+
+    let supName = "";
+    let supStaffNo = "";
+    let department="";
+    if (this.user.data.supervisor != null) {
+      supName = this.user.data.supervisor.name;
+      supStaffNo = this.user.data.supervisor.staffNo;     
+    } 
+    else if(this.user.data.department!=null) {
+      department=this.user.data.department;
+    }
+
     const formValues = this.formGroup.getRawValue();
     const occasionValue = formValues.occasionId === 5 ? formValues.specified :
       this.occasions.find((o: { id: number; }) => o.id === formValues.occasionId)?.name || '';
 
-    const data = [
+    const data = [      
       {
         label: "PERSONAL DETAILS",
         class: "col-12 text-center mt-3 h5"
@@ -159,7 +170,7 @@ export class GiftsGivenOutComponent implements OnInit {
       },
       {
         label: "Department:",
-        value: this.user.data.department,
+        value: department,
         class: "col-sm-6 pb-1"
       },
       {
@@ -169,12 +180,12 @@ export class GiftsGivenOutComponent implements OnInit {
       },
       {
         label: "Supervisor Name:",
-        value: this.user.data.supervisor.name,
+        value: supName,
         class: "col-sm-6 pb-1"
       },
       {
         label: "Supervisor Personal No.:",
-        value: this.user.data.supervisor.staffNo,
+        value: supStaffNo,
         class: "col-sm-6 pb-1"
       },
       {
