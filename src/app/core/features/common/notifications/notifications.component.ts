@@ -91,20 +91,20 @@ export class NotificationsComponent {
   }
 
   actions: any = [
-    { value: "ACCEPTED", name: 'Accept declaration' },
+    { value: "PROCESSED", name: 'Accept declaration' },
     { value: "REJECTED", name: 'Reject declaration' },
     { value: "REVERTED", name: 'Revert declaration' },
     { value: "ESCALATED_HOD", name: 'Escalate Declaration to HOD' }
   ];
 
   declarantActions: any = [
-    { value: "COMPLETED", name: 'Complete declaration' },
-    { value: "DISPUTED", name: 'Dispute remarks' },
+    { value: "ACKNOWLEDGED", name: 'Acknowledge Remarks' },
+    { value: "DISPUTED", name: 'Dispute Remarks' },
   ];
 
   hodActions: any = [
-    { value: "ACCEPTED", name: 'Complete declaration' },
-    { value: "ESCALATED_HOD_ISO", name: 'Escalated to HOD ISO' },
+    { value: "PROCESSED", name: 'Complete declaration' },
+    { value: "ESCALATED_HOD_ISO", name: 'Escalated to HOD ISO' },    
   ];
 
   getNotifications(): void {

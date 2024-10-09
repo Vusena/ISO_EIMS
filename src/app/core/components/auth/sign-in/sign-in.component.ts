@@ -53,8 +53,7 @@ export class SignInComponent implements OnInit {
   onSubmit() {
     this.isLoading = true;  
     const username = this.Form.value.username;
-    const password = this.Form.value.password;
-    console.log(password)
+    const password = this.Form.value.password;    
     const encryptedPassword = this.encrypt(password);
     // console.log(encryptedPassword)
     

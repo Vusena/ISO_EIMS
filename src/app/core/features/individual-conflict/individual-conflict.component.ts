@@ -87,6 +87,7 @@ export class IndividualConflictComponent implements OnInit {
 
   getUser(): void {
     this.user = this.authService.getLoggedInUser();   
+    console.log(this.user)
   }
 
   getNatures(): void {
