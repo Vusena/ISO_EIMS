@@ -1,0 +1,265 @@
+<div class="container-fluid p-0">
+  <div>
+    <nav class="navbar header-nav">
+      <span class="dashboard-heading">Gifts Received Declaration</span>
+    </nav>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row d-flex align-items-stretch">
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="card h-100">
+          <app-progress [items]="progress"></app-progress>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="card h-100">
+          <div class="card-body">
+
+            <div class="row px-2">
+              <div class="col-md-5 p-0">
+                <h2 class="fw-bold card-titles">Declaration Details</h2>
+              </div>
+              <div class="col-md-7 p-0">
+                <div class="alert alert-warning d-flex align-items-center px-2 py-1" role="alert">
+                  <i class="material-icons" style="color: #741110 !important;">warning</i>
+                  <small>DO NOT declare if you have not received any gift!</small>
+                </div>
+              </div>
+            </div>
+
+            <ngb-alert *ngIf="alert.isOpen" type="{{ alert.type }}" (closed)="onCloseAlert()">
+              <strong>{{ alert.title }}</strong> {{ alert.message }}
+            </ngb-alert>
+
+            <ng-template #content let-modal>
+              <div class="modal-header">
+                <div class="col d-flex justify-content-center">
+                  <p class="success">SUCCESS</p>
+                </div>
+                <button type="button" class="btn-close" aria-label="Close" (click)="onCloseClick()"></button>
+              </div>
+              <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
+              </lottie-player>
+              <div class="col" class="text-center">
+                <p style="font-size: 15px; font-weight: bold;">Your task has been submitted successfully.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
+              </div>
+            </ng-template>
+
+            <form [formGroup]="formGroup" (ngSubmit)="submit()">
+              <div class="row mt-3 px-2">
+                <div class="col-md-4 px-1">
+                  <div class="small">Declaration Date</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input matInput [matDatepicker]="declared" [value]="today" placeholder="{{ today | date:'M/d/yyyy' }}" disabled>
+                    <mat-datepicker-toggle matIconSuffix [for]="declared"></mat-datepicker-toggle>
+                    <mat-datepicker #declared></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 px-1">
+                  <div class="small">Date Received</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input matInput formControlName="dateReceived" [matDatepicker]="received" placeholder="{{ today | date:'M/d/yyyy' }}" />
+                    <mat-datepicker-toggle matIconSuffix [for]="received"></mat-datepicker-toggle>
+                    <mat-datepicker #received></mat-datepicker>
+                    <mat-error *ngIf="formGroup.get('dateReceived').hasError('required')">
+                      Date received is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 px-1">
+                  <div class="small">Date Surrendered</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input matInput formControlName="dateSurrendered"  [matDatepicker]="surrendered" placeholder="{{ today | date:'M/d/yyyy' }}">
+                    <mat-datepicker-toggle matIconSuffix [for]="surrendered"></mat-datepicker-toggle>
+                    <mat-datepicker #surrendered></mat-datepicker>
+                    <mat-error *ngIf="formGroup.get('dateSurrendered').hasError('required')">
+                      Date surrendered is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row px-2">
+                <div class="col-md-8 px-1">
+                  <div class="small">Name of Giver</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input type="text" matInput formControlName="conferrer"  placeholder="Name of Giver">
+                    <mat-error *ngIf="formGroup.get('conferrer').hasError('required')">
+                      Name of giver is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 px-1">
+                  <div class="small">Recipient ID. No.</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input type="text" matInput formControlName="identityNo" placeholder="ID. No." maxlength="8"/>
+                    <mat-error *ngIf="formGroup.get('identityNo').hasError('required')">
+                      Recipient ID. No. is required
+                    </mat-error>
+                    <mat-error *ngIf="formGroup.get('identityNo').hasError('pattern')">
+                      Invalid format
+                    </mat-error>                      
+                    <mat-error *ngIf="formGroup.get('identityNo').hasError('minlength') && !formGroup.get('identityNo').hasError('pattern')">
+                      Minimum 6 characters allowed
+                    </mat-error>  
+                    <mat-error *ngIf="formGroup.get('identityNo').hasError('maxlength')">
+                      Maximum 8 digits allowed
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row px-2">
+                <div class="col-md-6 px-1">
+                  <div class="small">Value of Gift</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input type="number" matInput formControlName="value" placeholder="20000" min="1" />
+                    <mat-error *ngIf="formGroup.get('value').hasError('required')">
+                      Value of gift is required
+                    </mat-error>
+                    <mat-error *ngIf="formGroup.get('value').hasError('min')">
+                      Value of gift must be at least 1
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6 px-1">
+                  <div class="small">Occasion</div>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-select placeholder="Occasion" formControlName="occasionId" >
+                      <mat-option class="mat-options-font" *ngFor="let occasion of occasions" [value]="occasion.id">
+                        {{occasion.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formGroup.get('occasionId').hasError('required')">
+                      Please select an occasion
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row px-2" *ngIf="formGroup.get('occasionId').value === 5">
+                <div class="col-12 px-1">
+                  <div class="small">Specify Other Occasion</div>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <input matInput formControlName="specified" placeholder="Type here.." />
+                    <mat-error *ngIf="formGroup.get('specified').hasError('required')">
+                      Please specify the occasion
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row px-2">
+                <div class="col-12 px-1">
+                  <div class="small">Gift Description</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <textarea matInput
+                              cdkTextareaAutosize
+                              #autosize="cdkTextareaAutosize"
+                              cdkAutosizeMinRows="4"
+                              cdkAutosizeMaxRows="4"
+                              maxlength="150"
+                              formControlName="description"
+                              placeholder="Type here..">
+                    </textarea>
+                    <mat-error *ngIf="formGroup.get('description').hasError('required')">
+                      Gift description is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row px-0 pb-1" *ngIf="hideButtons">
+                <div class="col-12">
+                  <mat-accordion>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Legal Requirements
+                        </mat-panel-title>
+                        <!--<mat-panel-description>
+                          Click to view
+                        </mat-panel-description>-->
+                      </mat-expansion-panel-header>
+                      <p>I do hereby declare that the information provided herein is accurate,
+                        complete and true to the best of my knowledge in line with sections 46 (1) (d) and 46 (2) of the
+                        Leadership and Integrity Act, 2012 and 12 (3) of the Public Officers Ethics Act, 2003.</p>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+              </div>
+
+              <div class="row px-0 pb-3 " *ngIf="hideButtons">
+                <div class="col-12">
+                  <mat-checkbox class="custom-checkbox" formControlName="agree">
+                    <span>Yes, I have read and agree to the Legal Requirements.</span>
+                  </mat-checkbox>
+                  <mat-error *ngIf="formGroup.get('agree').hasError('requiredTrue')">
+                    Agree to the legal Requirements
+                  </mat-error>
+                </div>
+              </div>
+
+              <div class="row  px-2" *ngIf="hideButtons">
+                <div class="col-6">
+                  <button (click)="clear()" type="reset" class="btn btn-block btn-rounded outlined-button">
+                    Clear <img src="./assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
+                  </button>
+                </div>
+                <div class="col-6">
+                  <button *ngIf="!previewed" type="submit" class="btn btn-block btn-rounded filled-button" [disabled]="!formGroup.valid" >
+                    <span>Preview</span>
+                    <img src="./assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit" />
+                  </button>
+
+                  <button *ngIf="previewed" type="submit" class="btn  btn-block btn-rounded filled-button" [disabled]="!formGroup.valid || isLoading">
+                    <div class="d-flex align-items-center justify-content-center">
+                    <div *ngIf="isLoading" id="loading"></div>
+                    <span *ngIf="!isLoading">Submit</span>                   
+                    <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
+                  </div>
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div class="col-12 mt-4 d-flex justify-content-end" *ngIf="backButtonControl">
+              <button (click)="backButton()" type="button" class="btn btn-rounded"
+                style="background-color: #E12827; width: 25%; color: #FFFFFF; font-size: 13px;">
+                BACK
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="history-card h-100 d-flex flex-column">
+          <app-history
+            [items]="history" (itemClickedEmitter)="onHistoryItemClick($event)"
+          >
+          </app-history>
+
+          <div class="flex-grow-1"></div>
+
+          <mat-paginator [length]="length"
+                         (page)="handlePageEvent($event)"
+                         [pageSize]="size"
+                         [hidePageSize]="true"
+                         aria-label="Select page">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

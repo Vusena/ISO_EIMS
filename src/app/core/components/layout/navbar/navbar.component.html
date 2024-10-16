@@ -1,0 +1,75 @@
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top color navbar-transparent">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <div class="navbar-toggle">
+        <button type="button" class="navbar-toggler" (click)="sidebarToggle()">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+        </button>
+      </div>
+      <a class="navbar-brand" href="javascript:void(0)">{{ getTitle() }}</a>
+    </div>
+    <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end " id="collapseExample" [ngbCollapse]="isCollapsed">
+
+      <form>
+        <div class="input-group"style=" border-bottom: #9F9F9F solid 2px ;">
+          <div class="input-group-prepend ">
+            <div class="input-group-text"style="border: none; background-color: transparent;" >
+              <i class="nc-icon nc-zoom-split mr-4"></i>
+            </div>
+          </div>
+          <input type="text" value class="form-control" placeholder="Search..." />
+          </div>
+      </form>
+
+      <ul class="navbar-nav">
+
+       <li class="nav-item ms-2 me-3 pt-2">
+        <div class="media align-items-center"> 
+          <img src="./assets/icons/main-layout-icons/notifications.svg" alt="Icon" 
+          class="icon" > 
+          </div>
+       </li>
+
+         <li class="nav-item"> 
+          <div class="media align-items-center"> 
+          <mat-icon class="small-icon">person</mat-icon> 
+          </div>
+        </li>
+
+        <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
+          <a class="nav-link" ngbDropdownToggle id="navbarDropdownMenuLink">
+            <i class="nc-icon nc-bell-55"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Welcome</span>
+            </p>
+          </a>
+          <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-end">
+            <a ngbDropdownItem href="javascript:void(0)">My profile</a>
+            <a ngbDropdownItem href="javascript:void(0)">Settings</a>
+            <a ngbDropdownItem href="javascript:void(0)">Activity</a>
+          </div>
+        </li>
+
+       
+
+        <!-- <li class="nav-item">
+          <a class="nav-link btn-rotate" href="javascript:void(0)">
+            <i class="nc-icon nc-settings-gear-65"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Account</span>
+            </p>
+          </a>
+        </li> -->
+        
+      </ul>
+    </div>
+  </div>
+</nav>

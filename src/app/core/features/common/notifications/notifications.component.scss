@@ -1,0 +1,94 @@
+.mat-mdc-form-field-error-wrapper {
+  padding: 0 !important;
+}
+
+.assign-rolee {
+  height: 30px;
+  color: #F2F2F2;
+  background: #E12827;
+  font-family: "Roboto";
+  font-size: 12px;
+  font-family: Roboto;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+}
+
+.assign-role {
+  height: 30px;
+  color: #E12827;
+  background: #F2F2F2;
+  font-family: "Roboto";
+  font-size: 12px;
+  font-family: Roboto;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+}
+
+.yes_no_button {
+  width: 100px;
+  height: 30px;
+  border-radius: 30px;
+  border: 1px solid #707070;
+}
+
+.yes_no_button.selected {
+  background-color: #E12827;
+  color: #fff;
+}
+
+.semi-bold {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.danger-alert {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: #f5c6cb;
+}
+
+#loading {
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, .3);
+  border-radius: 50%;
+  border-top-color: #EFEFEF;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}

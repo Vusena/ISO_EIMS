@@ -1,0 +1,29 @@
+<div  class="modal-content px-2 responsive-width">
+  <div class="modal-header">
+    <h1 class="modal-title">Summary of Your Declaration</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+      <!--
+      <button type="button" style="color:#741110; border: none;" aria-label="Close"
+              (click)="activeModal.dismiss('Cross click')">
+      </button>
+      -->
+  </div>
+
+  <div class="row d-flex align-items-stretch px-3 ">
+    <div *ngFor="let datum of data" class="{{ datum.class }}">
+      <strong>{{ datum.label }}</strong> {{ datum.value }}
+    </div>
+  </div>
+  <div class=" mb-2 mt-2 p-3 d-flex gap-2 justify-content-between" style="border:none">
+    <div class="col-md-5 text-center">
+      <button class="btn btn-block w-100" style="background-color: #FFFFFF; font-size: 14px;color: #E12827;
+      border: #E12827 1px solid; border-radius: 25px;" (click)="close(false)">Back
+      </button>
+    </div>
+    <div class="col-md-5 text-center">
+      <button class="btn  btn-block  w-100" style="background-color: #E12827; color: #FFFFFF; font-size: 14px;
+      border-radius: 25px;" (click)="close(true)">Proceed</button>
+    </div>
+
+  </div>
+</div>

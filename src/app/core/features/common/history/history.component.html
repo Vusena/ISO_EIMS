@@ -1,0 +1,36 @@
+<div class="container p-0">
+  <div class="row">
+    <div class="d-flex px-0 align-items-center w-100">
+      <img src="assets/icons/main-layout-icons/history.svg" class="ms-2 mt-1"
+             style="height:20px;" alt="">
+      <h2 class="flex-grow-1 pt-3 ms-1 fw-bold card-titles">History</h2>
+      <i class="material-icons" style="color: #ABABAB !important;">more_vert</i>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="p-0" *ngIf="items && items.length > 0; else noItems">
+      <div class="p-0 history-item" *ngFor="let item of items" (click)="onItemClick(item.url)">
+        <div class="row px-3">
+          <div class="d-flex align-items-center w-100">
+            <img src="assets/icons/{{ item.icon }}" alt="">
+            <h4 class="flex-grow-1 pt-3 ms-1 fw-bold text-muted" style="font-size: 14px;">
+              {{ item.title | truncate: 19 }}
+            </h4>
+            <h4 class="pt-3" style="font-size: 12px;">{{ item.date | date:'dd/MM/yyyy' }}</h4>
+          </div>
+        </div>
+        <div class="row px-3 pb-2">
+          <p class="truncate-lines">{{ item.summary }}</p>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noItems>
+      <div class="container">
+        <p class="small fw-semibold">You haven't made any declarations yet.</p>
+        <p>Once you make a declaration you will view a history of your declarations here.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

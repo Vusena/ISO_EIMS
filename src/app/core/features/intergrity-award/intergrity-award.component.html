@@ -1,0 +1,318 @@
+<div class="container p-0 ">
+  <!-- <app-tabs > </app-tabs> -->
+  <div *ngIf="isAdmin()">
+    <mat-tab-group>
+      <mat-tab label="SCHEDULE" style="color: red">
+        <app-reports></app-reports>
+      </mat-tab>
+      <mat-tab label="NOMINATE" class="">
+        <app-intergrity-award-admin></app-intergrity-award-admin>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div *ngIf="isUser()">
+      <div  >
+        <nav class="navbar header-nav">
+            <span class="dashboard-heading">Nominate a KRA staff for Integrity Award</span>
+        </nav>
+        <app-intergrity-award-admin class="mt-2"></app-intergrity-award-admin>
+    </div>
+  </div>
+
+  <!-- <div  >
+        <nav class="navbar header-nav">
+            <span class="dashboard-heading">Nominate a KRA staff for Integrity Award</span>
+        </nav>
+        
+    </div> -->
+
+  <!-- <div class="container align-items-center">
+        <div class="row justify-content-md-center"> -->
+
+  <!-- COLUMN 1 -->
+  <!-- <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="container  card1">
+                    <div class="row">
+                        <div class="col-12 p-3">
+                            <p class="fw-semibold" style="color: #741110; font-size: 20px;font-family:'Roboto';">KRA
+                                Staff List
+                            </p>
+                        </div>
+
+                        <div class="col-12 pt-1 ps-3">
+                            <p class=""
+                                style="color: #133B3A; font-size: 15px; font-weight: 600; font-family:'Roboto';">Add
+                                staff to view their
+                                information
+                            </p>
+                        </div>
+                    </div>
+                    
+                        <div *ngIf="errorMessage" class="alert alert-danger px-2 py-1">
+                            <p style="font-size: 12px;">{{ errorMessage }}</p>
+                        </div>
+
+                        <div *ngIf="alertMessage" class="alert alert-success px-2 py-1">
+                            <p style="font-size: 12px;">{{ alertMessage }}</p>
+                        </div>
+
+
+                    <form (submit)="onSubmit($event)">
+                        <div class="row ">
+                            <div class="col-12">
+                                <div class="search-container">
+                                    <i style="cursor: pointer;" class="material-icons"
+                                        (click)="onSubmit($event)">search</i>
+                                    <input type="text" placeholder="Search by P.No" [(ngModel)]="searchText"
+                                        class="search-bar">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row mt-1">
+                        <div class="col-12">
+                            <div class="line-container">
+                                <div class="line-text">{{ specificName }}</div>
+                                <i class="material-icons delete-icon" (click)="toggleTextVisibility()">delete</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row  ">
+                        <div class="col ms-2 me-2 " style="background-color: #F2F2F2; border-radius: 10px; ">
+                            <div class="col mt-3 staff-details">
+                                <p class="" style=" border-bottom: 1px solid #ccc;"> KRA Staff Details</p>
+
+                            </div>
+                            <div class="col">
+                                <div class="staff-details p-0">Name</div>
+                                <p class="actual-details py-1 " style="border-bottom: dotted 1px;"> {{specificName}}</p>
+                            </div>
+                            <div class="col">
+                                <div class="staff-details p-0">Staff Number</div>
+                                <p class="actual-details py-1" style="border-bottom: dotted 1px;"> {{staff_number}}</p>
+                            </div>
+                            <div class="col ">
+                                <div class="staff-details p-0">Department</div>
+                                <p class="actual-details py-1  " style="border-bottom: dotted 1px;"> {{department}}</p>
+                            </div>
+                            <div class="col">
+                                <div class="staff-details p-0">Region</div>
+                                <p class="actual-details py-1 " style="border-bottom: dotted 1px;">{{region}} </p>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3 mt-2 staff-details">Is that the KRA staff you wish to nominate?
+                        </div>
+                        <div class="col-12 mb-2 mt-1" style="font-size: 14px;">Confirm by clicking below.
+                        </div>
+                        <form>
+                            <div class="mt-3 mb-2">
+                                <button class="btn btn-rounded w-100 bg-transparent confirm-button"
+                                    (click)="onConfirm()" [disabled]="!isConfirmationEnabled()">Confirm</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div> -->
+  <!-- COLUMN2 -->
+  <!-- <div class="col-lg-6 col-md-6 col-sm-6 ">
+                <div class="container card3">
+                    <div class="row d-flex  pe-0">
+                        <div class="col-md-9 p-0 ">
+                            <p class=" "
+                                style="color: #741110; font-size: 20px; font-family:'Roboto'; font-weight: 600;">
+                                Nomination criteria
+                            </p>
+                        </div>
+
+
+                        <div class="col-md-3 p-0 flex-grow-1 warning"
+                            style="background-color: #FBE4E4; max-height: 25px;">
+
+                            <div style="background-color:  #FBE4E4; line-height: 1;" class="p-1">
+                                <i class="material-icons " style="color: #741110!important;">warning</i>
+
+                                <div style="font-size: 12px;"> 1.Users in Nairobi region must nominate members from
+                                    their department only.</div>
+                                <div style="font-size: 12px;">2.Users from other regions can nominate members from any
+                                    department within their region only.</div>
+                                <div style="font-size: 12px;">3.The user cannot nominate themselves.</div>
+                                <div style="font-size: 12px;">4.The user cannot nominate more than once.</div>
+                            </div>
+                        </div> -->
+
+  <!-- <div *ngIf="missingdetails" class=" row bg-danger" >
+                            <p>{{missingdetails}}</p>
+                        </div> -->
+  <!-- 
+                        <form (ngSubmit)="onNominate()" >
+                            <div class="row mt-3 p-0">
+                                <div class="col-12">
+                                    <p class="" style="color: #133B3A; font-size: 13px;font-family:'Roboto';">
+                                        Does the staff display integrity and professionalism at all times?
+                                    </p>
+                                </div>
+
+                                <div class="col-12 d-flex gap-2">
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" class="btn btn-rounded"
+                                            [style.border]="integrityAndProfessionalism === true ? '2px solid #E12827' : '1px solid #707070'"
+                                            style="background-color: #FFFFFF; font-size: 12px;"
+                                            formControlName="integrityAndProfessionalism1"
+                                            (click)="integrityAndProfessionalism = true">
+                                            Yes
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" class="btn btn-rounded"
+                                            [style.border]="integrityAndProfessionalism === false ? '2px solid #E12827' : '1px solid #707070'"
+                                            style="background-color: #FFFFFF; font-size: 12px;"
+                                            formControlName="integrityAndProfessionalism1"
+                                            (click)="integrityAndProfessionalism = false">
+                                            No
+                                        </button>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-12 mt-3">
+                                    <p class="" style="color: #133B3A; font-size: 13px;font-family:'Roboto';">
+                                        Does the staff accept responsibility for all decisions/ Actions taken?
+                                    </p>
+                                </div>
+
+                                <div class="col-12 d-flex gap-2">
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" class="btn btn-rounded"
+                                            [style.border]="acceptsResponsibility === true ? '2px solid #E12827' : '1px solid #707070'"
+                                            style="background-color: #FFFFFF; font-size: 12px;"
+                                            formControlName="acceptsResponsibility1"
+                                            (click)="acceptsResponsibility = true">
+                                            Yes
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" class="btn btn-rounded"
+                                            [style.border]="acceptsResponsibility === false ? '2px solid #E12827' : '1px solid #707070'"
+                                            style="background-color: #FFFFFF; font-size: 12px;"
+                                            (click)="acceptsResponsibility = false"
+                                            formControlName="acceptsResponsibility1">
+                                            No
+                                        </button>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-12 mt-3">
+                                    <p class="" style="color: #133B3A; font-size: 13px;font-family:'Roboto';">
+                                        Does the individual maintain open and truthful communications?
+                                    </p>
+                                </div>
+                                <div class="col-12 d-flex gap-2">
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" class="btn btn-rounded"
+                                            [style.border]="maintainsOpenCommunications === true ? '2px solid #E12827' : '1px solid #707070'"
+                                            style="background-color: #FFFFFF; font-size: 12px;"
+                                            formControlName="maintainsOpenCommunications1"
+                                            (click)="maintainsOpenCommunications = true">
+                                            Yes
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" class="btn btn-rounded"
+                                            [style.border]="maintainsOpenCommunications === false ? '2px solid #E12827' : '1px solid #707070'"
+                                            style="background-color: #FFFFFF; font-size: 12px;"
+                                            formControlName="maintainsOpenCommunications1"
+                                            (click)="maintainsOpenCommunications = false">
+                                            No
+                                        </button>
+                                    </div>
+                                </div> -->
+
+  <!-- 
+                                <div class="col-12 mt-3">
+                                    <p class="" style="color: #133B3A; font-size: 13px;font-family:'Roboto';">
+                                        Does the staff live KRA core values?
+                                    </p>
+                                </div>
+
+                                <div class="col-12 d-flex gap-2">
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" class="btn btn-rounded"
+                                            [style.border]="hasKRAValues === true ? '2px solid #E12827' : hasKRAValues === false ? '1px solid #707070' : '1px solid #707070'"
+                                            style="background-color: #FFFFFF; font-size: 12px;"
+                                            formControlName="hasKRAValues1" (click)="hasKRAValues = true">
+                                            Yes
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" class="btn btn-rounded"
+                                            [style.border]="hasKRAValues === false ? '2px solid #E12827' : hasKRAValues === true ? '1px solid #707070' : '1px solid #707070'"
+                                            style="background-color: #FFFFFF; font-size: 12px;"
+                                            formControlName="hasKRAValues1" (click)="hasKRAValues = false">
+                                            No
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    -->
+
+  <!-- 
+                            <form [formGroup]="nomineeData">
+                            <div class="row mt-3">
+                                <div class="col-12 p-0">
+                                    <div class=" ">Describe specific instances where the individual
+                                        exemplified/demonstrated
+                                        their special contribution to the integrity,
+                                        anti-corruption and National Values programs</div>
+                                    <mat-form-field style="width:100%; height:180px;">
+                                        <textarea matInput placeholder="Type here" style="font-size: 13px;"
+                                            [(ngModel)]="contributionDescription"
+                                            formControlName="contributionDescription1"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                           </form>
+
+                            <div class="row mt-2 mb-4">
+
+                                <div class="col-6">
+                                    <button type="button" class="btn  btn-rounded" (click)="resetForm()" style=" background-color: #FFFFFF; color: #E12827; border: #E12827 1px
+                                        solid;font-size: 14px;">Clear
+                                        <img src="./../../../assets/icons/main-layout-icons/clear-icon.svg"
+                                            alt="Clear Icon">
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn   btn-rounded"
+                                        style="background-color: #E12827; font-size: 14px;"
+                                        (click)=" onNominate()">Nominate
+                                        <img src="../../../../assets/icons/main-layout-icons/submit.svg" class=""
+                                            alt="Nomibate">
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> -->
+
+  <!-- COLUMN3 -->
+  <!-- <div class="col-lg-3 col-md-12 col-sm-12">
+                <div class="container card4">
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div> -->
+  
+</div>

@@ -1,0 +1,257 @@
+<div class="container p-0 ">
+  <div>
+    <nav class="navbar header-nav">
+      <span class="dashboard-heading">Hello <strong>{{ user.data.name }}</strong>, Welcome to EIMS</span>
+    </nav>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row d-flex align-items-stretch">
+
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="card h-100 px-3">
+          <div class="row mb-2 pt-2">
+            <h3 class="fw-bold card-titles">Assign Roles and Privileges</h3>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <p class="text2">Search User to Assign</p>
+            </div>
+          </div>
+
+          <div>
+            <ngb-alert [dismissible]="true" *ngIf="alertMessage" type="success" (closed)="alertMessage = false">
+              <span style="font-size: 12px">{{ alertMessage }}</span>
+            </ngb-alert>
+          </div>
+
+          <div>
+            <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" (closed)="errorMessage = false">
+              <span style="font-size: 12px">{{ errorMessage }}</span>
+            </ngb-alert>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <form>
+                <div class="search-container">
+                  <i class="material-icons">search</i>
+                  <input type="text" placeholder="Search by Name or P.No" class="search-bar" [formControl]="searchControl" />
+                </div>
+              </form>
+
+              <div class="search-results-container shadow" *ngIf="!isRequestSuccessful && !isUserSelected">
+                <div class="line-container">
+                  <ul>
+                    <li *ngFor="let result of filteredResults" class="line-textt" (click)="onSelectUser(result)">
+                      {{ result.firstName }} {{ result.lastName }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row " *ngIf="isUserSelected">
+            <div class="col">
+              <div class="line-container">
+                <div *ngFor="let member of members" class="line-text d-flex justify-content-between">
+                  {{ member.firstName }} {{ member.lastName }}
+                  <i class="material-icons delete-icon" (click)="onClearSearchInput()">delete</i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <p class="text2">Assign Role</p>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <ng-container *ngFor="let role of Roles">
+              <div class="col-6 mb-3">
+                <button (click)="getPrivileges(role.name)" class="w-100 button-sm" style="font-size: 12px" [ngClass]="{ highlighted: role.isSelected }" [ngClass]="{ default: isRequestSuccessful }">
+                  {{ role.name }}
+                </button>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <p class="assign-privileges-text">Assign Privileges</p>
+            </div>
+          </div>
+
+          <form>
+            <div class="row mb-2">
+              <ng-container *ngFor="let privilege of Priviledges">
+                <div class="col-6">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="{{ privilege.id }}" disabled />
+                    <!-- [checked]="isChecked(privilege)" -->
+                    <!-- (change)="togglePrivilegeSelection(privilege)" -->
+                    <label class="form-check-label" for="{{ privilege.id }}">
+                      {{ privilege.name }}
+                    </label>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </form>
+
+          <form>
+            <div class="row mt-5 mb-3" style="display: flex; flex-direction: column">
+              <div class="col">
+                <div class="d-flex justify-content-centeSubmitr w-100">
+                  <button type="submit" class="btn btn-black btn-lg w-100" (click)="onSubmitRoleAssignee()">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="h-100">
+          <div class="card-body">
+
+            <div class="container card" style="height: 280px; overflow-y: auto;">
+              <div class="row py-3 px-2">
+                <div class="col-12">
+                  <app-notifications></app-notifications>
+                </div>
+              </div>
+            </div>
+
+            <div class="container p-0">
+              <div class="row p-0">
+                <div class="col-sm-6 d-flex flex-column">
+                  <div class="d-flex flex-column card p-2">
+                    <div class="pb-1 flex-fill">
+                      <p class="small-label">Year to date</p>
+                    </div>
+
+                    <div class="p-0 d-flex justify-content-between w-100">
+                      <h3 class="fw-bold card-titles px-0">Individual conflicts</h3>
+                      <span class="text-muted"><i class="material-icons">more_vert</i></span>
+                    </div>
+
+                    <div class="p-0 mt-4 flex-fill d-flex w-100">
+                      <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start" style="font-size: 52px;font-weight: 500; width: 20%; height: 20px;">
+                        {{ statistics.individualConflict.total  }}
+                      </div>
+                      <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start">
+                        <p class="mb-0">declared</p>
+                      </div>
+                      <div class="col-4 ms-3 p-0 d-flex position-relative" style="height: 80px; width: 95px">
+                        <img class="position-absolute p-0 bottom-0 end-0" src="assets/icons/dashboard-icons/individualconflicts-icon.svg" alt="Icon" style="height: 100px" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-column card p-2">
+                    <div class="pb-1 flex-fill">
+                      <p class="small-label">Year to date</p>
+                    </div>
+
+                    <div class="p-0 d-flex justify-content-between w-100">
+                      <h3 class="fw-bold card-titles px-0">Gifts Given Out</h3>
+                      <span class="text-muted"><i class="material-icons">more_vert</i></span>
+                    </div>
+
+                    <div class="p-0 mt-4 flex-fill d-flex ">
+                      <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start" style="font-size: 52px;font-weight: 500; width: 20%; height: 20px;">
+                        {{ statistics.giftsGivenOut.total }}
+                      </div>
+                      <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start">
+                        <p class="mb-0">declared</p>
+                      </div>
+                      <div class="col-4 ms-3 p-0 d-flex position-relative" style="height: 80px; width: 95px">
+                        <img class="position-absolute p-0 bottom-0 end-0" src="assets/icons/dashboard-icons/gifts-given-out.svg" alt="Icon" style="height: 100px" />
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-sm-6 d-flex flex-column">
+                  <div class="d-flex flex-column card p-2">
+                    <div class="pb-1 flex-fill">
+                      <p class="small-label">Year to date</p>
+                    </div>
+
+                    <div class="p-0 d-flex justify-content-between w-100">
+                      <h3 class="fw-bold card-titles px-0">Group Conflicts</h3>
+                      <span class="text-muted"><i class="material-icons">more_vert</i></span>
+                    </div>
+
+                    <div class="p-0 mt-4 flex-fill d-flex">
+                      <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start" style="font-size: 52px;font-weight: 500; width: 20%; height: 20px;">
+                        {{ statistics.groupConflict.total  }}
+                      </div>
+                      <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start">
+                        <p class="mb-0">declared</p>
+                      </div>
+                      <div class="col-4 ms-3 p-0 d-flex position-relative" style="height: 80px; width: 95px">
+                        <img class="position-absolute p-0 bottom-0 end-0" src="assets/icons/dashboard-icons/individualconflicts-icon.svg" alt="Icon" style="height: 100px" />
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="d-flex flex-column card p-2">
+                    <div class="pb-1 flex-fill">
+                      <p class="small-label">Year to date</p>
+                    </div>
+
+                    <div class="p-0 d-flex justify-content-between w-100">
+                      <h3 class="fw-bold card-titles px-0">Gifts Received</h3>
+                      <span class="text-muted"><i class="material-icons">more_vert</i></span>
+                    </div>
+
+                    <div class="p-0 mt-4 flex-fill d-flex" style="width: 100%">
+                      <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start" style="font-size: 52px;font-weight: 500; width: 20%; height: 20px;">
+                        {{ statistics.giftsReceived.total }}
+                      </div>
+                      <div class="col-4 p-0 d-flex justify-content-flex-start align-items-start">
+                        <p class="mb-0">declared</p>
+                      </div>
+                      <div class="col-4 ms-3 p-0 d-flex position-relative" style="height: 80px; width: 95px">
+                        <img class="position-absolute p-0 bottom-0 end-0" src="assets/icons/dashboard-icons/gifts-given-out.svg" alt="Icon" style="height: 100px" />
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="history-card h-100 d-flex flex-column">
+          <app-history
+            [items]="history"
+            (itemClickedEmitter)="onHistoryItemClick($event)">
+          </app-history>
+
+          <div class="flex-grow-1"></div>
+
+          <mat-paginator [length]="length"
+                         (page)="handlePageEvent($event)"
+                         [pageSize]="size"
+                         [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

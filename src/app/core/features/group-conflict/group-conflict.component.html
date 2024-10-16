@@ -1,0 +1,367 @@
+<div class="container p-0 ">
+  <div>
+    <nav class="navbar header-nav">
+      <span class="dashboard-heading">Group Conflict of Interest Declaration</span>
+    </nav>
+  </div>
+
+  <div class="container-fluid align-items-center">
+    <div class="row justify-content-md-center">
+
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="card h-100">
+          <div *ngIf="historyItemClicked">
+            <app-progress [items]="progress"></app-progress>
+          </div>
+
+          <div class="container h-100 d-flex flex-column" *ngIf="!historyItemClicked">
+            <div class="row pt-3">
+              <h2 class="fw-bold card-titles">Group Members</h2>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <h4 class="text-secondary fw-semibold">Add members to Whitelist</h4>
+              </div>
+            </div>
+
+            <ngb-alert *ngIf="alertSearch.isOpen" type="{{ alertSearch.type }}" (closed)="onCloseAlertSearch()">
+              <strong>{{ alertSearch.title }}</strong> {{ alertSearch.message }}
+            </ngb-alert>
+
+            <form (submit)="onSearch($event)">
+              <div class="row">
+                <div class="col-12 ">
+                  <div class="search-container">
+                    <i style="cursor: pointer" class="material-icons" (click)="onSearch($event)">search</i>
+                    <input type="text" placeholder="Search by P.No" [(ngModel)]="searchText" class="search-bar" />
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <!-- Selected Result Display -->
+            <div class="selected-result-container" *ngIf="showSearchResults">
+              <!-- Display details of the selected result here -->
+              <p style="font-size: 14px; font-weight: bold;" class="mt-2">{{ staffName }}</p>
+              <button
+                style=" width:100%; height:30px; background-color: #FFFFFF; color: #707070; border: #707070 1px solid; font-size: 12px;"
+                class="btn btn-primary btn-block member-btn btn-rounded"
+                (click)="attachStaff({name: staffName, option: '', staffNo:staffNo})">
+                <img src="assets/icons/main-layout-icons/add-member.svg" class="pb-1" style="height:20px"
+                  alt="Submit Icon">
+                Add Member
+              </button>
+            </div>
+
+            <div class="mt-2 mb-1 d-flex flex-wrap">
+              <div class="select-container pt-2">
+                <mat-form-field class="select">
+                  <mat-select [value]="selectedRole" disabled>
+                    <mat-option value="Chairperson">
+                      Chairperson
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="member-info user">{{ username }}</div>
+            </div>
+
+            <form [formGroup]="membersForm">
+              <div formArrayName="membersFormFields">
+                <div *ngFor="let memberControl of membersFormFields.controls; let i = index" [formGroupName]="i"
+                  class="d-flex flex-wrap">
+                  <div class="select-container pt-2">
+                    <mat-form-field class="select">
+                      <mat-select placeholder="Select Position"  formControlName="option">
+                        <mat-option *ngFor="let role of roles" [value]="role">
+                          {{ role }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="member-info user">
+                    <!-- Display the 'name' property of the member control -->
+                    {{ memberControl.get('name').value }}
+                    <!-- Pass the index 'i' to the removeMember function -->
+                    <mat-icon style="margin-left: auto;" (click)="detachStaff(i)">delete</mat-icon>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="flex-grow-1"></div>
+
+            <div class="row mb-4">
+              <div class="col-12 pb-4">
+                <button (click)="validateMembers()" type="submit" class="btn btn-block btn-rounded filled-button">
+                  Validate
+                  <img src="assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit Icon">
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="card h-100">
+          <div class="card-body">
+
+            <div class="row px-2">
+              <div class="col-md-12 p-0">
+                <h2 class="fw-bold card-titles">Assignment Details</h2>
+              </div>
+            </div>
+
+            <ngb-alert *ngIf="alertSubmit.isOpen" type="{{ alertSubmit.type }}" (closed)="onCloseAlertSubmit()">
+              <strong>{{ alertSubmit.title }}</strong> {{ alertSubmit.message }}
+            </ngb-alert>
+
+            <ng-template #content let-modal>
+              <div class="modal-header">
+                <div class="col d-flex justify-content-center">
+                  <p class="success">SUCCESS</p>
+                </div>
+                <button type="button" class="btn-close" aria-label="Close" (click)="onCloseClick()"></button>
+              </div>
+              <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
+              </lottie-player>
+              <div class="col text-center">
+                <p style="font-size: 15px; font-weight: bold;">Your task has been submitted successfully.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
+              </div>
+            </ng-template>
+
+            <form [formGroup]="declarationForm" (ngSubmit)="submit()">
+              <div class="row mt-4 px-2 ">
+                <div class="col-md-4 px-1">
+                  <div class="small">Declaration Date</div>
+                  <mat-form-field appearance="outline" class="p-0 w-100">
+                    <input matInput [matDatepicker]="picker" [value]="declarationDate" disabled style="font-size: 12px;"
+                      placeholder="{{ declarationDate | date:'M/d/yyyy' }}">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 px-1">
+                  <div class="small">Assignment Date</div>
+                  <mat-form-field appearance="outline" class="p-0 w-100">
+                    <input matInput [matDatepicker]="picker1" style="font-size: 12px; margin-left: 0;"
+                      formControlName="date" placeholder="{{ declarationDate | date:'M/d/yyyy' }}">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-error *ngIf="declarationForm.get('date').hasError('required')">
+                      Date is required
+                    </mat-error>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 px-1">
+                  <div class="small">ID/Passport No</div>
+                  <mat-form-field appearance="outline" class="p-0 w-100">
+                    <input matInput formControlName="identityNo" placeholder="Type here" maxlength="8">
+                    <mat-error *ngIf="declarationForm.get('identityNo').hasError('required')">
+                      ID/Passport Number is required</mat-error>
+                      <mat-error *ngIf="declarationForm.get('identityNo').hasError('pattern')">
+                        Invalid format
+                      </mat-error>                      
+                      <mat-error *ngIf="declarationForm.get('identityNo').hasError('minlength') && !declarationForm.get('identityNo').hasError('pattern')">
+                        Minimum 6 characters allowed
+                      </mat-error>                        
+                      <mat-error *ngIf="declarationForm.get('identityNo').hasError('maxlength')">
+                        Maximum 8 characters allowed
+                      </mat-error>                                         
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row mt-3 px-2">
+                <div class="col-md-6 px-1 ">
+                  <div class="small">Venue of Official Assignment</div>
+                  <mat-form-field appearance="outline" class="p-0 w-100">
+                    <input matInput style="font-size: 12px;" formControlName="venue" placeholder="Type here">
+                    <mat-error *ngIf="declarationForm.get('venue').hasError('required')">
+                      Venue is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6 px-1">
+                  <div class="small">Assignment Title</div>
+                  <mat-form-field appearance="outline" class="p-0 w-100">
+                    <input matInput style="font-size: 12px;" formControlName="title" placeholder="Type here">
+                    <mat-error *ngIf="declarationForm.get('title').hasError('required')">
+                      Assignment title is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row mt-3 px-2">
+                <div class="col-12 px-1">
+                  <div class="small">Assignment Description</div>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <textarea matInput
+                              cdkTextareaAutosize
+                              cdkAutosizeMinRows="4"
+                              cdkAutosizeMaxRows="4"
+                              maxlength="150"
+                              formControlName="assignmentDesc"
+                              placeholder="Type here..">
+                    </textarea>
+                    <mat-error style="font-size: 11px;"
+                    *ngIf="declarationForm.get('assignmentDesc').hasError('required')">
+                      Assignment Description is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row mt-4">
+                <div style="display: flex; align-items: center;">
+                  <p style="margin-right: 10px; font-weight: bold; color: #133B3A;">
+                    Do you have a Conflict of Interest?
+                  </p>
+                  <button id="noButton" type="button" class="yes_no_button mb-2 me-2" (click)="onConflictClick(false)" [disabled]="historyItemClicked">No</button>
+                  <button id="yesButton" type="button" class="yes_no_button mb-2" (click)="onConflictClick(true)" [disabled]="historyItemClicked">Yes</button>
+                </div>
+              </div>
+
+              <div class="row mt-4 px-2" *ngIf="haveConflict">
+                <div class="col-md-12 px-1">
+                  <div class="small">Conflict Description</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <textarea matInput
+                              cdkTextareaAutosize
+                              cdkAutosizeMinRows="4"
+                              cdkAutosizeMaxRows="4"
+                              maxlength="150"
+                              formControlName="conflictDesc"
+                              placeholder="Type here..">
+                    </textarea>
+                    <mat-error *ngIf="declarationForm.get('conflictDesc').hasError('required')">
+                      Conflict description is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row pb-3 mt-1 px-2" *ngIf="isLateDeclaration">
+                <div class="col-12 px-1">
+                  <div class="small">Reasons for late Declaration</div>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <textarea matInput
+                              cdkTextareaAutosize
+                              cdkAutosizeMinRows="4"
+                              cdkAutosizeMaxRows="4"
+                              maxlength="150"
+                              formControlName="reasons"
+                              placeholder="Type here..">
+                    </textarea>
+                    <mat-error *ngIf="declarationForm.get('reasons').hasError('required')">
+                      Reasons for late Declaration is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row mt-1 mb-2" *ngIf="isLateDeclaration">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="file" type="file" (change)="onFileChange($event)"
+                    multiple>
+                  <mat-error *ngIf="declarationForm.get('file').hasError('required')">
+                    File upload is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="row px-0 pb-1" *ngIf="hideButtons">
+                <div class="col-12">
+                  <mat-accordion>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Legal Requirements
+                        </mat-panel-title>
+                        <!--<mat-panel-description>
+                          Click to view
+                        </mat-panel-description>-->
+                      </mat-expansion-panel-header>
+                      <p>
+                        I do hereby declare that the information provided herein is accurate,
+                      complete and true to the best of my knowledge in line with sections 46 (1) (d) and 46 (2) of the
+                      Leadership and Integrity Act, 2012 and 12 (3) of the Public Officers Ethics Act, 2003.
+                      </p>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+              </div>
+
+              <div class="row px-0 pb-3 " *ngIf="hideButtons">
+                <div class="col-12">
+                  <mat-checkbox class="custom-checkbox" formControlName="agree">
+                    <span>Yes, I have read and agree to the Legal Requirements.</span>
+                  </mat-checkbox>
+                  <mat-error *ngIf="declarationForm.get('agree').hasError('requiredTrue')">
+                    Agree to the legal Requirements
+                  </mat-error>
+                </div>
+              </div>
+
+              <div class="row mt-3 mb-4" *ngIf="hideButtons">
+                <div class="col-6">
+                  <button type="button" (click)="clear()" class="btn btn-block btn-rounded outlined-button">
+                      Clear <img src="assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button *ngIf="!previewed" type="submit" class="btn btn-block btn-rounded filled-button" [disabled]="!declarationForm.valid || !isValidated">
+                      <span>Preview</span>
+                      <img src="./assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit" />
+                    </button>
+
+                    <button *ngIf="previewed" type="submit" class="btn btn-block btn-rounded filled-button" [disabled]="!declarationForm.valid || isLoading">
+                      <div class="d-flex align-items-center justify-content-center">
+                        <div *ngIf="isLoading" id="loading"></div>
+                        <span *ngIf="!isLoading">Submit</span>
+                        <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
+                      </div>                     
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+              <div class="col-12 mt-4 d-flex justify-content-end" *ngIf="backButtonControl">
+                <button (click)="backButton()" type="button" class="btn btn-rounded filled-button w-25">
+                  BACK
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="history-card h-100 d-flex flex-column">
+          <app-history
+            [items]="history"
+            (itemClickedEmitter)="onHistoryItemClick($event)">
+          </app-history>
+
+          <div class="flex-grow-1"></div>
+
+          <mat-paginator [length]="length"
+                         (page)="handlePageEvent($event)"
+                         [pageSize]="size"
+                         [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
