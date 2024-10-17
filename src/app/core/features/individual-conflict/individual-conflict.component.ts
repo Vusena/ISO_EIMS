@@ -1,13 +1,14 @@
-import {Component, inject, OnInit, signal, TemplateRef, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DatePipe} from "@angular/common";
-import {PreviewComponent} from "../common/preview/preview.component";
-import {AuthService} from "../../services/auth.service";
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {HttpsService} from "../../services/https.service";
-import {Constants} from "../../utils/constants";
-import {HttpParams} from "@angular/common/http";
-import {PageEvent} from "@angular/material/paginator";
+import { Component, inject, OnInit, signal, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from "@angular/common";
+import { PreviewComponent } from "../common/preview/preview.component";
+import { AuthService } from "../../services/auth.service";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpsService } from "../../services/https.service";
+import { Constants } from "../../utils/constants";
+import { HttpParams } from "@angular/common/http";
+import { PageEvent } from "@angular/material/paginator";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-individual-conflict',
@@ -15,13 +16,13 @@ import {PageEvent} from "@angular/material/paginator";
   styleUrls: ['./individual-conflict.component.scss']
 })
 export class IndividualConflictComponent implements OnInit {
-  history: any;
+  history: any[] = [];
   page = 0;
-  size = 6;
-  length:any;
+  size = 5;
+  length: any;
   progress: any;
   declaration: any;
-
+  highlightedItemId: number;
   today = new Date();
   natures: any;
   user: any;
@@ -49,16 +50,17 @@ export class IndividualConflictComponent implements OnInit {
     private service: HttpsService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private route: ActivatedRoute
   ) {
     this.formGroup = this.formBuilder.group({
       date: ['', Validators.required],
-      identityNo: ['',[
-          Validators.required,
-          Validators.pattern('^[A-Z0-9]*$'),
-          Validators.minLength(6),
-          Validators.maxLength(8),
-        ]],
+      identityNo: ['', [
+        Validators.required,
+        Validators.pattern('^[A-Z0-9]*$'),
+        Validators.minLength(6),
+        Validators.maxLength(8),
+      ]],
       venue: ['', Validators.required],
       nature: ['', Validators.required],
       nocId: ['', Validators.required],
@@ -68,6 +70,7 @@ export class IndividualConflictComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getHistory();
     this.progress = [
       {
         title: 'Once you declare',
@@ -76,14 +79,22 @@ export class IndividualConflictComponent implements OnInit {
       { title: "", description: "" },
     ];
 
+    this.route.queryParams.subscribe(params => {
+      const declarationId = params['declarationId'];
+      console.log('declarationId', declarationId)
+      if (declarationId) {
+        this.checkHistoryHighlight(declarationId);
+        this.getItem2(`coi-individual/${declarationId}`)
+        
+      }
+    });
     this.getUser();
     this.getNatures();
-    this.getHistory();
+
   }
 
   getUser(): void {
     this.user = this.authService.getLoggedInUser();
-    console.log(this.user)
   }
 
   getNatures(): void {
@@ -91,7 +102,7 @@ export class IndividualConflictComponent implements OnInit {
       next: (response: any) => {
         this.natures = response.data
       },
-      error: () => {},
+      error: () => { },
     })
   }
 
@@ -103,11 +114,27 @@ export class IndividualConflictComponent implements OnInit {
     this.service.get(`${Constants.BASE_URL}/coi-individual/history`, params).subscribe({
       next: (response: any) => {
         this.history = response.data.content;
+        console.log('HISTORY', this.history)
         this.length = response.data.totalElements;
       },
-      error: () => {},
+      error: () => { },
     });
   }
+
+  checkHistoryHighlight(declarationId: number) {
+
+    console.log(this.history, 'HISTORY')
+    const foundItem = this.history.find(item => item.id === declarationId);
+    console.log('foundItem', foundItem)
+    if (foundItem) {
+      console.log('foundItem', foundItem)
+      this.highlightedItemId = foundItem.id; // Set the highlighted ID
+    }
+    else {
+      console.log('Not found')
+    }
+  }
+
 
   handlePageEvent(e: PageEvent) {
     this.length = e.length;
@@ -123,12 +150,12 @@ export class IndividualConflictComponent implements OnInit {
   preview() {
     let supName = "";
     let supStaffNo = "";
-    let department="";
+    let department = "";
     if (this.user.data.supervisor != null) {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
     }
-    else if(this.user.data.department != null) {
+    else if (this.user.data.department != null) {
       department = this.user.data.department;
     }
     const formValues = this.formGroup.getRawValue();
@@ -280,15 +307,38 @@ export class IndividualConflictComponent implements OnInit {
         this.formGroup.patchValue({
           date: date,
           identityNo: this.declaration.declarant_id_no,
-          venue:this.declaration.venue,
+          venue: this.declaration.venue,
           nature: this.declaration.assignment_title,
+          nocId: this.declaration.noc_id,
           description: this.declaration.description
         });
         this.formGroup.disable()
       },
-      error: () => {},
+      error: () => { },
     });
   }
+
+
+
+  getItem2(url: string) {
+    this.service.get(`${Constants.BASE_URL}/${url}`, new HttpParams()).subscribe({
+      next: (response: any) => {
+        this.progress = response.data.progress;
+        this.declaration = response.data.declaration;
+        const date = new Date(this.declaration.assignment_date)
+        this.formGroup.patchValue({
+          date: date,
+          identityNo: this.declaration.declarant_id_no,
+          venue: this.declaration.venue,
+          nature: this.declaration.assignment_title,
+          nocId: this.declaration.noc_id,
+          description: this.declaration.description
+        }); 
+      },
+      error: () => { },
+    });
+  }
+
 
   clear() {
     this.formGroup.reset();

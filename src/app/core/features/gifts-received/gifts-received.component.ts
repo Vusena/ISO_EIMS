@@ -115,11 +115,10 @@ export class GiftsReceivedComponent implements OnInit {
     const params = new HttpParams({
       fromObject: { page: this.page, size: this.size }
     });
-
     this.service.get(`${Constants.BASE_URL}/gifts-received/history`, params).subscribe({
       next: (response: any) => {
         this.history = response.data.content;
-        console.log(this.history)
+      
         this.length = response.data.totalElements;
       },
       error: () => {},
@@ -255,7 +254,7 @@ export class GiftsReceivedComponent implements OnInit {
       description: formValues.description,
       value: formValues.value,
     };
-    console.log(data)
+   
 
     this.service.post(`${Constants.BASE_URL}/gifts-received`, data).subscribe({
       next: (response: any) => {

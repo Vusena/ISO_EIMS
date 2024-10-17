@@ -32,9 +32,6 @@ const mainLayoutRoutes: Routes = [
     canActivate: [AuthGuard, HasRoleGuard],
     data: { requiredRole: ['ROLE_ADMIN']}
   },
-
-
-
   { path: "policies", component: PoliciesComponent },
   { path: "faqs", component: FaqsComponent },
   { path: "logout", component: LogOutComponent }

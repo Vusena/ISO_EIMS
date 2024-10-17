@@ -10,7 +10,8 @@
 
   <div class="row">
     <div class="p-0" *ngIf="items && items.length > 0; else noItems">
-      <div class="p-0 history-item" *ngFor="let item of items" (click)="onItemClick(item.url)">
+      <div class="p-0 history-item" *ngFor="let item of items" (click)="onItemClick(item.url)" 
+      [ngClass]="{'highlight': item.id === highlightedItemId}">
         <div class="row px-3">
           <div class="d-flex align-items-center w-100">
             <img src="assets/icons/{{ item.icon }}" alt="">

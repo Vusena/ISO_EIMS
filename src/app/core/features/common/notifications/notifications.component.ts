@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { HttpService } from 'app/core/services/http.service';
@@ -47,7 +48,9 @@ export class NotificationsComponent {
   @ViewChild('CoIIHoDISOReview') CoIIHoDISOReview: TemplateRef<any>;
   @ViewChild('GRSupReview') GRSupReview: TemplateRef<any>;
   @ViewChild('GRHoDReview') GRHoDReview: TemplateRef<any>;
-  
+  @ViewChild('GRHoDISOReview') GRHoDISOReview: TemplateRef<any>;
+  @ViewChild('GRDeclarantReview') GRDeclarantReview: TemplateRef<any>;
+
 
   readonly panelOpenState = signal(false);
 
@@ -72,11 +75,14 @@ export class NotificationsComponent {
   errorMessage: "string";
   declarationCheck: boolean;
   receivedGiftsResponces: any;
+  PROCESSED = 'PROCESSED';
 
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
     private service: HttpsService,
     private snackBar: MatSnackBar) { }
 
@@ -109,6 +115,10 @@ export class NotificationsComponent {
       status: ['', Validators.required],
       remarks: ['',]
     })
+    this.route.queryParams.subscribe(params => {
+      const declarationId = params['declarationId'];
+      console.log(declarationId); // Use this value as needed
+    });
   }
 
   actions: any = [
@@ -142,7 +152,7 @@ export class NotificationsComponent {
     this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
       next: (response) => {
         this.notifications = response.data
-        console.log(this.notifications)
+        // console.log(this.notifications)
       },
       error: (error) => {
         console.error("There was an error!", error);
@@ -153,8 +163,7 @@ export class NotificationsComponent {
   getGiftsReceivedResponses(): void {
     this.service.get(`${Constants.BASE_URL}/gift-responses`, new HttpParams()).subscribe({
       next: (response: any) => {
-        this.receivedGiftsResponces = response.data
-        console.log(this.receivedGiftsResponces)
+        this.receivedGiftsResponces = response.data      
       },
       error: () => { },
     })
@@ -169,6 +178,7 @@ export class NotificationsComponent {
       case 'CoIGDeclare':
         this.openVerticallyCentered(this.content, notification);
         break;
+      // INDIVIDUAL CONFLICTS REVIEW
       case 'CoIISupReview':
         this.openCoIISupReview(this.CoIISupReview, notification);
         break;
@@ -181,12 +191,22 @@ export class NotificationsComponent {
       case 'CoIIHoDISOReview':
         this.openCoIIHoDISOReview(this.CoIIHoDISOReview, notification);
         break;
+      // GIFTS RECEIVED ACTIONS
       case 'GRSupReview':
         this.openGRSupReview(this.GRSupReview, notification);
         break;
       case 'GRHoDReview':
         this.openGRHoDReview(this.GRHoDReview, notification);
         break;
+      case 'GRHoDISOReview':
+        this.openGRHoDISOReview(this.GRHoDISOReview, notification);
+        break;
+      case 'GRDeclarantReview':
+        this.openGRGRDeclarantReview(this.GRDeclarantReview, notification);
+        break;
+      case 'CoIIDeclarantEdit':
+        this.openCoIIDeclarantEdit(notification);
+        break;  
       // add more cases for other actions
       default:
         console.log('Unknown action');
@@ -195,7 +215,6 @@ export class NotificationsComponent {
 
   openCoIISupReview(CoIISupReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification, "openCoIISupReview() has been called")
     this.modalService.open(CoIISupReview, { centered: true, });
   }
 
@@ -271,10 +290,29 @@ export class NotificationsComponent {
     this.selectedNotification = notification;
     this.modalService.open(GRSupReview, { centered: true, });
   }
-  openGRHoDReview(GRHoDReview : TemplateRef<any>, notification: any){
+  openGRHoDReview(GRHoDReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
+    console.log(this.selectedNotification)
     this.modalService.open(GRHoDReview, { centered: true, });
   }
+  openGRHoDISOReview(GRHoDISOReview: TemplateRef<any>, notification: any) {
+    this.selectedNotification = notification;
+    console.log(this.selectedNotification)
+    this.modalService.open(GRHoDISOReview, { centered: true, });
+  }
+  openGRGRDeclarantReview(GRDeclarantReview: TemplateRef<any>, notification: any) {
+    this.selectedNotification = notification;
+    console.log(this.selectedNotification)
+    this.modalService.open(GRDeclarantReview, { centered: true, });
+  }
+
+  openCoIIDeclarantEdit(notification ):void {
+    this.selectedNotification = notification;
+    const declarationId = this.selectedNotification.declarationId; // Assuming 'selectedNotification' is the object
+    this.router.navigate(['/individual-conflict'], { queryParams: { declarationId: declarationId } });
+  }
+  
+
 
   onCloseClick() {
     this.modalService.dismissAll('Close click');
@@ -470,29 +508,57 @@ export class NotificationsComponent {
   }
 
   submitDeclarantRemarks() {
-    console.log(this.selectedNotification.action)
-    this.isLoading = true;
+
+    const action = this.selectedNotification.action
     const declarationId = this.selectedNotification.declarationId;
-    const individualRemarksData = {
-      declarationId: declarationId,
-      status: this.individualForm.get('status').value,
-      remarks: this.individualForm.get('individualRemarks').value
-    };
-    this.httpService.postData(ApiEndPoints.INDIVIDUAL_HOD_REVEIW_POST, individualRemarksData).subscribe({
-      next: (response) => {
-        this.modalService.dismissAll();
-        this.openSuccessModal(this.nocontent)
-        this.getNotifications();
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error("There was an error!", error);
-        this.isLoading = false;
-        this.errorMessage = error.error.description
-      },
-    });
+    this.isLoading = true;
+    console.log(this.selectedNotification.action)
+
+    if (action == 'CoIIDeclarantReview') {
+      const individualRemarksData = {
+        declarationId: declarationId,
+        status: this.individualForm.get('status').value,
+        remarks: this.individualForm.get('individualRemarks').value
+      };
+      this.service.post(`${Constants.BASE_URL}/coi-individual-review/declarant`, individualRemarksData).subscribe({
+        next: (response) => {
+          this.modalService.dismissAll();
+          this.openSuccessModal(this.nocontent)
+          this.getNotifications();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+          this.isLoading = false;
+          this.errorMessage = error.error.description
+        },
+      });
+    }
+    else {
+      const individualRemarksData = {
+        declarationId: declarationId,
+        status: this.individualForm.get('status').value,
+        remarks: this.individualForm.get('individualRemarks').value
+      };
+      this.httpService.postData(ApiEndPoints.INDIVIDUAL_HOD_REVEIW_POST, individualRemarksData).subscribe({
+        next: (response) => {
+          this.modalService.dismissAll();
+          this.openSuccessModal(this.nocontent)
+          this.getNotifications();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+          this.isLoading = false;
+          this.errorMessage = error.error.description
+        },
+      });
+    }
+
   }
 
   submitHODISORemarks() {
@@ -521,30 +587,104 @@ export class NotificationsComponent {
     });
   }
   submitGiftsReceviedRemarks(): void {
+    const action = this.selectedNotification.action
     const declarationId = this.selectedNotification.declarationId;
-    console.log(this.selectedNotification)
-    const data = {
-      // declarationId: declarationId,      
-      responseId: this.giftsReceivedForm.get('action').value,
-      remarks: this.giftsReceivedForm.get('remarks').value,
-      status: this.giftsReceivedForm.get('status').value,
+    if (action == 'GRHoDISOReview') {
+      const data = {
+        declarationId: declarationId,
+        responseId: this.giftsReceivedForm.get('action').value,
+        remarks: this.giftsReceivedForm.get('remarks').value,
+        status: 'PROCESSED',
+      }
+      console.log("Data", data)
+      this.service.post(`${Constants.BASE_URL}/gifts-received-review/hod-iso`, data).subscribe({
+        next: (response) => {
+          this.modalService.dismissAll();
+          this.openSuccessModal(this.nocontent)
+          this.getNotifications();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+          this.isLoading = false;
+          this.errorMessage = error.message
+        },
+      });
     }
-    console.log(data)
-    this.service.post(`${Constants.BASE_URL}/gifts-received-review/supervisor`, data).subscribe({
-      next: (response) => {
-        this.modalService.dismissAll();
-        this.openSuccessModal(this.nocontent)
-        this.getNotifications();
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error("There was an error!", error);
-        this.isLoading = false;
-        this.errorMessage = error.message
-      },
-    });
+    else if (action == 'GRDeclarantReview') {
+      const data = {
+        declarationId: declarationId,
+        responseId: null,
+        remarks: null,
+        status: 'ACKNOWLEDGED',
+      }
+      console.log("Data", data)
+      this.service.post(`${Constants.BASE_URL}/gifts-received-review/declarant`, data).subscribe({
+        next: (response) => {
+          this.modalService.dismissAll();
+          this.openSuccessModal(this.nocontent)
+          this.getNotifications();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+          this.isLoading = false;
+          this.errorMessage = error.message
+        },
+      });
+    }
+    else if (action == 'GRSupReview') {
+      const data = {
+        declarationId: declarationId,
+        responseId: this.giftsReceivedForm.get('action').value,
+        remarks: this.giftsReceivedForm.get('remarks').value,
+        status: this.giftsReceivedForm.get('status').value,
+      }
+      console.log("Data", data)
+      this.service.post(`${Constants.BASE_URL}/gifts-received-review/supervisor`, data).subscribe({
+        next: (response) => {
+          this.modalService.dismissAll();
+          this.openSuccessModal(this.nocontent)
+          this.getNotifications();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+          this.isLoading = false;
+          this.errorMessage = error.message
+        },
+      });
+    }
+    else {
+      const data = {
+        declarationId: declarationId,
+        responseId: this.giftsReceivedForm.get('action').value,
+        remarks: this.giftsReceivedForm.get('remarks').value,
+        status: this.giftsReceivedForm.get('status').value,
+      }
+      console.log(data)
+      this.service.post(`${Constants.BASE_URL}/gifts-received-review/hod`, data).subscribe({
+        next: (response) => {
+          this.modalService.dismissAll();
+          this.openSuccessModal(this.nocontent)
+          this.getNotifications();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error("There was an error!", error);
+          this.isLoading = false;
+          this.errorMessage = error.message
+        },
+      });
+    }
   }
 }
 
