@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { Component, signal, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, signal, TemplateRef, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -15,6 +15,7 @@ import { NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { HttpService } from 'app/core/services/http.service';
 import { HttpsService } from 'app/core/services/https.service';
+import { NotificationService } from 'app/core/services/notification.service';
 import { Constants } from 'app/core/utils/constants';
 
 
@@ -52,9 +53,9 @@ export class NotificationsComponent {
   @ViewChild('GRDeclarantReview') GRDeclarantReview: TemplateRef<any>;
 
 
-  readonly panelOpenState = signal(false);
+  readonly panelOpenState = signal(false);EventEmitter
 
-  notifications: any[] = []
+  notifications: any[] = [];
   selectedNotification: any;
   showLateDeclarationUI: boolean;
   declarationForm: FormGroup;
@@ -77,6 +78,7 @@ export class NotificationsComponent {
   receivedGiftsResponces: any;
   PROCESSED = 'PROCESSED';
 
+
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
@@ -84,7 +86,13 @@ export class NotificationsComponent {
     private route: ActivatedRoute,
     private router: Router,
     private service: HttpsService,
+    private notificationService: NotificationService,
     private snackBar: MatSnackBar) { }
+
+
+    @Output() itemClickedEmitter = new EventEmitter<number>();
+
+    
 
   ngOnInit(): void {
     this.getNotifications();
@@ -148,22 +156,33 @@ export class NotificationsComponent {
     { value: "ESCALATED_HOD_ISO", name: 'Escalate Declaration' },
   ]
 
-  getNotifications(): void {
-    this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
-      next: (response) => {
-        this.notifications = response.data
-        // console.log(this.notifications)
-      },
-      error: (error) => {
-        console.error("There was an error!", error);
-      },
-    })
-  }
+  // getNotifications(): void {
+  //   this.httpService.get(ApiEndPoints.GET_NOTIFICATIONS).subscribe({
+  //     next: (response) => {
+  //       this.notifications = response.data
+  //       console.log(this.notifications)
+  //     },
+  //     error: (error) => {
+  //       console.error("There was an error!", error);
+  //     },
+  //   })
+  // }
+
+getNotifications(){
+  // Subscribe to notifications and get the data
+  this.notificationService.notifications$.subscribe((data: any[]) => {
+    this.notifications = data; 
+    console.log(this.notifications)// Assign data to notifications array
+  });
+
+  // Fetch notifications when the component initializes
+  this.notificationService.getNotifications();
+}
 
   getGiftsReceivedResponses(): void {
     this.service.get(`${Constants.BASE_URL}/gift-responses`, new HttpParams()).subscribe({
       next: (response: any) => {
-        this.receivedGiftsResponces = response.data      
+        this.receivedGiftsResponces = response.data
       },
       error: () => { },
     })
@@ -206,7 +225,7 @@ export class NotificationsComponent {
         break;
       case 'CoIIDeclarantEdit':
         this.openCoIIDeclarantEdit(notification);
-        break;  
+        break;
       // add more cases for other actions
       default:
         console.log('Unknown action');
@@ -306,13 +325,11 @@ export class NotificationsComponent {
     this.modalService.open(GRDeclarantReview, { centered: true, });
   }
 
-  openCoIIDeclarantEdit(notification ):void {
+  openCoIIDeclarantEdit(notification): void {
     this.selectedNotification = notification;
     const declarationId = this.selectedNotification.declarationId; // Assuming 'selectedNotification' is the object
     this.router.navigate(['/individual-conflict'], { queryParams: { declarationId: declarationId } });
   }
-  
-
 
   onCloseClick() {
     this.modalService.dismissAll('Close click');

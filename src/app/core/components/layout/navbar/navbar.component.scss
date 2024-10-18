@@ -38,6 +38,23 @@ input[type="text"].form-control:focus {
     margin-right: 12px;
 }
 
+.bell {
+    position: relative;
+}
+
+.notification-count {
+    position: absolute;
+    top: 5px;
+    /* Adjust this value to position it vertically */
+    right: 5px;
+    /* Adjust this value to position it horizontally */
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;   
+    font-size: 12px;
+}
+
 @media (min-width: 992px) {
     .dropdown-menu-right {
         right: auto;
@@ -46,5 +63,14 @@ input[type="text"].form-control:focus {
         /* Adjust the left position as needed */
         min-width: 200px;
         /* Set a minimum width for larger screens */
+    }
+   
+}
+@media (max-width: 992px) {    
+    .bubble{
+        position: static  ;
+    }
+    .name{
+        text-align: left;
     }
 }
