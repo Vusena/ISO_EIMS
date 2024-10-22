@@ -131,6 +131,18 @@
                 </div>
               </div>
 
+              <div class="row px-2" *ngIf="formGroup.get('nocId').value === 5">
+                <div class="col-12 px-1">
+                  <div class="small">Specify Other Nature of Conflict</div>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <input matInput formControlName="specifiednature" placeholder="Type here.." />
+                    <mat-error *ngIf="formGroup.get('specifiednature').hasError('required')">
+                      Please specify the occasion
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
               <div class="row px-2">
                 <div class="col-12 px-1">
                   <div class="small">Description of Conflict</div>

@@ -1,13 +1,13 @@
-import {DatePipe} from '@angular/common';
-import {Component, OnInit, signal, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AuthService} from 'app/core/services/auth.service';
-import {PreviewComponent} from '../common/preview/preview.component';
-import {Constants} from "../../utils/constants";
-import {HttpsService} from "../../services/https.service";
-import {PageEvent} from "@angular/material/paginator";
-import {HttpParams} from "@angular/common/http";
+import { DatePipe } from '@angular/common';
+import { Component, OnInit, signal, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'app/core/services/auth.service';
+import { PreviewComponent } from '../common/preview/preview.component';
+import { Constants } from "../../utils/constants";
+import { HttpsService } from "../../services/https.service";
+import { PageEvent } from "@angular/material/paginator";
+import { HttpParams } from "@angular/common/http";
 
 @Component({
   selector: 'app-group-conflict',
@@ -121,7 +121,6 @@ export class GroupConflictComponent implements OnInit {
     ];
   }
 
-
   updateValidators() {
     const reasonsControl = this.declarationForm.get('reasons');
     const fileControl = this.declarationForm.get('file');
@@ -148,7 +147,7 @@ export class GroupConflictComponent implements OnInit {
 
   getUser(): void {
     this.user = this.authService.getLoggedInUser();
-    console.log(this.user)
+    console.log("User",this.user)
     this.username = this.user.data.name
   }
 
@@ -162,7 +161,7 @@ export class GroupConflictComponent implements OnInit {
         this.history = response.data.content;
         this.length = response.data.totalElements;
       },
-      error: () => {},
+      error: () => { },
     });
   }
 
@@ -177,20 +176,20 @@ export class GroupConflictComponent implements OnInit {
     event.preventDefault();
     const data = { staffNo: this.searchText };
     this.service.post(`${Constants.BASE_URL}/coi-group/search`, data).subscribe({
-        next: (response: any) => {
-          let staff = response.data;
-          this.showSearchResults = true;
-          this.staffName = staff.name;
-          this.staffNo = staff.staffNo;
-        },
-        error: (error) => {
-          this.alertSearch.message = error.message;
-          this.alertSearch.title = "Oops!";
-          this.alertSearch.type = "danger";
+      next: (response: any) => {
+        let staff = response.data;
+        this.showSearchResults = true;
+        this.staffName = staff.name;
+        this.staffNo = staff.staffNo;
+      },
+      error: (error) => {
+        this.alertSearch.message = error.message;
+        this.alertSearch.title = "Oops!";
+        this.alertSearch.type = "danger";
 
-          this.alertSearch.isOpen = true;
-        }
-      })
+        this.alertSearch.isOpen = true;
+      }
+    })
   }
 
   onCloseAlertSearch(): void {
@@ -361,14 +360,15 @@ export class GroupConflictComponent implements OnInit {
   preview() {
     let supName = "";
     let supStaffNo = "";
-    let department="";
+    let department = "";
     if (this.user.data.supervisor != null) {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
     }
-    else if(this.user.data.department!=null) {
-      department=this.user.data.department;
+    if (this.user.data.department != null) {
+      department = this.user.data.department;
     }
+    
     const formValues = this.declarationForm.getRawValue();
     console.log(formValues)
     const data = [
@@ -397,6 +397,11 @@ export class GroupConflictComponent implements OnInit {
         class: "col-sm-6 pb-1"
       },
       {
+        label: "ID/Passport Number",
+        value: formValues.identityNo,
+        class: "col-sm-6 pb-1"
+      },
+      {
         label: "Supervisor Name:",
         value: supName,
         class: "col-sm-6 pb-1"
@@ -406,11 +411,7 @@ export class GroupConflictComponent implements OnInit {
         value: supStaffNo,
         class: "col-sm-6 pb-1"
       },
-      {
-        label: "ID/Passport Number",
-        value: formValues.identityNo,
-        class: "col-sm-6 pb-1"
-      },
+
       {
         label: "GROUP MEMBER DETAILS",
         class: "col-12 text-center mt-3 h5"
@@ -609,7 +610,7 @@ export class GroupConflictComponent implements OnInit {
 
         this.declarationForm.disable()
       },
-      error: () => {},
+      error: () => { },
     });
   }
 

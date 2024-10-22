@@ -73,7 +73,8 @@
           <div class="row mb-2">
             <ng-container *ngFor="let role of Roles">
               <div class="col-6 mb-3">
-                <button (click)="getPrivileges(role.name)" class="w-100 button-sm" style="font-size: 12px" [ngClass]="{ highlighted: role.isSelected }" [ngClass]="{ default: isRequestSuccessful }">
+                <button (click)="getPrivileges(role.name)" class="w-100 button_style" style="font-size: 12px" [ngClass]="{ highlighted: role.isSelected }"
+                 [ngClass]="{ default: isRequestSuccessful }">
                   {{ role.name }}
                 </button>
               </div>

@@ -235,29 +235,11 @@
   height: 15px;
 }
 
-.paragraph_style {
-  line-height: 1.0;
-  // margin-left: 20px;
-}
-.yes_no_button {
-  width: 100px;
-  height: 30px;
+.button_style{
+  border:1px solid #133B3A;
+  padding: 10px 5px;
   border-radius: 30px;
-  border: 1px solid #707070;
-}
-
-// .yes_no_button:active {
-//   background-color: #741110;
-//   border-color: #ccc;
-//   color: #fff;
-//   }
-
-  .yes_no_button.selected {
-    background-color: #E12827;
-    color: #fff;
-    }
-.bg-modal-open {
-  background-color:#133B3A;
+  background-color: #00000029;
 }
 
 .card3 {

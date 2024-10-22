@@ -91,7 +91,6 @@ export class GiftsGivenOutComponent implements OnInit {
       { title: 'Once you declare', description: 'This will be your progress bar to track which stage the declaration is at.' },
       { title: '', description: '' },
     ];
-
     this.getUser();
     this.getOccasions();
     this.getHistory();
@@ -144,9 +143,10 @@ export class GiftsGivenOutComponent implements OnInit {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
     }
-    else if(this.user.data.department!=null) {
-      department=this.user.data.department;
+    if (this.user.data.department != null) {
+      department = this.user.data.department;
     }
+    
 
     const formValues = this.formGroup.getRawValue();
     const occasionValue = formValues.occasionId === 5 ? formValues.specified :

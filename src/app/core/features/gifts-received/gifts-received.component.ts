@@ -1,13 +1,13 @@
-import {Component, inject, OnInit, signal, TemplateRef, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DatePipe, DecimalPipe} from "@angular/common";
-import {PreviewComponent} from "../common/preview/preview.component";
-import {AuthService} from 'app/core/services/auth.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {HttpParams} from "@angular/common/http";
-import {HttpsService} from "../../services/https.service";
-import {Constants} from "../../utils/constants";
-import {PageEvent} from "@angular/material/paginator";
+import { Component, inject, OnInit, signal, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatePipe, DecimalPipe } from "@angular/common";
+import { PreviewComponent } from "../common/preview/preview.component";
+import { AuthService } from 'app/core/services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpParams } from "@angular/common/http";
+import { HttpsService } from "../../services/https.service";
+import { Constants } from "../../utils/constants";
+import { PageEvent } from "@angular/material/paginator";
 
 @Component({
   selector: 'app-gifts-received',
@@ -107,7 +107,7 @@ export class GiftsReceivedComponent implements OnInit {
       next: (response: any) => {
         this.occasions = response.data
       },
-      error: () => {},
+      error: () => { },
     })
   }
 
@@ -118,10 +118,9 @@ export class GiftsReceivedComponent implements OnInit {
     this.service.get(`${Constants.BASE_URL}/gifts-received/history`, params).subscribe({
       next: (response: any) => {
         this.history = response.data.content;
-      
         this.length = response.data.totalElements;
       },
-      error: () => {},
+      error: () => { },
     });
   }
 
@@ -139,13 +138,13 @@ export class GiftsReceivedComponent implements OnInit {
   preview() {
     let supName = "";
     let supStaffNo = "";
-    let department="";
+    let department = "";
     if (this.user.data.supervisor != null) {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
     }
-    else if(this.user.data.department!=null) {
-      department=this.user.data.department;
+    if (this.user.data.department != null) {
+      department = this.user.data.department;
     }
     const formValues = this.formGroup.getRawValue();
     const occasionValue = formValues.occasionId === 5 ? formValues.specified :
@@ -168,7 +167,7 @@ export class GiftsReceivedComponent implements OnInit {
       },
       {
         label: "Department",
-        value: this.user.data.department,
+        value: department,
         class: "col-sm-6 pb-1"
       },
       {
@@ -217,7 +216,7 @@ export class GiftsReceivedComponent implements OnInit {
       },
       {
         label: "Value of Gift",
-        value: this.decimalPipe.transform(formValues.value,  '1.2-2'),
+        value: this.decimalPipe.transform(formValues.value, '1.2-2'),
         class: "col-sm-6 pb-1"
       },
       {
@@ -235,7 +234,7 @@ export class GiftsReceivedComponent implements OnInit {
     const modalRef = this.modalService.open(PreviewComponent, { centered: true });
     modalRef.componentInstance.data = data;
     modalRef.result.then((result) => {
-        this.previewed = result;
+      this.previewed = result;
     });
   }
 
@@ -254,7 +253,7 @@ export class GiftsReceivedComponent implements OnInit {
       description: formValues.description,
       value: formValues.value,
     };
-   
+
 
     this.service.post(`${Constants.BASE_URL}/gifts-received`, data).subscribe({
       next: (response: any) => {
@@ -309,18 +308,18 @@ export class GiftsReceivedComponent implements OnInit {
 
         this.formGroup.patchValue({
           dateReceived: dateReceived,
-          dateSurrendered:dateSurrendered,
+          dateSurrendered: dateSurrendered,
           conferrer: this.declaration.conferrer,
-          identityNo:this.declaration.identityNo,
+          identityNo: this.declaration.identityNo,
           value: this.declaration.value,
-          occasionId:this.declaration.occasionId,
+          occasionId: this.declaration.occasionId,
           specified: this.declaration.specified,
-          description:this.declaration.description
+          description: this.declaration.description
         });
 
         this.formGroup.disable()
       },
-      error: () => {},
+      error: () => { },
     });
   }
 

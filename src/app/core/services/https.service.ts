@@ -10,7 +10,7 @@ import {AuthService} from "./auth.service";
 export class HttpsService {
 
   headers: HttpHeaders;
-
+  
   constructor(private http: HttpClient, authService: AuthService) {
     if (authService.isLoggedIn()) {
       this.headers = new HttpHeaders({
@@ -35,13 +35,13 @@ export class HttpsService {
     );
   }
 
-  /*put(url: string, body: any) : Observable<any> {
+  put(url: string, body: any) : Observable<any> {
     return this.http.put<any>(
       url, body, { headers: this.headers }
     ).pipe(
       catchError(this.handleError)
     );
-  }*/
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';

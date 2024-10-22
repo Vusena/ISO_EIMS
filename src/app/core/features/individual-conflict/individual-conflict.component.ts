@@ -26,6 +26,7 @@ export class IndividualConflictComponent implements OnInit {
   today = new Date();
   natures: any;
   user: any;
+  declarationId = 0;
 
   alert = {
     type: "success",
@@ -62,11 +63,26 @@ export class IndividualConflictComponent implements OnInit {
         Validators.maxLength(8),
       ]],
       venue: ['', Validators.required],
+      specifiednature:[''],
       nature: ['', Validators.required],
       nocId: ['', Validators.required],
       description: ['', Validators.required],
       agree: [false, Validators.requiredTrue]
     });
+
+    this.formGroup.get('nocId').valueChanges.subscribe(value => {
+      this.updateSpecifiedValidation(value);
+    });
+  }
+
+  updateSpecifiedValidation(nocId: number) {
+    const specifiedControl = this.formGroup.get('specifiednature');
+    if (nocId === 5) { // Assuming 5 is the ID for "Other"
+      specifiedControl.setValidators([Validators.required]);
+    } else {
+      specifiedControl.clearValidators();
+    }
+    specifiedControl.updateValueAndValidity();
   }
 
   ngOnInit(): void {
@@ -80,11 +96,11 @@ export class IndividualConflictComponent implements OnInit {
     ];
 
     this.route.queryParams.subscribe(params => {
-      const declarationId = params['declarationId'];
-      console.log('declarationId', declarationId)
-      if (declarationId) {
-        this.checkHistoryHighlight(declarationId);
-        this.getItem2(`coi-individual/${declarationId}`)
+      this.declarationId = params['declarationId'];
+      
+      if (this.declarationId > 0) {
+        this.checkHistoryHighlight(this.declarationId);
+        this.getItem2(`coi-individual/${this.declarationId}`)
         
       }
     });
@@ -101,6 +117,7 @@ export class IndividualConflictComponent implements OnInit {
     this.service.get(`${Constants.BASE_URL}/nature-of-conflicts`, new HttpParams()).subscribe({
       next: (response: any) => {
         this.natures = response.data
+        console.log(this.natures)
       },
       error: () => { },
     })
@@ -155,10 +172,15 @@ export class IndividualConflictComponent implements OnInit {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
     }
-    else if (this.user.data.department != null) {
+    
+    if (this.user.data.department != null) {
       department = this.user.data.department;
     }
+
     const formValues = this.formGroup.getRawValue();
+    const natureValue = formValues.nocId === 5 ? formValues.specifiednature :
+      this.natures.find((o: { id: number; }) => o.id === formValues.nocId)?.name || '';
+
     const data: any = [
       {
         label: "PERSONAL DETAILS",
@@ -176,7 +198,7 @@ export class IndividualConflictComponent implements OnInit {
       },
       {
         label: "Department",
-        value: this.user.data.department,
+        value: department,
         class: "col-sm-6"
       },
       {
@@ -225,9 +247,9 @@ export class IndividualConflictComponent implements OnInit {
         class: "col-sm-6"
       },
       {
-        label: "Nature of Conflict",
-        value: this.natures.find((o: { id: number; }) => o.id === formValues.nocId)['name'],
-        class: "col-sm-6"
+        label: formValues.specifiednature ? "Nature of Conflict (Specified):" : "Nature of Conflict:",
+        value: natureValue,
+        class: "col-sm-6 pb-1"
       },
       {
         label: "Description of Conflict",
@@ -244,9 +266,7 @@ export class IndividualConflictComponent implements OnInit {
 
   post() {
     this.isLoading = true;
-
     const formValues = this.formGroup.getRawValue();
-
     const data = {
       identityNo: formValues.identityNo,
       date: this.datePipe.transform(formValues.date, 'yyyy-MM-dd'),
@@ -254,29 +274,56 @@ export class IndividualConflictComponent implements OnInit {
       nature: formValues.nature,
       nocId: formValues.nocId,
       description: formValues.description
-    };
+    };   
 
-    this.service.post(`${Constants.BASE_URL}/coi-individual`, data).subscribe({
-      next: (response) => {
-        if (response.code === 200) {
+    if (this.declarationId > 0) {
+      this.service.put(`${Constants.BASE_URL}/coi-individual/${this.declarationId}`, data).subscribe({
+        next: (response) => {
+          if (response.code === 200) {
+            this.isLoading = false;
+            this.openVerticallyCentered(this.content);
+            //this.form.reset();
+          }
+        },
+        complete() {
           this.isLoading = false;
-          this.openVerticallyCentered(this.content);
-          //this.form.reset();
+        },
+        error: (error) => {
+          this.isLoading = false;  
+          this.alert.message = error.message;
+          this.alert.title = "Oops!";
+          this.alert.type = "danger";  
+          this.alert.isOpen = true;
         }
-      },
-      complete() {
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.isLoading = false;
+      });
 
-        this.alert.message = error.message;
-        this.alert.title = "Oops!";
-        this.alert.type = "danger";
 
-        this.alert.isOpen = true;
-      }
-    });
+      
+    } else {
+
+      this.service.post(`${Constants.BASE_URL}/coi-individual`, data).subscribe({
+        next: (response) => {
+          if (response.code === 200) {
+            this.isLoading = false;
+            this.openVerticallyCentered(this.content);
+            //this.form.reset();
+          }
+        },
+        complete() {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+  
+          this.alert.message = error.message;
+          this.alert.title = "Oops!";
+          this.alert.type = "danger";
+  
+          this.alert.isOpen = true;
+        }
+      });
+
+    }
   }
 
   onCloseAlert() {
