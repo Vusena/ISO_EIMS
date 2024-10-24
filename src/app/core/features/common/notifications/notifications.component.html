@@ -1,6 +1,6 @@
 <!-- List ALL NOTIFICATIONS -->
- <div *ngIf="notifications.length > 0"> 
-     <div *ngFor="let notification of notifications" style="margin-bottom: 20px;">
+<div *ngIf="notifications.length > 0" class="p-1">
+    <div *ngFor="let notification of notifications" style="margin-bottom: 20px;">
         <div class="row p-2" style="background-color:#F2F2F2; border-radius: 15px;">
             <div class="col-12 mb-3 d-flex align-items-center justify-content-between ">
                 <div class="col-9 p-0 " style="color: #808080; font-size: 11px;">
@@ -19,8 +19,8 @@
                 <ng-template #others>
                     {{notification.nature}}
                 </ng-template>
-            </p>  
-            
+            </p>
+
             <p style="font-style: 12px; line-height: 1.0;">
                 <span *ngIf="(notification.action == 'GRSupReview'|| notification.action=='GRHoDReview')">
                     {{notification.declarant.name}}
@@ -50,10 +50,10 @@
                 </span>
             </p>
         </div>
-    </div> 
- </div> 
+    </div>
+</div>
 
- <div *ngIf="notifications.length === 0">
+<div *ngIf="notifications.length === 0" class="p-1">
     <div style="margin-bottom: 20px;">
         <div class="row">
             <p class="mb-1" style="color: #133B3A; font-size: 12px; font-weight: bold; ">
@@ -98,16 +98,16 @@
                 <div class="semi-bold" style="color: #133B3A;">ID/Passport No</div>
                 <mat-form-field appearance="outline">
                     <input class="modal_textarea px-2" placeholder="Type here.." matInput type="text" maxlength="8"
-                        formControlName="identityNo"/>
-                    <mat-error style="font-size: 11px;"
-                        *ngIf="declarationForm.get('identityNo').hasError('required')">
+                        formControlName="identityNo" />
+                    <mat-error style="font-size: 11px;" *ngIf="declarationForm.get('identityNo').hasError('required')">
                         ID/Passport Number is required</mat-error>
                     <mat-error *ngIf="declarationForm.get('identityNo').hasError('pattern')">
                         Invalid format
                     </mat-error>
-                     <mat-error *ngIf="declarationForm.get('identityNo').hasError('minlength') && !declarationForm.get('identityNo').hasError('pattern')">
+                    <mat-error
+                        *ngIf="declarationForm.get('identityNo').hasError('minlength') && !declarationForm.get('identityNo').hasError('pattern')">
                         Minimum 6 characters allowed
-                      </mat-error> 
+                    </mat-error>
                     <mat-error *ngIf="declarationForm.get('identityNo').hasError('maxlength')">
                         Maximum 8 characters allowed
                     </mat-error>
@@ -197,7 +197,7 @@
 
             <div class="col-12 mb-2 mt-1  d-flex justify-content-between">
                 <button class="btn p-0" style="width: 150px; background-color: #FFFFFF; border-radius: 20px; height: 30px; border: #E12827 1px solid;
-                    font-size: 13px;" type="button" (click)="cancelDeclarations()">Cancel
+                    font-size: 13px;" type="button" (click)="cancelDeclarations()">Clear
                     <img src="assets/icons/main-layout-icons/clear-icon.svg">
                 </button>
                 <button type="submit" class="btn p-0"
@@ -347,8 +347,7 @@
                 </div>
                 <div class="row p-0 ">
                     <div class="col-12 mb-2 d-flex justify-content-between">
-                        <button class=" assign-role" style="width: 150px;" type="button"
-                            (click)="cancelRemarks()">Cancel
+                        <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Clear
                             <img src="assets/icons/main-layout-icons/clear-icon.svg">
                         </button>
                         <button class="assign-rolee" style="width: 150px;" [disabled]="!remarksForm.valid">
@@ -451,7 +450,7 @@
 
             <div class="row p-0 ">
                 <div class="col-12 mb-2 d-flex justify-content-between">
-                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
+                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Clear
                         <img src="assets/icons/main-layout-icons/clear-icon.svg">
                     </button>
                     <button class="assign-rolee" style="width: 150px;" [disabled]="!individualForm.valid || isLoading">
@@ -468,12 +467,19 @@
 <!-- DECLARANT REVIEW MODAL -->
 <ng-template #CoIIDeclarantReview let-modal>
     <div class="p-3">
-        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
+        <!-- <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
             (closed)="errorMessage = false">
             <span style="font-size: 12px">{{ errorMessage }}</span>
+        </ngb-alert> -->
+        <ngb-alert *ngIf="alertSubmit.isOpen" type="{{ alertSubmit.type }}" (closed)="onCloseAlertSubmit()">
+            <strong>{{ alertSubmit.title }}</strong> {{ alertSubmit.message }}
         </ngb-alert>
-    </div>
 
+        <!-- <ngb-alert *ngIf="errorMessage && !closed" type="danger" (close)="closed = true" >
+            <strong>Oops!</strong> {{ errorMessage }}
+          </ngb-alert> -->
+
+    </div>
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
@@ -486,31 +492,32 @@
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
-            Declarant Details
+            Declarant and Reviewer Details
         </p>
-        <!-- <p class="p-0">
-            <strong>Declarant name:</strong> {{selectedNotification.declarant.name}}
-        </p>
-        <p class="p-0 ">
-            <strong> Declarant staffNo: </strong> {{selectedNotification.declarant.staffNo}}
-        </p> -->
         <table class="table">
             <thead>
                 <tr>
                     <th>Declarant name</th>
                     <th>Declarant staffNo</th>
-                    <!-- <th>ID./Passport No.</th> -->
+                    <th>Reviewer name</th>
+                    <th>Reviewer staffNo</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ selectedNotification.declarant.name }}</td>
                     <td>{{ selectedNotification.declarant.staffNo }}</td>
+                    <td>{{ selectedNotification.reviewer.name }}</td>
+                    <td>{{ selectedNotification.reviewer.staffNo }}</td>
                     <!-- <td>{{ selectedNotification.declarant.staffNo }}</td> -->
                 </tr>
             </tbody>
         </table>
-
+        <p class="text-center"
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            REVIEW
+        </p>
+        <p class="mb-2"> {{selectedNotification.review}}</p>
         <p class="p-0 text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
@@ -522,9 +529,9 @@
         <p class="p-0 ">
             <strong> Assignment Venue:</strong> {{selectedNotification.venue}}
         </p>
-        <!-- <p class="p-0 ">
+        <p class="p-0 ">
             <strong>Nature of Assignment:</strong> {{selectedNotification.nature}}
-        </p> -->
+        </p>
         <p class="p-0 ">
             <strong>Nature of Conflict:</strong> {{selectedNotification.nature}}
         </p>
@@ -559,7 +566,7 @@
             </div>
             <div class="row p-0 ">
                 <div class="col-12 mb-2 d-flex justify-content-between">
-                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
+                    <button class="assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Clear
                         <img src="assets/icons/main-layout-icons/clear-icon.svg">
                     </button>
                     <button class="assign-rolee" style="width: 150px;" [disabled]="!individualForm.valid || isLoading">
@@ -594,29 +601,21 @@
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
-            Declarant Details
+            Declarant and Reviewer Details
         </p>
-        <!-- <p class="p-0">
-            <strong>Declarant name:</strong> {{selectedNotification.declarant.name}}
-        </p>
-        <p class="p-0 ">
-            <strong> Declarant staffNo: </strong> {{selectedNotification.declarant.staffNo}}
-        </p> -->
         <table class="table">
             <thead>
                 <tr>
                     <th>Declarant name</th>
                     <th>Declarant staffNo</th>
-                    <!-- <th>ID./Passport No.</th> -->
+                    <th>Reviewer name</th>
+                    <th>Reviewer staffNo</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ selectedNotification.declarant.name }}</td>
                     <td>{{ selectedNotification.declarant.staffNo }}</td>
-                    <!-- <td>{{ selectedNotification.declarant.staffNo }}</td> -->
-                </tr>
-                <tr>
                     <td>{{ selectedNotification.reviewer.name }}</td>
                     <td>{{ selectedNotification.reviewer.staffNo }}</td>
                     <!-- <td>{{ selectedNotification.declarant.staffNo }}</td> -->
@@ -627,25 +626,9 @@
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
-            Reviewer Details
+            REVIEW
         </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Reviewer name</th>
-                    <th>Reviewer staffNo</th>
-                    <!-- <th>ID./Passport No.</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ selectedNotification.reviewer.name }}</td>
-                    <td>{{ selectedNotification.reviewer.staffNo }}</td>
-                    <!-- <td>{{ selectedNotification.declarant.staffNo }}</td> -->
-                </tr>
-            </tbody>
-        </table>
-
+        <p class="mb-2"> {{selectedNotification.review}}</p>
 
         <p class="p-0 ">
             <strong> Assignment Date:</strong> {{selectedNotification.formattedDate}}
@@ -690,7 +673,7 @@
             </div>
             <div class="row p-0 ">
                 <div class="col-12 mb-2 d-flex justify-content-between">
-                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
+                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Clear
                         <img src="assets/icons/main-layout-icons/clear-icon.svg">
                     </button>
                     <button class="assign-rolee" style="width: 150px;" [disabled]="!individualForm.valid || isLoading">
@@ -723,29 +706,35 @@
     </div>
     <div class="modal-body px-3 py-2 ">
         <p class="text-center"
-        style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
-        <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
-        Declarant and Reviewer Details
-    </p>        
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Declarant name</th>
-                <th>Declarant staffNo</th>
-                <th>Reviewer name</th>
-                <th>Reviewer staffNo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ selectedNotification.declarant.name }}</td>
-                <td>{{ selectedNotification.declarant.staffNo }}</td>
-                <td>{{ selectedNotification.reviewer.name }}</td>
-                <td>{{ selectedNotification.reviewer.staffNo }}</td>
-                <!-- <td>{{ selectedNotification.declarant.staffNo }}</td> -->
-            </tr>
-        </tbody>
-    </table>     
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
+            Declarant and Reviewer Details
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Declarant name</th>
+                    <th>Declarant staffNo</th>
+                    <th>Reviewer name</th>
+                    <th>Reviewer staffNo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ selectedNotification.declarant.name }}</td>
+                    <td>{{ selectedNotification.declarant.staffNo }}</td>
+                    <td>{{ selectedNotification.reviewer.name }}</td>
+                    <td>{{ selectedNotification.reviewer.staffNo }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="text-center"
+            style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
+            REVIEW
+        </p>
+        <p class="mb-2"> {{selectedNotification.review}}</p>
+
         <p class="p-0 ">
             <strong> Assignment Date:</strong> {{selectedNotification.formattedDate}}
         </p>
@@ -859,7 +848,8 @@
             <div style="font-weight: bold; color:#133B3A;">Choose Course of Action</div>
             <mat-form-field class="w-100" appearance="outline">
                 <mat-select placeholder="Choose Action" formControlName="status" class="px-2 pt-1">
-                    <mat-option class="mat-options-font" *ngFor="let item of giftsReceivedSupActions" [value]="item.value">
+                    <mat-option class="mat-options-font" *ngFor="let item of giftsReceivedSupActions"
+                        [value]="item.value">
                         {{item.name}}
                     </mat-option>
                 </mat-select>
@@ -886,8 +876,7 @@
                 <div style="font-weight: bold; color:#133B3A;">Remarks</div>
                 <mat-form-field appearance="outline">
                     <textarea class="modal_textarea px-2 pt-1" matInput cdkTextareaAutosize cdkAutosizeMinRows="4"
-                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="remarks"
-                        placeholder="Type here..">
+                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="remarks" placeholder="Type here..">
                      </textarea>
                     <mat-error style="font-size: 11px;"
                         *ngIf="giftsReceivedForm.get('remarks').hasError('required')">Provide
@@ -898,10 +887,11 @@
 
             <div class="row p-0 mx-2 ">
                 <div class="col-12  d-flex justify-content-between">
-                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
+                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Clear
                         <img src="assets/icons/main-layout-icons/clear-icon.svg">
                     </button>
-                    <button class="assign-rolee" style="width: 150px;" [disabled]="!giftsReceivedForm.valid || isLoading">
+                    <button class="assign-rolee" style="width: 150px;"
+                        [disabled]="!giftsReceivedForm.valid || isLoading">
                         <div *ngIf="isLoading" id="loading"></div>
                         <span *ngIf="!isLoading">Submit</span>
                         <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
@@ -933,7 +923,7 @@
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
             Declarant Details
         </p>
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -996,7 +986,8 @@
             <div style="font-weight: bold; color:#133B3A;">Choose Course of Action</div>
             <mat-form-field class="w-100" appearance="outline">
                 <mat-select placeholder="Choose Action" formControlName="status" class="px-2 pt-1">
-                    <mat-option class="mat-options-font" *ngFor="let item of giftsReceivedHodActions" [value]="item.value">
+                    <mat-option class="mat-options-font" *ngFor="let item of giftsReceivedHodActions"
+                        [value]="item.value">
                         {{item.name}}
                     </mat-option>
                 </mat-select>
@@ -1023,8 +1014,7 @@
                 <div style="font-weight: bold; color:#133B3A;">Remarks</div>
                 <mat-form-field appearance="outline">
                     <textarea class="modal_textarea px-2 pt-1" matInput cdkTextareaAutosize cdkAutosizeMinRows="4"
-                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="remarks"
-                        placeholder="Type here..">
+                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="remarks" placeholder="Type here..">
                      </textarea>
                     <mat-error style="font-size: 11px;"
                         *ngIf="giftsReceivedForm.get('remarks').hasError('required')">Provide
@@ -1035,10 +1025,11 @@
 
             <div class="row p-0 mx-2 ">
                 <div class="col-12  d-flex justify-content-between">
-                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
+                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Clear
                         <img src="assets/icons/main-layout-icons/clear-icon.svg">
                     </button>
-                    <button class="assign-rolee" style="width: 150px;" [disabled]="!giftsReceivedForm.valid || isLoading">
+                    <button class="assign-rolee" style="width: 150px;"
+                        [disabled]="!giftsReceivedForm.valid || isLoading">
                         <div *ngIf="isLoading" id="loading"></div>
                         <span *ngIf="!isLoading">Submit</span>
                         <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
@@ -1069,7 +1060,7 @@
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
             Declarant and Reviewer Details
-        </p>        
+        </p>
         <table class="table">
             <thead>
                 <tr>
@@ -1089,7 +1080,7 @@
                 </tr>
             </tbody>
         </table>
- 
+
         <p class="p-0 text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             Declaration Details
@@ -1112,7 +1103,7 @@
             <mat-form-field class="w-100" appearance="outline">
                 <mat-select placeholder="Choose Action" formControlName="status" class="px-2 pt-1">
                     <mat-option class="mat-options-font" [value]="PROCESSED">
-                       Process Declaration 
+                        Process Declaration
                     </mat-option>
                 </mat-select>
                 <mat-error *ngIf="giftsReceivedForm.get('status').hasError('required')">
@@ -1138,8 +1129,7 @@
                 <div style="font-weight: bold; color:#133B3A;">Remarks</div>
                 <mat-form-field appearance="outline">
                     <textarea class="modal_textarea px-2 pt-1" matInput cdkTextareaAutosize cdkAutosizeMinRows="4"
-                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="remarks"
-                        placeholder="Type here..">
+                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="remarks" placeholder="Type here..">
                      </textarea>
                     <mat-error style="font-size: 11px;"
                         *ngIf="giftsReceivedForm.get('remarks').hasError('required')">Provide
@@ -1150,10 +1140,11 @@
 
             <div class="row p-0 mx-2 ">
                 <div class="col-12  d-flex justify-content-between">
-                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
+                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Clear
                         <img src="assets/icons/main-layout-icons/clear-icon.svg">
                     </button>
-                    <button class="assign-rolee" style="width: 150px;" [disabled]="!giftsReceivedForm.valid || isLoading">
+                    <button class="assign-rolee" style="width: 150px;"
+                        [disabled]="!giftsReceivedForm.valid || isLoading">
                         <div *ngIf="isLoading" id="loading"></div>
                         <span *ngIf="!isLoading">Submit</span>
                         <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
@@ -1184,7 +1175,7 @@
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
             Declarant and Reviewer Details
-        </p>        
+        </p>
         <table class="table">
             <thead>
                 <tr>
@@ -1204,7 +1195,7 @@
                 </tr>
             </tbody>
         </table>
- 
+
         <p class="p-0 text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             Declaration Details
@@ -1227,7 +1218,7 @@
             <mat-form-field class="w-100" appearance="outline">
                 <mat-select placeholder="Choose Action" formControlName="status" class="px-2 pt-1">
                     <mat-option class="mat-options-font" value="ACKNOWLEDGED">
-                       Complete Declaration 
+                        Complete Declaration
                     </mat-option>
                 </mat-select>
                 <mat-error *ngIf="giftsReceivedForm.get('status').hasError('required')">
@@ -1235,40 +1226,13 @@
                 </mat-error>
             </mat-form-field>
 
-            <!-- <div *ngIf="giftsReceivedForm.get('status').value === 'ACKNOWLEDGED'">
-                <mat-form-field class="w-100" appearance="outline">
-                    <mat-select placeholder="Choose Action" formControlName="action" class="px-2 pt-1">
-                        <mat-option class="mat-options-font" *ngFor="let item of receivedGiftsResponces"
-                            [value]="item.id">
-                            {{item.name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="giftsReceivedForm.get('action').hasError('required')">
-                        Please select an action
-                    </mat-error>
-                </mat-form-field>
-            </div> -->
-
-            <!-- <div class="row p-0 mb-2" *ngIf="giftsReceivedForm.get('status').value === 'ESCALATED_HOD_ISO'">
-                <div style="font-weight: bold; color:#133B3A;">Remarks</div>
-                <mat-form-field appearance="outline">
-                    <textarea class="modal_textarea px-2 pt-1" matInput cdkTextareaAutosize cdkAutosizeMinRows="4"
-                        cdkAutosizeMaxRows="4" maxlength="150" formControlName="remarks"
-                        placeholder="Type here..">
-                     </textarea>
-                    <mat-error style="font-size: 11px;"
-                        *ngIf="giftsReceivedForm.get('remarks').hasError('required')">Provide
-                        your
-                        remarks</mat-error>
-                </mat-form-field>
-            </div> -->
-    
             <div class="row p-0 mx-2 ">
                 <div class="col-12  d-flex justify-content-between">
-                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Cancel
+                    <button class=" assign-role" style="width: 150px;" type="button" (click)="cancelRemarks()">Clear
                         <img src="assets/icons/main-layout-icons/clear-icon.svg">
                     </button>
-                    <button class="assign-rolee" style="width: 150px;" [disabled]="!giftsReceivedForm.valid || isLoading">
+                    <button class="assign-rolee" style="width: 150px;"
+                        [disabled]="!giftsReceivedForm.valid || isLoading">
                         <div *ngIf="isLoading" id="loading"></div>
                         <span *ngIf="!isLoading">Submit</span>
                         <img *ngIf="!isLoading" src="assets/icons/main-layout-icons/submit.svg" class="" alt="Submit" />
@@ -1277,4 +1241,4 @@
             </div>
         </form>
     </div>
-</ng-template>  
+</ng-template>

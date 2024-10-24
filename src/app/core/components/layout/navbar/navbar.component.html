@@ -33,25 +33,19 @@
         <li class="nav-item ms-2 me-3 pt-2 " >
           <div class="bell d-flex align-items-center">
             <img src="./assets/icons/main-layout-icons/notifications.svg" alt="Icon" class="icon">
-            <span class="top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <span *ngIf="notificationCount > 0" class="top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {{notificationCount}}
               <span class="visually-hidden">notifications</span>
             </span>
           </div>
         </li>
         <li class="nav-item pt-2">
-          <!-- <div class="media align-items-center">
-            <mat-icon class="small-icon"></mat-icon>
-          </div> -->
+       
           <p class="fw-bold text-uppercase" style="font-size:15px">{{ user.data.name }}</p>
         </li>
 
         <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
-          <a class="nav-link" ngbDropdownToggle id="navbarDropdownMenuLink">
-            <!-- <i class="nc-icon nc-bell-55"></i>
-            <p>
-              <span class="d-lg-none d-md-block">Welcome</span>
-            </p> -->
+          <a class="nav-link" ngbDropdownToggle id="navbarDropdownMenuLink">           
           </a>
           <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-css dropdown-menu-end" >
             <a ngbDropdownItem href="javascript:void(0)" [ngbTooltip]="userDetails" placement="left" 
@@ -59,14 +53,14 @@
             <a ngbDropdownItem href="javascript:void(0)" routerLink="/" (click)="logout()">Log Out</a>
           </div>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link btn-rotate" href="javascript:void(0)">
             <i class="nc-icon nc-settings-gear-65"></i>
             <p>
               <span class="d-lg-none d-md-block">Account</span>
             </p>
           </a>
-        </li> -->
+        </li>
       </ul>
     </div>
   </div>

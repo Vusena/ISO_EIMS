@@ -9,6 +9,7 @@ import {PreviewComponent } from '../common/preview/preview.component';
 import {Constants} from "../../utils/constants";
 import {HttpParams} from "@angular/common/http";
 import {HttpsService} from "../../services/https.service";
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
   selector: 'app-gifts-given-out',
@@ -60,6 +61,7 @@ export class GiftsGivenOutComponent implements OnInit {
     private decimalPipe: DecimalPipe,
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private notificationService: NotificationService
   ) {}
 
   updateSpecifiedValidation(occasionId: number) {
@@ -73,6 +75,7 @@ export class GiftsGivenOutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.notificationService.getNotifications();  
     this.formGroup = this.formBuilder.group({
       dateIssued: ['', Validators.required],
       occasionId: ['', Validators.required],
@@ -327,5 +330,12 @@ export class GiftsGivenOutComponent implements OnInit {
     this.hideButtons = true;
     this.backButtonControl = false;
     this.formGroup.enable();
+    this.progress = [
+      {
+        title: 'Once you declare',
+        description: 'This will be your progress bar to track which stage the declaration is at.'
+      },
+      { title: "", description: "" },
+    ];
   }
 }

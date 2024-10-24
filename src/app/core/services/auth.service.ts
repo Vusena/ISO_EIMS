@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiEndPoints} from '../common/ApiEndPoints'
 // import {Environment} from '../environments/environment'
@@ -10,9 +10,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { throwError } from 'rxjs';
 import { Enums } from '../common/Enum';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,8 +19,7 @@ export class AuthService {
   public redirectUrl = "/dashboard";
 
 
-  constructor(private http: HttpClient) { }
-  
+  constructor(private http: HttpClient) { }  
  
   login(username: string, password: string): Observable<any> {
     const bodyData = {
@@ -52,9 +48,8 @@ export class AuthService {
   logout() {
     sessionStorage.removeItem(Enums.TOKEN);
     sessionStorage.removeItem(Enums.USER);
-    //this.username = null;
-    //this.password = null;
-  }
+    sessionStorage.clear();
+     }
 
   isLoggedIn() {
     let token = sessionStorage.getItem(Enums.TOKEN)
@@ -91,15 +86,20 @@ export class AuthService {
     }
   }
   
-  
 
   // retrieve the authorization token stored in the session storage
     getAuthorizationToken() : String {
       return sessionStorage.getItem(Enums.TOKEN) ?? "";
     }
 
-    private handleError(error: any) {
-      return throwError(error);
+    private handleError(error: HttpErrorResponse) {
+      let errorMessage = '';
+      if (error.error instanceof ErrorEvent) {
+        errorMessage = error.error.message;
+      } else {
+        errorMessage = error.error.description;
+      }
+      return throwError(() => new Error(errorMessage));
     }
   }
 

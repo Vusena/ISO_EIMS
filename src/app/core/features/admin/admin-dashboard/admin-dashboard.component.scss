@@ -1,5 +1,3 @@
-
-
 .card1 {
   min-height: 800px;
   max-height: 800px;
@@ -31,6 +29,7 @@
   white-space: nowrap;
 
 }
+
 .search-container {
   display: flex;
   align-items: center;
@@ -195,7 +194,7 @@
   font-family: "Roboto";
 }
 
-.complete_task{
+.complete_task {
   height: 30px;
   color: #F2F2F2;
   background: #E12827;
@@ -218,6 +217,7 @@
   font-weight: bold;
   border: none;
 }
+
 .assign-role {
   height: 30px;
   color: #E12827;
@@ -235,8 +235,8 @@
   height: 15px;
 }
 
-.button_style{
-  border:1px solid #133B3A;
+.button_style {
+  border: 1px solid #133B3A;
   padding: 10px 5px;
   border-radius: 30px;
   background-color: #00000029;
@@ -255,6 +255,10 @@
   padding-top: 15px;
 }
 
+.total {
+  font-size: 40px;
+  margin-right: 10px;
+}
 
 .card4 {
   background-color: #FFFFFF;
@@ -267,6 +271,10 @@
   margin-bottom: 20px;
   min-height: 800px;
   max-height: 800px;
+}
+.card_css{
+  background-color: #FFFFFF;
+  border-radius: 15px;
 }
 
 .shadow {
@@ -283,11 +291,12 @@
 .default {
   background-color: none;
 }
+
 .default {
   background-color: none;
 }
 
-.cancel{
+.cancel {
   height: 30px;
   color: #E12827;
   background: #F2F2F2;
@@ -298,7 +307,8 @@
   font-weight: bold;
   border: none;
 }
-.submit{
+
+.submit {
   height: 30px;
   color: #F2F2F2;
   background: #E12827;
@@ -328,6 +338,7 @@
     -webkit-transform: rotate(360deg);
   }
 }
+
 @-webkit-keyframes spin {
   to {
     -webkit-transform: rotate(360deg);
@@ -357,17 +368,21 @@
   padding-top: 10px !important;
   padding-bottom: 0 !important;
 }
+
 .mdc-text-field {
   padding: 0 0 !important;
 }
-.modal_textarea{
+
+.modal_textarea {
   font-size: 12px;
-  width:100%;
+  width: 100%;
 }
+
 .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
- padding-top: 0 !important;
-padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
+
 .mat-mdc-form-field-error-wrapper {
   padding: 0 !important;
 }

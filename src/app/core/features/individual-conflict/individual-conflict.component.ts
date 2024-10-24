@@ -9,6 +9,7 @@ import { Constants } from "../../utils/constants";
 import { HttpParams } from "@angular/common/http";
 import { PageEvent } from "@angular/material/paginator";
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
   selector: 'app-individual-conflict',
@@ -52,7 +53,8 @@ export class IndividualConflictComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificationService: NotificationService
   ) {
     this.formGroup = this.formBuilder.group({
       date: ['', Validators.required],
@@ -69,7 +71,6 @@ export class IndividualConflictComponent implements OnInit {
       description: ['', Validators.required],
       agree: [false, Validators.requiredTrue]
     });
-
     this.formGroup.get('nocId').valueChanges.subscribe(value => {
       this.updateSpecifiedValidation(value);
     });
@@ -86,6 +87,7 @@ export class IndividualConflictComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.notificationService.getNotifications();  
     this.getHistory();
     this.progress = [
       {
@@ -106,7 +108,6 @@ export class IndividualConflictComponent implements OnInit {
     });
     this.getUser();
     this.getNatures();
-
   }
 
   getUser(): void {
@@ -171,12 +172,10 @@ export class IndividualConflictComponent implements OnInit {
     if (this.user.data.supervisor != null) {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
-    }
-    
+    }    
     if (this.user.data.department != null) {
       department = this.user.data.department;
     }
-
     const formValues = this.formGroup.getRawValue();
     const natureValue = formValues.nocId === 5 ? formValues.specifiednature :
       this.natures.find((o: { id: number; }) => o.id === formValues.nocId)?.name || '';
@@ -273,6 +272,7 @@ export class IndividualConflictComponent implements OnInit {
       venue: formValues.venue,
       nature: formValues.nature,
       nocId: formValues.nocId,
+      specified:formValues.specifiednature,
       description: formValues.description
     };   
 
@@ -295,12 +295,8 @@ export class IndividualConflictComponent implements OnInit {
           this.alert.type = "danger";  
           this.alert.isOpen = true;
         }
-      });
-
-
-      
+      });      
     } else {
-
       this.service.post(`${Constants.BASE_URL}/coi-individual`, data).subscribe({
         next: (response) => {
           if (response.code === 200) {
@@ -313,8 +309,7 @@ export class IndividualConflictComponent implements OnInit {
           this.isLoading = false;
         },
         error: (error) => {
-          this.isLoading = false;
-  
+          this.isLoading = false;  
           this.alert.message = error.message;
           this.alert.title = "Oops!";
           this.alert.type = "danger";
@@ -322,7 +317,6 @@ export class IndividualConflictComponent implements OnInit {
           this.alert.isOpen = true;
         }
       });
-
     }
   }
 
@@ -354,6 +348,7 @@ export class IndividualConflictComponent implements OnInit {
         this.formGroup.patchValue({
           date: date,
           identityNo: this.declaration.declarant_id_no,
+          specifiednature:this.declaration.specified,
           venue: this.declaration.venue,
           nature: this.declaration.assignment_title,
           nocId: this.declaration.noc_id,
@@ -365,8 +360,6 @@ export class IndividualConflictComponent implements OnInit {
     });
   }
 
-
-
   getItem2(url: string) {
     this.service.get(`${Constants.BASE_URL}/${url}`, new HttpParams()).subscribe({
       next: (response: any) => {
@@ -375,10 +368,11 @@ export class IndividualConflictComponent implements OnInit {
         const date = new Date(this.declaration.assignment_date)
         this.formGroup.patchValue({
           date: date,
-          identityNo: this.declaration.declarant_id_no,
+          identityNo: this.declaration.declarant_id_no,          
           venue: this.declaration.venue,
           nature: this.declaration.assignment_title,
           nocId: this.declaration.noc_id,
+          specifiednature:this.declaration.specified,
           description: this.declaration.description
         }); 
       },
@@ -402,6 +396,13 @@ export class IndividualConflictComponent implements OnInit {
     this.formGroup.reset();
     this.hideButtons = true;
     this.backButtonControl = false;
-    this.formGroup.enable()
+    this.formGroup.enable();
+    this.progress = [
+      {
+        title: 'Once you declare',
+        description: 'This will be your progress bar to track which stage the declaration is at.'
+      },
+      { title: "", description: "" },
+    ];
   }
 }

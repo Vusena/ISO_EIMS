@@ -8,6 +8,7 @@ import { HttpParams } from "@angular/common/http";
 import { HttpsService } from "../../services/https.service";
 import { Constants } from "../../utils/constants";
 import { PageEvent } from "@angular/material/paginator";
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
   selector: 'app-gifts-received',
@@ -50,7 +51,8 @@ export class GiftsReceivedComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private datePipe: DatePipe,
-    private decimalPipe: DecimalPipe
+    private decimalPipe: DecimalPipe,
+    private notificationService: NotificationService
   ) {
 
     this.formGroup = this.fb.group({
@@ -86,6 +88,7 @@ export class GiftsReceivedComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.notificationService.getNotifications();   
     this.progress = [
       {
         title: 'Once you declare',
@@ -338,6 +341,13 @@ export class GiftsReceivedComponent implements OnInit {
     this.formGroup.reset();
     this.hideButtons = true;
     this.backButtonControl = false;
-    this.formGroup.enable()
+    this.formGroup.enable();
+    this.progress = [
+      {
+        title: 'Once you declare',
+        description: 'This will be your progress bar to track which stage the declaration is at.'
+      },
+      { title: "", description: "" },
+    ];
   }
 }

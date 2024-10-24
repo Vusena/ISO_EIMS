@@ -8,6 +8,7 @@ import { Constants } from "../../utils/constants";
 import { HttpsService } from "../../services/https.service";
 import { PageEvent } from "@angular/material/paginator";
 import { HttpParams } from "@angular/common/http";
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
   selector: 'app-group-conflict',
@@ -77,7 +78,8 @@ export class GroupConflictComponent implements OnInit {
     private authService: AuthService,
     private datePipe: DatePipe,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notificationService: NotificationService
   ) {
     this.membersForm = this.fb.group({
       membersFormFields: this.fb.array([])
@@ -85,6 +87,8 @@ export class GroupConflictComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   
+    this.notificationService.getNotifications(); 
     this.noButton = document.getElementById('noButton');
     this.yesButton = document.getElementById('yesButton');
 
@@ -623,5 +627,6 @@ export class GroupConflictComponent implements OnInit {
 
   backButton() {
     location.reload();
+    
   }
 }

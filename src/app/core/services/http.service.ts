@@ -13,6 +13,7 @@ export class HttpService {
   formDataHeaders: HttpHeaders;
 
   constructor(private http: HttpClient, private authService: AuthService) {
+    
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json', 'Authorization': 'Bearer ' +
         + this.authService.getAuthorizationToken()

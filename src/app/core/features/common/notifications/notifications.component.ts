@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbPopoverModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { HttpService } from 'app/core/services/http.service';
 import { HttpsService } from 'app/core/services/https.service';
@@ -31,7 +31,8 @@ import { Constants } from 'app/core/utils/constants';
     MatCheckboxModule,
     NgbPopoverModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    NgbModule
   ],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.scss',
@@ -77,6 +78,13 @@ export class NotificationsComponent {
   declarationCheck: boolean;
   receivedGiftsResponces: any;
   PROCESSED = 'PROCESSED';
+
+  alertSubmit = {
+    type: "danger",
+    isOpen: false,
+    title: 'Oops!',
+    message: ""
+  }
 
 
   constructor(
@@ -138,7 +146,7 @@ export class NotificationsComponent {
 
   declarantActions: any = [
     { value: "ACKNOWLEDGED", name: 'Acknowledge Remarks' },
-    { value: "DISPUTED", name: 'Dispute Remarks' },
+    // { value: "DISPUTED", name: 'Dispute Remarks' },
   ];
 
   hodActions: any = [
@@ -290,8 +298,11 @@ getNotifications(){
   }
 
   openCoIIDeclarantReview(CoIIDeclarantReview: TemplateRef<any>, notification: any) {
-    this.selectedNotification = notification;
-    console.log(this.selectedNotification);
+    this.selectedNotification = notification;    
+    if (notification.status == "PROCESSED") {
+      this.declarantActions.push({ value: "DISPUTED", name: 'Dispute Remarks' }) 
+    }
+
     this.modalService.open(CoIIDeclarantReview, { centered: true, });
   }
 
@@ -507,7 +518,8 @@ getNotifications(){
       status: this.individualForm.get('status').value,
       remarks: this.individualForm.get('individualRemarks').value
     };
-    this.httpService.postData(ApiEndPoints.INDIVIDUAL_SUPERVISOR_REVEIW_POST, individualRemarksData).subscribe({
+    this.service.post(`${Constants.BASE_URL}/coi-individual-review/supervisor`, individualRemarksData).subscribe({
+      
       next: (response) => {
         this.modalService.dismissAll();
         this.openSuccessModal(this.nocontent)
@@ -517,15 +529,16 @@ getNotifications(){
         this.isLoading = false;
       },
       error: (error) => {
-        console.error("There was an error!", error);
-        this.isLoading = false;
-        this.errorMessage = error.error.description
+        this.errorMessage = error.message
+        this.alertSubmit.type = "danger",
+        this.alertSubmit.isOpen = true,
+        this.alertSubmit.title = 'Oops!',
+        this.alertSubmit.message = error.message
       },
     });
   }
 
   submitDeclarantRemarks() {
-
     const action = this.selectedNotification.action
     const declarationId = this.selectedNotification.declarationId;
     this.isLoading = true;
@@ -547,11 +560,14 @@ getNotifications(){
           this.isLoading = false;
         },
         error: (error) => {
-          console.error("There was an error!", error);
           this.isLoading = false;
-          this.errorMessage = error.error.description
+          this.errorMessage = error.message
+          this.alertSubmit.type = "danger",
+          this.alertSubmit.isOpen = true,
+          this.alertSubmit.title = 'Oops!',
+          this.alertSubmit.message = error.message
         },
-      });
+      }); 
     }
     else {
       const individualRemarksData = {
@@ -559,7 +575,7 @@ getNotifications(){
         status: this.individualForm.get('status').value,
         remarks: this.individualForm.get('individualRemarks').value
       };
-      this.httpService.postData(ApiEndPoints.INDIVIDUAL_HOD_REVEIW_POST, individualRemarksData).subscribe({
+      this.service.post(`${Constants.BASE_URL}/coi-individual-review/hod`, individualRemarksData).subscribe({
         next: (response) => {
           this.modalService.dismissAll();
           this.openSuccessModal(this.nocontent)
@@ -569,9 +585,12 @@ getNotifications(){
           this.isLoading = false;
         },
         error: (error) => {
-          console.error("There was an error!", error);
           this.isLoading = false;
-          this.errorMessage = error.error.description
+          this.errorMessage = error.message
+          this.alertSubmit.type = "danger",
+          this.alertSubmit.isOpen = true,
+          this.alertSubmit.title = 'Oops!',
+          this.alertSubmit.message = error.message
         },
       });
     }
@@ -582,12 +601,15 @@ getNotifications(){
     console.log(this.selectedNotification.action)
     this.isLoading = true;
     const declarationId = this.selectedNotification.declarationId;
+
+    let status = this.selectedNotification.status == "DISPUTED" ? "RESOLVED" : "PROCESSED";
+
     const individualRemarksData = {
       declarationId: declarationId,
-      status: 'PROCESSED',
+      status: status,
       remarks: this.remarksForm.get('remarks').value
     };
-    this.httpService.postData(ApiEndPoints.INDIVIDUAL_HOD_ISO_REVIEW, individualRemarksData).subscribe({
+    this.service.post(`${Constants.BASE_URL}/coi-individual-review/hod-iso`, individualRemarksData).subscribe({
       next: (response) => {
         this.modalService.dismissAll();
         this.openSuccessModal(this.nocontent)
@@ -597,13 +619,16 @@ getNotifications(){
         this.isLoading = false;
       },
       error: (error) => {
-        console.error("There was an error!", error);
         this.isLoading = false;
-        this.errorMessage = error.error.description
+          this.errorMessage = error.message
+          this.alertSubmit.type = "danger",
+          this.alertSubmit.isOpen = true,
+          this.alertSubmit.title = 'Oops!',
+          this.alertSubmit.message = error.message
       },
     });
   }
-  submitGiftsReceviedRemarks(): void {
+  submitGiftsReceviedRemarks(): void {``
     const action = this.selectedNotification.action
     const declarationId = this.selectedNotification.declarationId;
     if (action == 'GRHoDISOReview') {
@@ -624,9 +649,12 @@ getNotifications(){
           this.isLoading = false;
         },
         error: (error) => {
-          console.error("There was an error!", error);
           this.isLoading = false;
           this.errorMessage = error.message
+          this.alertSubmit.type = "danger",
+          this.alertSubmit.isOpen = true,
+          this.alertSubmit.title = 'Oops!',
+          this.alertSubmit.message = error.message
         },
       });
     }
@@ -648,9 +676,12 @@ getNotifications(){
           this.isLoading = false;
         },
         error: (error) => {
-          console.error("There was an error!", error);
           this.isLoading = false;
           this.errorMessage = error.message
+          this.alertSubmit.type = "danger",
+          this.alertSubmit.isOpen = true,
+          this.alertSubmit.title = 'Oops!',
+          this.alertSubmit.message = error.message
         },
       });
     }
@@ -672,9 +703,12 @@ getNotifications(){
           this.isLoading = false;
         },
         error: (error) => {
-          console.error("There was an error!", error);
           this.isLoading = false;
           this.errorMessage = error.message
+          this.alertSubmit.type = "danger",
+          this.alertSubmit.isOpen = true,
+          this.alertSubmit.title = 'Oops!',
+          this.alertSubmit.message = error.message
         },
       });
     }
@@ -696,12 +730,19 @@ getNotifications(){
           this.isLoading = false;
         },
         error: (error) => {
-          console.error("There was an error!", error);
           this.isLoading = false;
           this.errorMessage = error.message
+          this.alertSubmit.type = "danger",
+          this.alertSubmit.isOpen = true,
+          this.alertSubmit.title = 'Oops!',
+          this.alertSubmit.message = error.message;
         },
       });
     }
+  }
+
+  onCloseAlertSubmit(): void {
+    this.alertSubmit.isOpen = true;
   }
 }
 
