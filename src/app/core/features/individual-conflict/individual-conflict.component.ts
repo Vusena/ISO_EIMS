@@ -118,7 +118,6 @@ export class IndividualConflictComponent implements OnInit {
     this.service.get(`${Constants.BASE_URL}/nature-of-conflicts`, new HttpParams()).subscribe({
       next: (response: any) => {
         this.natures = response.data
-        console.log(this.natures)
       },
       error: () => { },
     })
@@ -132,7 +131,6 @@ export class IndividualConflictComponent implements OnInit {
     this.service.get(`${Constants.BASE_URL}/coi-individual/history`, params).subscribe({
       next: (response: any) => {
         this.history = response.data.content;
-        console.log('HISTORY', this.history)
         this.length = response.data.totalElements;
       },
       error: () => { },
@@ -140,8 +138,6 @@ export class IndividualConflictComponent implements OnInit {
   }
 
   checkHistoryHighlight(declarationId: number) {
-
-    console.log(this.history, 'HISTORY')
     const foundItem = this.history.find(item => item.id === declarationId);
     console.log('foundItem', foundItem)
     if (foundItem) {

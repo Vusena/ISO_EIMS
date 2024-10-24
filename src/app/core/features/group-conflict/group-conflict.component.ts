@@ -151,7 +151,6 @@ export class GroupConflictComponent implements OnInit {
 
   getUser(): void {
     this.user = this.authService.getLoggedInUser();
-    console.log("User",this.user)
     this.username = this.user.data.name
   }
 
@@ -374,7 +373,6 @@ export class GroupConflictComponent implements OnInit {
     }
     
     const formValues = this.declarationForm.getRawValue();
-    console.log(formValues)
     const data = [
       {
         label: "PERSONAL DETAILS",

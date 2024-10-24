@@ -133,7 +133,7 @@ export class NotificationsComponent {
     })
     this.route.queryParams.subscribe(params => {
       const declarationId = params['declarationId'];
-      console.log(declarationId); // Use this value as needed
+      // console.log(declarationId); // Use this value as needed
     });
   }
 
@@ -180,7 +180,7 @@ getNotifications(){
   // Subscribe to notifications and get the data
   this.notificationService.notifications$.subscribe((data: any[]) => {
     this.notifications = data; 
-    console.log(this.notifications)// Assign data to notifications array
+    // console.log(this.notifications)// Assign data to notifications array
   });
 
   // Fetch notifications when the component initializes
@@ -197,7 +197,7 @@ getNotifications(){
   }
 
   checkAction(notification) {
-    console.log(notification.action)
+    // console.log(notification.action)
     switch (notification.action) {
       case 'CoIGReview':
         this.openCoIGReviewModal(this.colreview, notification);
@@ -236,7 +236,7 @@ getNotifications(){
         break;
       // add more cases for other actions
       default:
-        console.log('Unknown action');
+        // console.log('Unknown action');
     }
   }
 
@@ -248,7 +248,7 @@ getNotifications(){
   openVerticallyCentered(content: TemplateRef<any>, notification: any) {
     this.modalService.open(content, { centered: true, });
     this.selectedNotification = notification;
-    console.log(this.selectedNotification)
+    // console.log(this.selectedNotification)
     this.assignmentId = notification.assignment.id;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -289,7 +289,7 @@ getNotifications(){
 
   openCoIGReviewModal(colreview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification)
+    // console.log(this.selectedNotification)
     this.modalService.open(colreview, { centered: true, });
     const checkTimee = notification.declaration.reasons.trim() !== '';
     this.reasonCheck = checkTimee;
@@ -308,12 +308,12 @@ getNotifications(){
 
   openCoIIHoDReview(CoIIHoDReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification);
+    // console.log(this.selectedNotification);
     this.modalService.open(CoIIHoDReview, { centered: true, });
   }
   openCoIIHoDISOReview(CoIIHoDISOReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification);
+    // console.log(this.selectedNotification);
     this.modalService.open(CoIIHoDISOReview, { centered: true, });
   }
   openGRSupReview(GRSupReview: TemplateRef<any>, notification: any) {
@@ -322,17 +322,17 @@ getNotifications(){
   }
   openGRHoDReview(GRHoDReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification)
+    // console.log(this.selectedNotification)
     this.modalService.open(GRHoDReview, { centered: true, });
   }
   openGRHoDISOReview(GRHoDISOReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification)
+    // console.log(this.selectedNotification)
     this.modalService.open(GRHoDISOReview, { centered: true, });
   }
   openGRGRDeclarantReview(GRDeclarantReview: TemplateRef<any>, notification: any) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification)
+    // console.log(this.selectedNotification)
     this.modalService.open(GRDeclarantReview, { centered: true, });
   }
 
@@ -358,7 +358,7 @@ getNotifications(){
       yesButton.classList.remove('selected');
     }
     this.conflictOfInterestControl.setValue(0);
-    console.log(this.declarationForm.get('identityNo').errors);
+    // console.log(this.declarationForm.get('identityNo').errors);
   }
 
   noConflictClick(content: TemplateRef<any>): void {
@@ -383,8 +383,7 @@ getNotifications(){
       noButton.classList.remove('selected');
     }
     this.conflictOfInterestControl.setValue(1);
-    console.log("Yes button has been clicked")
-    console.log(this.date)
+    
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     this.declarationForm.get('description')?.setValidators([Validators.required]);
@@ -411,7 +410,6 @@ getNotifications(){
   submitDeclarations(): void {
     this.isLoading = true;
     this.isSubmitting = true;
-    // console.log("clicked button")
     let haveConflict = 0;
     const formData = new FormData();
     if (this.conflictOfInterestControl.value !== null && this.conflictOfInterestControl.value !== undefined) {
@@ -425,7 +423,7 @@ getNotifications(){
         description: this.declarationForm.get('description').value,
         reasons: this.declarationForm.get('reasons').value
       };
-      console.log(declaration)
+      // console.log(declaration)
       formData.append('declaration', JSON.stringify(declaration));
       formData.append('file', this.declarationForm.get('file').value);
       this.httpService.postData(`${ApiEndPoints.DECLARATION_POST}`, formData,).subscribe({
@@ -439,7 +437,7 @@ getNotifications(){
           this.isSubmitting = false;
         },
         error: (error) => {
-          console.error("There was an error!", error);
+          // console.error("There was an error!", error);
           this.isSubmitting = false;
           if (error.status === 413) {
             this.snackBar.open(error.error.title, 'Close', {
@@ -489,7 +487,7 @@ getNotifications(){
       status: "PROCESSED",
       remarks: this.remarksForm.get('remarks').value
     };
-    console.log(remarksData)
+    // console.log(remarksData)
     this.httpService.postData(ApiEndPoints.REMARKS_POST, remarksData).subscribe({
       next: (response) => {
         this.modalService.dismissAll();
@@ -500,7 +498,7 @@ getNotifications(){
         this.isLoading = false;
       },
       error: (error) => {
-        console.error("There was an error!", error);
+        // console.error("There was an error!", error);
         this.isLoading = false;
       },
     });
@@ -511,7 +509,7 @@ getNotifications(){
   // Submit Declarations
   submitIndividualRemarks() {
     this.isLoading = true;
-    console.log(this.selectedNotification.action)
+    // console.log(this.selectedNotification.action)
     const declarationId = this.selectedNotification.declarationId;
     const individualRemarksData = {
       declarationId: declarationId,
@@ -542,7 +540,7 @@ getNotifications(){
     const action = this.selectedNotification.action
     const declarationId = this.selectedNotification.declarationId;
     this.isLoading = true;
-    console.log(this.selectedNotification.action)
+    // console.log(this.selectedNotification.action)
 
     if (action == 'CoIIDeclarantReview') {
       const individualRemarksData = {
@@ -598,7 +596,7 @@ getNotifications(){
   }
 
   submitHODISORemarks() {
-    console.log(this.selectedNotification.action)
+    // console.log(this.selectedNotification.action)
     this.isLoading = true;
     const declarationId = this.selectedNotification.declarationId;
 
@@ -638,7 +636,7 @@ getNotifications(){
         remarks: this.giftsReceivedForm.get('remarks').value,
         status: 'PROCESSED',
       }
-      console.log("Data", data)
+      // console.log("Data", data)
       this.service.post(`${Constants.BASE_URL}/gifts-received-review/hod-iso`, data).subscribe({
         next: (response) => {
           this.modalService.dismissAll();
@@ -665,7 +663,7 @@ getNotifications(){
         remarks: null,
         status: 'ACKNOWLEDGED',
       }
-      console.log("Data", data)
+      // console.log("Data", data)
       this.service.post(`${Constants.BASE_URL}/gifts-received-review/declarant`, data).subscribe({
         next: (response) => {
           this.modalService.dismissAll();
@@ -692,7 +690,7 @@ getNotifications(){
         remarks: this.giftsReceivedForm.get('remarks').value,
         status: this.giftsReceivedForm.get('status').value,
       }
-      console.log("Data", data)
+      // console.log("Data", data)
       this.service.post(`${Constants.BASE_URL}/gifts-received-review/supervisor`, data).subscribe({
         next: (response) => {
           this.modalService.dismissAll();
@@ -719,7 +717,7 @@ getNotifications(){
         remarks: this.giftsReceivedForm.get('remarks').value,
         status: this.giftsReceivedForm.get('status').value,
       }
-      console.log(data)
+      // console.log(data)
       this.service.post(`${Constants.BASE_URL}/gifts-received-review/hod`, data).subscribe({
         next: (response) => {
           this.modalService.dismissAll();

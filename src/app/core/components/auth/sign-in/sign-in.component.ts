@@ -56,7 +56,7 @@ export class SignInComponent implements OnInit {
 
     this.authService.login(username, encryptedPassword).subscribe({
       next: (response) => {
-         console.log('Login Response:', response);
+       
         this.isLoading = false;
         this.successMessage = "Logging you in, please wait...";     
     
@@ -70,7 +70,7 @@ export class SignInComponent implements OnInit {
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.error.description;
-        console.error("An error was encountered. Below is the Error:", error);
+        // console.error("An error was encountered. Below is the Error:", error);
       },
       complete: () => {
       }
