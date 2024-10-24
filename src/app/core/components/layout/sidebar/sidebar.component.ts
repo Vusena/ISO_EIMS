@@ -32,8 +32,14 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit() {
       this.checkUserRole();
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
-        
+        // this.menuItems = ROUTES.filter(menuItem => menuItem);
+        this.menuItems = ROUTES.filter(menuItem => {
+          // If the route is 'Departments', show it only if the user is an admin
+          if (menuItem.title === 'Departments') {
+            return this.isAdmin;
+          }
+          return true; // Display all other menu items by default
+        });
     }
 
   constructor(private authService:AuthService) { }
