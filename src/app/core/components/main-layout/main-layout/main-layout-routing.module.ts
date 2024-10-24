@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DepartmentsComponent } from 'app/core/features/admin/departments/departments.component';
 
 import { DashboardComponent } from 'app/core/features/dashboard/dashboard.component';
 import { FaqsComponent } from 'app/core/features/faqs/faqs.component';
@@ -26,6 +27,11 @@ const mainLayoutRoutes: Routes = [
     path: "intergrity-award", component: IntergrityAwardComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: { requiredRole: ['ROLE_ADMIN', 'ROLE_USER']}
+  },
+  {
+    path: "departments", component: DepartmentsComponent,
+    canActivate: [AuthGuard, HasRoleGuard],
+    data: { requiredRole: ['ROLE_ADMIN',]}
   },
   {
     path: "reports", component: ReportsComponent,

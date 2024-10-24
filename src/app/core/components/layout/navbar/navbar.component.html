@@ -8,7 +8,7 @@
           <span class="navbar-toggler-bar bar3"></span>
         </button>
       </div>
-      <a class="navbar-brand" href="javascript:void(0)">{{ getTitle() }}</a>
+      <a class="navbar-brand title" href="javascript:void(0)">Ethics Information Management System</a>
     </div>
     <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed"
       aria-controls="collapseExample">
@@ -50,6 +50,7 @@
           <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-css dropdown-menu-end" >
             <a ngbDropdownItem href="javascript:void(0)" [ngbTooltip]="userDetails" placement="left" 
             container="body" >Personal Details</a>
+            <!-- <a ngbDropdownItem href="javascript:void(0)" *ngIf="isAdmin" (click)="openDepartmentsModal()">Departments</a> -->
             <a ngbDropdownItem href="javascript:void(0)" routerLink="/" (click)="logout()">Log Out</a>
           </div>
         </li>
@@ -75,4 +76,6 @@
       <p class="m-0"><strong>Supervisor Personal No:</strong> {{supStaffNo}} </p>
     </div>
   </ng-template>
+
+  
 </nav>

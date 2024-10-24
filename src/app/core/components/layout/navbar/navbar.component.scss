@@ -1,23 +1,18 @@
 .color {
     background-color: #ffffff;
-    // opacity: 1;
 }
-
-// .fixed-top{
-//     position: fixed;
-// }
-
-
 .form-control {
     border: none;
 }
 
 .lower-border {
-    border-bottom: solid rgba(0, 0, 0, 0.25);
-    // margin-bottom: 10px;
+    border-bottom: solid rgba(0, 0, 0, 0.25);    
 }
 .dropdown-css{
     background-color: #DFDFDF;
+}
+.title{
+    color: #133B3A;
 }
 
 input[type="text"].form-control:focus {

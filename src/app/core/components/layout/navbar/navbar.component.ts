@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NotificationService } from 'app/core/services/notification.service';
 import { AuthService } from 'app/core/services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DepartmentsComponent } from 'app/core/features/admin/departments/departments.component';
 
 @Component({
   selector: 'app-navbar',
@@ -23,16 +25,22 @@ export class NavbarComponent implements OnInit {
   supName:any = "";
   supStaffNo:any = "";
   department:any = "";
+  isAdmin:any;
 
   public isCollapsed = true;
   @ViewChild("app-navbar", { static: false }) button;
 
-  constructor(location: Location,
+  constructor(
+    location: Location,
     private renderer: Renderer2,
     private element: ElementRef,
+    private modalService: NgbModal,
     private router: Router,
     private authService: AuthService,
-    private notificationService: NotificationService,) {
+    private notificationService: NotificationService,
+    
+  ) 
+    {
     this.location = location;
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
@@ -42,24 +50,13 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.getUser();
     this.getNotifications();
+   
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     var navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
     this.router.events.subscribe((event) => {
       this.sidebarClose();
     });
-  }
-  getTitle() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === '#') {
-      titlee = titlee.slice(1);
-    }
-    for (var item = 0; item < this.listTitles.length; item++) {
-      if (this.listTitles[item].path === titlee) {
-        return this.listTitles[item].title;
-      }
-    }
-    return 'Ethics Information Management System';
   }
 
   sidebarToggle() {
@@ -131,10 +128,11 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.authService.logout()
   }
-  
-
+  openDepartmentsModal() {
+    const modalRef = this.modalService.open(DepartmentsComponent, {
+      ariaLabelledBy: 'modal-basic-title'
+    });
 }
 
 
-
-
+}
