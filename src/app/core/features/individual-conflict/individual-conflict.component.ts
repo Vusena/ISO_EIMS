@@ -101,7 +101,6 @@ export class IndividualConflictComponent implements OnInit {
       this.declarationId = params['declarationId'];
       
       if (this.declarationId > 0) {
-        this.checkHistoryHighlight(this.declarationId);
         this.getItem2(`coi-individual/${this.declarationId}`)
         
       }
@@ -137,17 +136,6 @@ export class IndividualConflictComponent implements OnInit {
     });
   }
 
-  checkHistoryHighlight(declarationId: number) {
-    const foundItem = this.history.find(item => item.id === declarationId);
-    console.log('foundItem', foundItem)
-    if (foundItem) {
-      console.log('foundItem', foundItem)
-      this.highlightedItemId = foundItem.id; // Set the highlighted ID
-    }
-    else {
-      console.log('Not found')
-    }
-  }
 
 
   handlePageEvent(e: PageEvent) {

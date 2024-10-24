@@ -260,7 +260,7 @@ export class IntergrityAwardAdminComponent implements OnInit {
         this.scheduleForm.get('startDate').disable();
       },
       error: (error) => {
-        console.error("There was an error!", error);
+        // console.error("There was an error!", error);
       },
     });
 
@@ -288,8 +288,6 @@ export class IntergrityAwardAdminComponent implements OnInit {
   });
 
  }
-
-
 
   isAdmin(): boolean {
     // Check if the user has 'admin' role
