@@ -70,7 +70,6 @@ export class SignInComponent implements OnInit {
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.error.description;
-        // console.error("An error was encountered. Below is the Error:", error);
       },
       complete: () => {
       }

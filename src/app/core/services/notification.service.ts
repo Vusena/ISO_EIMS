@@ -21,7 +21,6 @@ export class NotificationService {
       .pipe(
         map(response => response.data),
         catchError(error => {
-          console.error('Error fetching notifications:', error);
           throw error; 
         })
       )
@@ -30,7 +29,6 @@ export class NotificationService {
           this.notificationsSubject.next(notifications); // Update the BehaviorSubject
         },
         error: (error) => {
-          console.error('Error updating notifications:', error);
         }
       });
   }

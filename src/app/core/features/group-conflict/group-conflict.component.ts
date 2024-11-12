@@ -232,10 +232,7 @@ export class GroupConflictComponent implements OnInit {
 
   validateMembers(): void {
     this.isLoading = false
-    // const membersData = this.members.value;
-    // console.log("MEMBERS DATA", membersData)
-    // const staffNumbers = membersData.map(member => member.staffNo);
-    // console.log('staffNumbers', staffNumbers)
+
 
     let appointorCount = 0;
     let membersCount = 0;
@@ -364,12 +361,16 @@ export class GroupConflictComponent implements OnInit {
     let supName = "";
     let supStaffNo = "";
     let department = "";
+    let grade="";
     if (this.user.data.supervisor != null) {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
     }
     if (this.user.data.department != null) {
       department = this.user.data.department;
+    }
+    if (this.user.data.grade != null) {
+      grade = this.user.data.grade.description;
     }
     
     const formValues = this.declarationForm.getRawValue();
@@ -395,7 +396,7 @@ export class GroupConflictComponent implements OnInit {
       },
       {
         label: "Designation:",
-        value: this.user.data.grade.description,
+        value: grade,
         class: "col-sm-6 pb-1"
       },
       {

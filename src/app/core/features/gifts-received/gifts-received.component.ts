@@ -142,12 +142,16 @@ export class GiftsReceivedComponent implements OnInit {
     let supName = "";
     let supStaffNo = "";
     let department = "";
+    let grade="";
     if (this.user.data.supervisor != null) {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
     }
     if (this.user.data.department != null) {
       department = this.user.data.department;
+    }
+    if (this.user.data.grade != null) {
+      grade = this.user.data.grade.description;
     }
     const formValues = this.formGroup.getRawValue();
     const occasionValue = formValues.occasionId === 5 ? formValues.specified :
@@ -175,7 +179,7 @@ export class GiftsReceivedComponent implements OnInit {
       },
       {
         label: "Designation",
-        value: this.user.data.grade.description,
+        value: grade,
         class: "col-sm-6 pb-1"
       },
       {

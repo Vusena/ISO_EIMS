@@ -153,12 +153,16 @@ export class IndividualConflictComponent implements OnInit {
     let supName = "";
     let supStaffNo = "";
     let department = "";
+    let grade="";
     if (this.user.data.supervisor != null) {
       supName = this.user.data.supervisor.name;
       supStaffNo = this.user.data.supervisor.staffNo;
     }    
     if (this.user.data.department != null) {
       department = this.user.data.department;
+    }
+    if (this.user.data.grade != null) {
+      grade = this.user.data.grade.description;
     }
     const formValues = this.formGroup.getRawValue();
     const natureValue = formValues.nocId === 5 ? formValues.specifiednature :
@@ -186,7 +190,7 @@ export class IndividualConflictComponent implements OnInit {
       },
       {
         label: "Designation",
-        value: this.user.data.grade.description,
+        value: grade,
         class: "col-sm-6"
       },
       {

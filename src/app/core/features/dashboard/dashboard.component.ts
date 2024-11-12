@@ -17,12 +17,10 @@ export class DashboardComponent implements OnInit {
   isAdmin(): boolean {
     // Check if the user has 'admin' role
     const userRoles = this.authService.getUserRoles();
-    // console.log(userRoles)
     return userRoles.includes('ROLE_ADMIN');
   }
   isUser():boolean{
     const userRoles = this.authService.getUserRoles();
-    // console.log(userRoles)
     return userRoles.includes('ROLE_USER');
   }
 }

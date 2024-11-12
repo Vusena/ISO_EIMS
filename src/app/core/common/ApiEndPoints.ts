@@ -51,6 +51,7 @@ export enum ApiEndPoints {
     DECLARATION_POST="api/v1/coi-group/declare",
     REMARKS_POST="api/v1/coi-group/review",
 
-    STATISTICS="api/v1/dashboard/statistics"
+    STATISTICS="api/v1/dashboard/statistics",
+    PROFILE="api/v1/profile"
 }
 

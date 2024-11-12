@@ -47,9 +47,9 @@
         <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
           <a class="nav-link" ngbDropdownToggle id="navbarDropdownMenuLink">           
           </a>
-          <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-css dropdown-menu-end" >
-            <a ngbDropdownItem href="javascript:void(0)" [ngbTooltip]="userDetails" placement="left" 
-            container="body" >Personal Details</a>
+           <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-css dropdown-menu-end" >
+            <!-- <a ngbDropdownItem href="javascript:void(0)" placement="left" 
+            container="body" >Personal Details</a>  -->
             <!-- <a ngbDropdownItem href="javascript:void(0)" *ngIf="isAdmin" (click)="openDepartmentsModal()">Departments</a> -->
             <a ngbDropdownItem href="javascript:void(0)" routerLink="/" (click)="logout()">Log Out</a>
           </div>
@@ -65,7 +65,7 @@
       </ul>
     </div>
   </div>
-
+<!-- 
   <ng-template #userDetails>
     <div style="font-size: 12px;">
       <p class="m-0"> <strong>Name:</strong> {{ user.data.name }} </p>
@@ -75,7 +75,7 @@
       <p class="m-0"> <strong>Supervisor Name:</strong>{{supName}} </p>
       <p class="m-0"><strong>Supervisor Personal No:</strong> {{supStaffNo}} </p>
     </div>
-  </ng-template>
+  </ng-template> -->
 
   
 </nav>

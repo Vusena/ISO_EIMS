@@ -20,30 +20,34 @@ export class AuthService {
 
 
   constructor(private http: HttpClient) { }  
- 
+  
   login(username: string, password: string): Observable<any> {
     const bodyData = {
       username: username,
       password: password,
-    };
+    }; 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  
     return this.http.post<any>(`${this.apiUrl}${ApiEndPoints.SIGNIN}`, bodyData, {
       headers: headers,
       observe: 'response'
     }).pipe(
-      map( response=> {
-        sessionStorage.setItem(Enums.USER, JSON.stringify(response.body));       
-        sessionStorage.setItem(Enums.TOKEN, response.body.token);        
-        //I am serializing our data to a string format which is the acceptable format of storing data in session 
-        //and local storage,the JSON.stringify method is used to achieve this
+      map(response => {
+        const token = response.body.token;  
+
+        // this.getUserDetails(token).subscribe();  
+        sessionStorage.setItem(Enums.USER, JSON.stringify(response.body));
+        sessionStorage.setItem(Enums.TOKEN, token);
         sessionStorage.setItem(Enums.ROLES, JSON.stringify(response.body.data.roles));
-     return response
+        
+        return response;
       }),
       catchError(error => {
         throw error;
       })
     );
   }
+  
 
   logout() {
     sessionStorage.removeItem(Enums.TOKEN);
@@ -69,7 +73,7 @@ export class AuthService {
 
   getUserRoles(): any[] {
     let roles = sessionStorage.getItem(Enums.ROLES);
-    // console.log("Roles from session storage:", roles);  
+  
     if (roles != null) {
       try {
         //Here we are deserializing my data to the original form which was an array of strings using the json.parse method
@@ -77,14 +81,37 @@ export class AuthService {
         // Directly return the roles array if it's an array of strings
         return parsedRoles;
       } catch (error) {
-        console.error("Error parsing roles:", error);
         return [];
       }
     } else {
-      console.log("No roles found in session storage");
+    
       return [];
     }
   }
+
+
+  getUserDetails(token: string): Observable<any> {   
+ 
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });    
+  
+    return this.http.get<any>(`${this.apiUrl}${ApiEndPoints.PROFILE}`, {
+      headers: headers,
+      observe: 'response'
+    }).pipe(
+      map(response => {
+      
+        sessionStorage.setItem(Enums.USER, JSON.stringify(response.body));
+        return response;
+      }),
+      catchError(error => {
+        throw error;
+      })
+    );
+  }
+  
   
 
   // retrieve the authorization token stored in the session storage
