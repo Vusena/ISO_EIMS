@@ -99,10 +99,8 @@ export class IndividualConflictComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.declarationId = params['declarationId'];
-      
       if (this.declarationId > 0) {
         this.getItem2(`coi-individual/${this.declarationId}`)
-        
       }
     });
     this.getUser();
@@ -270,8 +268,8 @@ export class IndividualConflictComponent implements OnInit {
           if (response.code === 200) {
             this.isLoading = false;
             this.openVerticallyCentered(this.content);
-            //this.form.reset();
-          }
+            window.location.reload();
+          } 
         },
         complete() {
           this.isLoading = false;
@@ -290,7 +288,7 @@ export class IndividualConflictComponent implements OnInit {
           if (response.code === 200) {
             this.isLoading = false;
             this.openVerticallyCentered(this.content);
-            //this.form.reset();
+            this.formGroup.reset();
           }
         },
         complete() {
