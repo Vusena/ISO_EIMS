@@ -365,10 +365,6 @@
 
 <!-- SUPERVISOR REVIEW -->
 <ng-template #CoIISupReview let-modal>
-    <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
-        (closed)="errorMessage = false">
-        <span style="font-size: 12px">{{ errorMessage }}</span>
-    </ngb-alert>
 
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
@@ -379,6 +375,11 @@
         </button>
     </div>
     <div class="modal-body px-3 py-2 ">
+        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert"
+            (closed)="errorMessage = false">
+            <span style="font-size: 12px">{{ errorMessage }}</span>
+        </ngb-alert>
+
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             Declarant Details
@@ -466,20 +467,6 @@
 
 <!-- DECLARANT REVIEW MODAL -->
 <ng-template #CoIIDeclarantReview let-modal>
-    <div class="p-3">
-        <!-- <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
-            (closed)="errorMessage = false">
-            <span style="font-size: 12px">{{ errorMessage }}</span>
-        </ngb-alert> -->
-        <ngb-alert *ngIf="alertSubmit.isOpen" type="{{ alertSubmit.type }}" (closed)="onCloseAlertSubmit()">
-            <strong>{{ alertSubmit.title }}</strong> {{ alertSubmit.message }}
-        </ngb-alert>
-
-        <!-- <ngb-alert *ngIf="errorMessage && !closed" type="danger" (close)="closed = true" >
-            <strong>Oops!</strong> {{ errorMessage }}
-          </ngb-alert> -->
-
-    </div>
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
@@ -489,6 +476,11 @@
         </button>
     </div>
     <div class="modal-body px-3 py-2 ">
+
+        <ngb-alert *ngIf="alertSubmit.isOpen" type="{{ alertSubmit.type }}" (closed)="onCloseAlertSubmit()">
+            <strong>{{ alertSubmit.title }}</strong> {{ alertSubmit.message }}
+        </ngb-alert>
+
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
@@ -689,13 +681,6 @@
 
 <!-- HOD-ISO REVIEW MODAL-->
 <ng-template #CoIIHoDISOReview let-modal>
-    <div class="p-3">
-        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
-            (closed)="errorMessage = false">
-            <span style="font-size: 12px">{{ errorMessage }}</span>
-        </ngb-alert>
-    </div>
-
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
@@ -705,6 +690,12 @@
         </button>
     </div>
     <div class="modal-body px-3 py-2 ">
+
+        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
+            (closed)="errorMessage = false">
+            <span style="font-size: 12px">{{ errorMessage }}</span>
+        </ngb-alert>
+
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
@@ -793,10 +784,6 @@
 
 <!-- GIFTS RECEIVED SUPERVISOR REVIEW -->
 <ng-template #GRSupReview let-modal>
-    <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
-        (closed)="errorMessage = false">
-        <span style="font-size: 12px">{{ errorMessage }}</span>
-    </ngb-alert>
 
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
@@ -806,6 +793,10 @@
         </button>
     </div>
     <div class="modal-body px-3 py-2 ">
+        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
+            (closed)="errorMessage = false">
+            <span style="font-size: 12px">{{ errorMessage }}</span>
+        </ngb-alert>
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             Declarant Details
@@ -904,11 +895,6 @@
 
 <!-- GIFTS RECEIVED HOD REVIEW -->
 <ng-template #GRHoDReview let-modal>
-    <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
-        (closed)="errorMessage = false">
-        <span style="font-size: 12px">{{ errorMessage }}</span>
-    </ngb-alert>
-
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
@@ -918,6 +904,10 @@
         </button>
     </div>
     <div class="modal-body px-3 py-2 ">
+        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
+            (closed)="errorMessage = false">
+            <span style="font-size: 12px">{{ errorMessage }}</span>
+        </ngb-alert>
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
@@ -1042,11 +1032,6 @@
 
 <!-- GIFTS RECEIVED HOD ISO REVIEW -->
 <ng-template #GRHoDISOReview let-modal>
-    <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
-        (closed)="errorMessage = false">
-        <span style="font-size: 12px">{{ errorMessage }}</span>
-    </ngb-alert>
-
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
@@ -1056,6 +1041,10 @@
         </button>
     </div>
     <div class="modal-body px-3 py-2 ">
+        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
+            (closed)="errorMessage = false">
+            <span style="font-size: 12px">{{ errorMessage }}</span>
+        </ngb-alert>
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->
@@ -1157,11 +1146,6 @@
 
 <!-- GIFTS RECEIVED HOD ISO REVIEW -->
 <ng-template #GRDeclarantReview let-modal>
-    <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
-        (closed)="errorMessage = false">
-        <span style="font-size: 12px">{{ errorMessage }}</span>
-    </ngb-alert>
-
     <div class="modal-header no-border" style="display: flex; align-items: start; justify-content: space-between;">
         <p style="color: #707070; font-size: 12px;">{{selectedNotification.header}}</p>
         <button type="button" style="color:#741110; border:none;" class="close" aria-label="Close"
@@ -1169,8 +1153,13 @@
             <!-- <span aria-hidden="true">&times;</span> -->
             <img src="assets/icons/main-layout-icons/clear-icon.svg">
         </button>
-    </div>
+    </div> 
+
     <div class="modal-body px-3 py-2 ">
+        <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert p-2"
+            (closed)="errorMessage = false">
+            <span style="font-size: 12px">{{ errorMessage }}</span>
+        </ngb-alert>
         <p class="text-center"
             style="color: #133B3A; font-weight: bold; text-transform: uppercase; text-decoration: underline;">
             <!-- <img class="me-1" style="height:20px;"src="assets/icons/vuesax-bold-info-circle.svg"> -->

@@ -131,75 +131,7 @@
               </div>
             </div>
 
-            <div class="container">
-              <div class="row g-4">
-
-                <div class="col-md-6">
-                  <div class="p-3 border card_css">
-                    <div class="p-0 d-flex  justify-content-between w-100">
-                      <p class="fw-bold card-titles px-0">Individual Conflicts</p>
-                    </div>
-                    <div class="mt-4 d-flex w-100 justify-content-between">
-                      <div class="d-flex justify-content-flex-start align-items-start">
-                        <strong class="total">{{ statistics.individualConflict.total }}</strong> declared
-                      </div>
-                      <div class="p-0 d-flex w-100 ms-4">
-                        <img src="assets/icons/dashboard-icons/individualconflicts-icon.svg" alt="Icon" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="p-3 border card_css">
-                    <div class="p-0 d-flex justify-content-between w-100">
-                      <p class="fw-bold card-titles px-0">Gifts Given Out</p>
-                    </div>
-                    <div class="mt-4 d-flex w-100 justify-content-between">
-                      <div class="d-flex justify-content-flex-start align-items-start">
-                        <strong class="total">{{ statistics.giftsGivenOut.total }}</strong> declared
-                      </div>
-                      <div class="p-0 d-flex w-100 ms-4">
-                        <img src="assets/icons/dashboard-icons/gifts-given-out.svg" alt="Icon" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="p-3 border card_css">
-                    <div class="p-0 d-flex  justify-content-between w-100">
-                      <p class="fw-bold card-titles px-0">Group Conflicts</p>
-                    </div>
-                    <div class="mt-4 d-flex w-100 justify-content-between">
-                      <div class="d-flex justify-content-flex-start align-items-start">
-                        <strong class="total">{{ statistics.groupConflict.total }}</strong> declared
-                      </div>
-                      <div class="p-0 d-flex w-100 ms-4">
-                        <img src="assets/icons/dashboard-icons/group.svg" alt="Icon" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="p-3 border card_css">
-                    <div class="p-0 d-flex justify-content-between w-100">
-                      <p class="fw-bold card-titles px-0">Gifts Received</p>
-                    </div>
-                    <div class="mt-4 d-flex w-100 justify-content-between">
-                      <div class="d-flex justify-content-flex-start align-items-start">
-                        <strong class="total">{{ statistics.giftsReceived.total }}</strong> declared
-                      </div>
-                      <div class="p-0 d-flex w-100 ms-4">
-                        <img src="assets/icons/dashboard-icons/gift.svg" alt="Icon" />                      
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <app-statistics></app-statistics>
 
           </div>
         </div>

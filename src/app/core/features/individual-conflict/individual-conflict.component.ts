@@ -8,7 +8,7 @@ import { HttpsService } from "../../services/https.service";
 import { Constants } from "../../utils/constants";
 import { HttpParams } from "@angular/common/http";
 import { PageEvent } from "@angular/material/paginator";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
@@ -53,6 +53,7 @@ export class IndividualConflictComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
+    private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService
   ) {
@@ -268,7 +269,7 @@ export class IndividualConflictComponent implements OnInit {
           if (response.code === 200) {
             this.isLoading = false;
             this.openVerticallyCentered(this.content);
-            window.location.reload();
+            this.router.navigate(['/individual-conflict']);
           } 
         },
         complete() {
@@ -288,7 +289,7 @@ export class IndividualConflictComponent implements OnInit {
           if (response.code === 200) {
             this.isLoading = false;
             this.openVerticallyCentered(this.content);
-            this.formGroup.reset();
+            // this.formGroup.reset();
           }
         },
         complete() {

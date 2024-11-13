@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiEndPoints } from 'app/core/common/ApiEndPoints';
 import { HttpService } from 'app/core/services/http.service';
-import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 import {Constants} from "../../../utils/constants";
 import {HttpParams} from "@angular/common/http";
 import {HttpsService} from "../../../services/https.service";
@@ -33,24 +32,7 @@ export class AdminDashboardComponent implements OnInit {
   progress: any;
   declaration: any;
   
-  statistics = {
-    individualConflict: {
-      statuses: [],
-      total: 0
-    },
-    giftsGivenOut: {
-      statuses: [],
-      total: 0
-    },
-    groupConflict: {
-      statuses: [],
-      total: 0
-    },
-    giftsReceived: {
-      statuses: [],
-      total: 0
-    }
-  }  
+  
   historyItemClicked = false;
 
   Roles: any;
@@ -127,19 +109,15 @@ export class AdminDashboardComponent implements OnInit {
 
     this.getUser();
     this.getHistory();
-    this.getStatistics();
   }
 
   getUserRoles(): void {
     this.httpService.get(ApiEndPoints.ROLES_INDEX).subscribe({
       next: (res) => {
         
-        this.Roles = res.data;
-       
-        const roleNames = this.Roles.map(role => role.name);
-        
-        const rolePrivileges = this.Roles.map(role => role.privileges);
-        
+        this.Roles = res.data;       
+        const roleNames = this.Roles.map(role => role.name);        
+        const rolePrivileges = this.Roles.map(role => role.privileges);       
 
       },
       error: (error) => {
@@ -293,14 +271,7 @@ export class AdminDashboardComponent implements OnInit {
     this.user = this.authService.getLoggedInUser();
   }
 
-  getStatistics():void{
-    this.service.get(`${Constants.BASE_URL}/dashboard/statistics`, new HttpParams()).subscribe({
-      next: (response: any) => {
-        this.statistics = response.data
-      },
-      error: () => {},
-    })
-  }
+
 
   getHistory() {
     const params = new HttpParams({

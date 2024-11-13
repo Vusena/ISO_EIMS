@@ -83,7 +83,6 @@ text-align: left;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom:20px;
     padding:0; 
     
  }
@@ -91,15 +90,13 @@ text-align: left;
 .eims-logo {
     width: 250px;
     overflow: visible;
-    margin: 0px;
-    margin-bottom: 20px;
-    // object-fit: contain;
+    // margin: 0px;
+   
 }
 
 .form-container{
     justify-content:space-around;
     width: 280px;
-    height:300px;
     margin-bottom: 10px;
     padding:0;
     box-sizing: border-box;

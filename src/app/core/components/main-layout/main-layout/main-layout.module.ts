@@ -49,6 +49,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { NotificationsComponent } from 'app/core/features/common/notifications/notifications.component';
+import { StatisticsComponent } from 'app/core/features/common/statistics/statistics.component';
 
 
 @NgModule({
@@ -68,8 +69,7 @@ import { NotificationsComponent } from 'app/core/features/common/notifications/n
       SuccessComponent,
       AdminDashboardComponent,
       UserDashboardComponent,
-
-
+      
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -104,7 +104,8 @@ import { NotificationsComponent } from 'app/core/features/common/notifications/n
         MatTooltipModule,
         MatExpansionModule,
         MatCheckboxModule,
-        NotificationsComponent
+        NotificationsComponent,
+        StatisticsComponent
     ],
   providers: [
     DatePipe,

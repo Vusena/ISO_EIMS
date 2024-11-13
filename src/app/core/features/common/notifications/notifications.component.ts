@@ -501,6 +501,7 @@ getNotifications(){
         this.isLoading = false;
       },
       error: (error) => {
+        this.isLoading = false;
         this.errorMessage = error.message
         this.alertSubmit.type = "danger",
         this.alertSubmit.isOpen = true,
@@ -537,6 +538,7 @@ getNotifications(){
           this.alertSubmit.isOpen = true,
           this.alertSubmit.title = 'Oops!',
           this.alertSubmit.message = error.message
+          this.isLoading = false;
         },
       }); 
     }

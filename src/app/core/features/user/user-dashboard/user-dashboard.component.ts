@@ -26,24 +26,6 @@ export class UserDashboardComponent implements OnInit {
   length = 0;
   progress: any;
   declaration: any;
-  statistics = {
-    individualConflict: {
-      statuses: [],
-      total: 0
-    },
-    giftsGivenOut: {
-      statuses: [],
-      total: 0
-    },
-    groupConflict: {
-      statuses: [],
-      total: 0
-    },
-    giftsReceived: {
-      statuses: [],
-      total: 0
-    }
-  }
   notifications: any[] = [];
   headers: any;
   title: any;
@@ -74,22 +56,13 @@ export class UserDashboardComponent implements OnInit {
     ];
 
     this.getUser();
-    this.getStatistics();
+   
     this.getHistory();
   }
 
 
   getUser(): void {
     this.user = this.authService.getLoggedInUser();
-  }
-
-  getStatistics():void{
-    this.service.get(`${Constants.BASE_URL}/dashboard/statistics`, new HttpParams()).subscribe({
-      next: (response: any) => {
-        this.statistics = response.data
-      },
-      error: () => {},
-    })
   }
 
   getHistory() {

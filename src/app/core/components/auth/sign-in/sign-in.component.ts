@@ -56,10 +56,8 @@ export class SignInComponent implements OnInit {
 
     this.authService.login(username, encryptedPassword).subscribe({
       next: (response) => {
-       
         this.isLoading = false;
         this.successMessage = "Logging you in, please wait...";     
-    
         const roles = response.body.data.roles.map((role: any) => role.name);
         if (roles.includes('ROLE_ADMIN')) {
           this.router.navigate(['/dashboard']);

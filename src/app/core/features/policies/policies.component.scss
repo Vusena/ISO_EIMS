@@ -1,0 +1,58 @@
+
+
+/* Container for cards */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Creates 4 equal columns */
+    gap: 20px; /* Adds space between cards */
+    padding: 20px;
+  }
+  
+ .card-body{
+    background-color: #fff;
+ }
+
+  /* Styles for each card */
+  .card1 {
+    background-color:#FFFFFF;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Initial shadow for raised effect */
+    overflow: hidden; /* Ensures content doesn't overflow */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  /* Card content */
+  .card-content {
+    padding: 20px;
+  }
+  
+  .card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .card p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Hover effect to raise the card further */
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increases shadow on hover */
+    transform: translateY(-5px); /* Moves the card up slightly */
+  }
+  
+  /* Responsiveness: Stack cards on smaller screens */
+  @media (max-width: 768px) {
+    .card-container {
+      grid-template-columns: 1fr 1fr; /* 2 columns on medium screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .card-container {
+      grid-template-columns: 1fr; /* 1 column on small screens */
+    }
+  }
+  

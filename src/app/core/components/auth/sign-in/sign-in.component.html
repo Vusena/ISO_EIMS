@@ -27,7 +27,7 @@
 
         <div class="col-md-6 login-form">
           <!-- KRA Logo -->
-          <div class="eims-logo-container " style="height:40%;">
+          <div class="eims-logo-container">
             <img class="eims-logo" src="./assets/img/auth-imgs/eims-logo.png">
           </div>
           <!-- Login Form -->
@@ -35,12 +35,15 @@
           <div class="form-container">
             <form [formGroup]="Form" (ngSubmit)="onSubmit()">
               <!-- ERROR MESSAGE -->
-              <div class="alert alert-danger alertss p-1" *ngIf="errorMessage">
+              <ngb-alert [dismissible]="true" *ngIf="errorMessage" type="danger" class="danger-alert"
+                (closed)="errorMessage = false">
                 <small class="error-text">{{errorMessage}}</small>
-              </div>
-              <div class="alert alert-success p-1" *ngIf="successMessage">
-                <small class="error-text">{{successMessage}}</small>
-              </div>
+              </ngb-alert>
+
+              <ngb-alert [dismissible]="true" *ngIf="successMessage" type="success" class="success-alert"
+                (closed)="successMessage = false">
+                <small class="success-text">{{ successMessage }}</small>
+              </ngb-alert>
 
               <!-- Input fields -->
               <div class="form-group">
