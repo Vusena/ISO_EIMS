@@ -39,11 +39,18 @@
                 (closed)="errorMessage = false">
                 <small class="error-text">{{errorMessage}}</small>
               </ngb-alert>
-
+              
               <ngb-alert [dismissible]="true" *ngIf="successMessage" type="success" class="success-alert"
                 (closed)="successMessage = false">
                 <small class="success-text">{{ successMessage }}</small>
               </ngb-alert>
+
+              <!-- <div class="alert alert-danger alertss p-1" *ngIf="errorMessage">
+                <small class="error-text">{{errorMessage}}</small>
+              </div> -->
+              <div class="alert alert-success p-1" *ngIf="successMessage">
+                <small class="error-text">{{successMessage}}</small>
+              </div>
 
               <!-- Input fields -->
               <div class="form-group">

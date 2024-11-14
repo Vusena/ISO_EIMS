@@ -479,7 +479,13 @@ getNotifications(){
     });
   }
   cancelRemarks(): void {
-    this.remarksForm.reset();
+    this.individualForm.reset();
+  }
+  cancelRemarks2():void{
+    this.remarksForm.reset()
+  }
+  cancelRemarks3(){
+    this.giftsReceivedForm.reset()
   }
   // Submit Declarations
   submitIndividualRemarks() {

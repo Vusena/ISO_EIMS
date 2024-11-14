@@ -10,12 +10,14 @@
   
  .card-body{
     background-color: #fff;
+    border-radius: 20px;
  }
 
   /* Styles for each card */
   .card1 {
-    background-color:#FFFFFF;
-    border-radius: 10px; /* Rounded corners */
+    background-color:#F2F2F2;
+    
+    border-radius: 15px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Initial shadow for raised effect */
     overflow: hidden; /* Ensures content doesn't overflow */
     transition: all 0.3s ease; /* Smooth transition for hover effect */
