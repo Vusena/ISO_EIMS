@@ -25,15 +25,14 @@
 							"src/assets",
 							"src/favicon.ico",
 							"src/assets/icons"
-							
 						],
 						"styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "node_modules/bootstrap/scss/bootstrap.scss",
-              "src/assets/scss/paper-dashboard.scss",
-			  "src/styles.scss",
-              "src/assets/css/demo.css"
-            ],
+							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+							"node_modules/bootstrap/scss/bootstrap.scss",
+							"src/assets/scss/paper-dashboard.scss",
+							"src/styles.scss",
+							"src/assets/css/demo.css"
+						],
 						"scripts": []
 					},
 					"configurations": {
@@ -73,14 +72,14 @@
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
-						"browserTarget": "EIMS:build"
+						"buildTarget": "EIMS:build"
 					},
 					"configurations": {
 						"production": {
-							"browserTarget": "EIMS:build:production"
+							"buildTarget": "EIMS:build:production"
 						},
 						"development": {
-							"browserTarget": "EIMS:build:development"
+							"buildTarget": "EIMS:build:development"
 						},
 						"defaultConfiguration": "development"
 					}
@@ -88,7 +87,7 @@
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "EIMS:build"
+						"buildTarget": "EIMS:build"
 					}
 				},
 				"test": {
@@ -107,11 +106,11 @@
 							"node_modules/bootstrap-notify/bootstrap-notify.js"
 						],
 						"styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss",
-              "src/assets/sass/paper-dashboard.scss",
-              "src/assets/css/demo.css"
-            ],
+							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+							"src/styles.scss",
+							"src/assets/sass/paper-dashboard.scss",
+							"src/assets/css/demo.css"
+						],
 						"assets": [
 							"src/assets",
 							"src/favicon.ico"

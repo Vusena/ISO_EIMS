@@ -1,11 +1,68 @@
-<div class="modal-header">
-    <h4 class="modal-title">Departments</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
-</div>
-<div class="modal-body">
-    <p>Here you can list or manage departments.</p>
-    <!-- Add your departments form or list here -->
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+<div class="container-fluid p-0">
+    <div>
+        <nav class="navbar header-nav">
+            <span class="dashboard-heading">Departments</span>
+        </nav>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+
+                <mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+                    <ng-container matColumnDef="no">
+                        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                        <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="code">
+                        <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{ element.code }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="hod">
+                        <mat-header-cell *matHeaderCellDef> HOD </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{ element.hod || 'N/A' }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acting_hod">
+                        <mat-header-cell *matHeaderCellDef> Acting HOD </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{ element.acting_hod || 'N/A' }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="active">
+                        <mat-header-cell *matHeaderCellDef> Active </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{ element.active ? 'Yes' : 'No' }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <mat-cell *matHeaderCellDef> Actions </mat-cell>
+                        <mat-cell *matCellDef="let element">
+                            <span (click)="onEdit(element)">
+                                <mat-icon svgIcon="edit" class="small-icon"></mat-icon>
+                                &nbsp;
+                                <span class="icon-text">Edit</span>
+                            </span>
+                            &nbsp;&nbsp;
+                            <span (click)="onDelete(element)">
+                                <mat-icon svgIcon="trash" class="small-icon"></mat-icon>
+                                &nbsp;
+                                <span class="icon-text">Delete</span>
+                            </span>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Header and Row Definitions -->
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;" class="custom-row"></mat-row>
+                </mat-table>
+
+            </div>
+        </div>
+    </div>
 </div>

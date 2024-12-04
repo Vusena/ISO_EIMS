@@ -50,6 +50,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { NotificationsComponent } from 'app/core/features/common/notifications/notifications.component';
 import { StatisticsComponent } from 'app/core/features/common/statistics/statistics.component';
+import { DepartmentsComponent } from 'app/core/features/admin/departments/departments.component';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { StatisticsComponent } from 'app/core/features/common/statistics/statist
         LayoutModule,
         ReactiveFormsModule,
         FormsModule,
+        DepartmentsComponent,
 
         MatInputModule,
         MatIconModule,
