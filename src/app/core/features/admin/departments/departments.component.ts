@@ -36,22 +36,18 @@ export class DepartmentsComponent implements OnInit {
 
   constructor(
     private service: HttpsService,
-   
   ){ }
 
   ngOnInit(): void {
     this.getItems() ;
-
   }
 
   getItems(): void {
     this.service.get(`${Constants.BASE_URL}/departments`, new HttpParams()).subscribe({
       next: (response: any) => {
-
         const normalizedData = response.data.map((item: any) => {
           if (typeof item.deptHead === 'string') {
-            item.deptHead = { staffNo: item.deptHead, firstName: '',lastName: ''};
-            
+            item.deptHead = { staffNo: item.deptHead, firstName: '',lastName: ''};            
           }
           return item;
         });
@@ -65,7 +61,6 @@ export class DepartmentsComponent implements OnInit {
   onEdit(item: any): void {  
     const modalRef = this.modalService.open(DepartmentComponent, { centered: true });
     modalRef.componentInstance.item = item;
-
     modalRef.result.then(
       (result) => {
         if (result === true) {

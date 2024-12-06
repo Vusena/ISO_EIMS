@@ -60,7 +60,7 @@ export class DepartmentComponent implements OnInit {
 
 
   ngOnInit() {
-   
+   console.log(this.item)
   }
 
   close(flag: boolean) {

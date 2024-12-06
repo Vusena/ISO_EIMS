@@ -1,6 +1,6 @@
 <div class="modal-content px-2 responsive-width">
     <div class="modal-header">
-        <h3 class="modal-title">Department Particulars</h3>
+        <h3 class="modal-title" style="font-weight: bold; color: #741110;" >Department Particulars</h3>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
             (click)="activeModal.dismiss('Cross click')"></button>
     </div>
@@ -22,7 +22,7 @@
                 <tr>
                     <td>{{ item.code }}</td>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.hod }}</td>
+                    <td>{{ item.deptHead.staffNo }}: {{ item.deptHead.firstName }} {{ item.deptHead.lastName }}</td>
                 </tr>
             </tbody>
         </table>
@@ -33,7 +33,7 @@
                 <form (submit)="onSearch($event)">
                     <div class="row">
                         <div class="col-12">
-                            <div>Search Head of Department</div>
+                            <div style="font-weight: bold; color: #133B3A;">Search Head of Department</div>
                             <mat-form-field appearance="outline" class="w-100 p-0 unique">
                                 <input matInput placeholder="Search by P.No" [(ngModel)]="searchText" />
                                 <button style="border: none; background-color: #FFFFFF;" class="me-2" matSuffix
