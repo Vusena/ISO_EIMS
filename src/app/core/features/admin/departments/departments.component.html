@@ -1,62 +1,66 @@
 <div class="container-fluid p-0">
     <div>
         <nav class="navbar header-nav">
-            <span class="dashboard-heading">Departments</span>
+            <span class="dashboard-heading">Head of Department Details</span>
         </nav>
     </div>
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 ">
-                <mat-table [dataSource]="dataSource" class="mat-elevation-z8 h-100" >
-                    <ng-container matColumnDef="no">
-                        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-                        <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
-                    </ng-container>
-
-                    <ng-container matColumnDef="code">
-                        <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
-                        <mat-cell *matCellDef="let element"> {{ element.code }} </mat-cell>
-                    </ng-container>
-
-                    <ng-container matColumnDef="name">
-                        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                        <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
-                    </ng-container>
-
-                    <ng-container matColumnDef="hod">
-                        <mat-header-cell *matHeaderCellDef> HOD </mat-header-cell>
-                        <mat-cell *matCellDef="let element"> {{ element.hod || 'N/A' }} </mat-cell>
-                    </ng-container>
-
-                    <ng-container matColumnDef="active">
-                        <mat-header-cell *matHeaderCellDef> Active </mat-header-cell>
-                        <mat-cell *matCellDef="let element"> {{ element.active ? 'Yes' : 'No' }} </mat-cell>
-                    </ng-container>
-
-                    <ng-container matColumnDef="actions">
-                        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-                        <mat-cell *matCellDef="let element">
-
-                        <span (click)="onEdit(element)" class="action-icon me-2">
+          <div class="col-12">
+            <div class="table-responsive">
+              <mat-table [dataSource]="dataSource" class="mat-elevation-z8 h-100">
+                <ng-container matColumnDef="no">
+                  <mat-header-cell *matHeaderCellDef class="custom-header"> No. </mat-header-cell>
+                  <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+                </ng-container>
+      
+                <ng-container matColumnDef="code">
+                  <mat-header-cell *matHeaderCellDef class="custom-header">Code </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.code }} </mat-cell>
+                </ng-container>
+      
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef class="custom-header">Department Name </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+                </ng-container>
+      
+                <ng-container matColumnDef="hodDetails">
+                    <mat-header-cell *matHeaderCellDef> Head of Department </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <span *ngIf="element.deptHead; else noHod">
+                        {{ element.deptHead.staffNo }}: {{ element.deptHead.firstName }} {{ element.deptHead.lastName }} 
+                      </span> 
+                      <ng-template #noHod>
+                        
+                      </ng-template>
+                    </mat-cell>
+                  </ng-container>            
+                                                    
+      
+                <ng-container matColumnDef="active">
+                  <mat-header-cell *matHeaderCellDef class="custom-header"> Active </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.active ? 'Yes' : 'No' }} </mat-cell>
+                </ng-container>
+      
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <span (click)="onEdit(element)" class="action-icon me-2">
                         <mat-icon fontIcon="edit" class="small-icon"></mat-icon>
-                        <span class="icon-text">Edit</span>
-                        </span>
-
-                        <span (click)="onDelete(element)" class="action-icon">
-                        <mat-icon fontIcon="delete" class="small-icon"></mat-icon>
-                        <span class="icon-text">Delete</span>
-                        </span>
-
-                        </mat-cell>
-                        </ng-container>
-
-                    <!-- Header and Row Definitions -->
-                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;" class="custom-row"></mat-row>
-                </mat-table>
-
+                        <span class="icon-text">{{ element.deptHead ? 'Change' : 'Assign' }}</span>
+                      </span>
+                    </mat-cell>
+                  </ng-container>                
+                  
+      
+                <!-- Header and Row Definitions -->
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;" class="custom-row"></mat-row>
+              </mat-table>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
+      
 </div>

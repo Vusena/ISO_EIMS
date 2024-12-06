@@ -50,19 +50,16 @@
                 <div class="d-flex justify-content-between">
                     <p class="fw-bold">HOD Details</p>
                     <div>
-                        <button class="custom-button" (click)="toggleSearch()"> Clear
-                            <img src="assets/icons/main-layout-icons/clear-icon.svg" class="clear-icon"
-                                alt="Clear Icon">
+                        <button class="custom-button" (click)="toggleSearch()"> Clear                            
                         </button>
                     </div>
                 </div>
-
                 <div class="d-flex align-items-center my-2">
                     <table class="table mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>STAFF NAME</th>
-                                <th>STAFF NO.</th>
+                                <th>NAME</th>
+                                <th>PERSONAL NO.</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,8 +73,8 @@
                 <div class="row my-2">
                     
                         <div class="col-6 mt-2">
-                            <button type="button" (click)="clear()" class="btn btn-block btn-rounded outlined-button">
-                                Clear <img src="assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
+                            <button type="button" (click)="cancel()" class="btn btn-block btn-rounded outlined-button">
+                                Cancel <img src="assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
                             </button>
                         </div>
                         <div class="col-6 mt-2">
@@ -106,3 +103,21 @@
     </div>
     <!-- <div class="modal-footer"></div> -->
 </div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <div class="col d-flex justify-content-center">
+        <p class="success">SUCCESS</p>
+      </div>
+      <button type="button" class="btn-close" aria-label="Close" (click)="onCloseClick()"></button>
+    </div>
+    <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
+    </lottie-player>
+    <div class="col text-center">
+      <p style="font-size: 15px; font-weight: bold;">Your task has been submitted successfully.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
+    </div>
+  </ng-template>

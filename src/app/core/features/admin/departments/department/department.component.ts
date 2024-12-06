@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, input, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpService } from 'app/core/services/http.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpsService } from 'app/core/services/https.service';
 import { Constants } from 'app/core/utils/constants';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+
 @Component({
   selector: 'app-department',
   standalone: true,
@@ -29,6 +30,9 @@ import { MatTableModule } from '@angular/material/table';
 })
 
 export class DepartmentComponent implements OnInit {
+
+  @ViewChild('content') content: TemplateRef<any>;
+
   activeModal = inject(NgbActiveModal);
   @Input() item: any;
 
@@ -50,12 +54,13 @@ export class DepartmentComponent implements OnInit {
   }
 
   constructor(
-    private service: HttpsService  
+    private service: HttpsService, 
+    private modalService: NgbModal,
   ) { }
 
 
   ngOnInit() {
-   console.log(this.item)
+   
   }
 
   close(flag: boolean) {
@@ -65,7 +70,7 @@ export class DepartmentComponent implements OnInit {
   onSearch(event: any): void {
     event.preventDefault();
     const data = { staffNo: this.searchText };
-    this.service.post(`${Constants.BASE_URL}/coi-group/search`, data).subscribe({
+    this.service.post(`${Constants.BASE_URL}/departments/hod`, data).subscribe({
       next: (response: any) => {
         this.staffDetails = response.data;
         this.showSearchResults = true;
@@ -74,7 +79,7 @@ export class DepartmentComponent implements OnInit {
         this.alert.isOpen = false;
       },
       error: (error) => {
-        console.log(error)
+        
         this.alert.isOpen = true;
         this.alert.message = error.message;
         this.alert.title = "Oops!";
@@ -96,22 +101,21 @@ export class DepartmentComponent implements OnInit {
     this.alert.isOpen = false;
   }
 
-  onSubmit() {
+  onSubmit() {   
     this.isLoading = true;  
-    let hod=this.staffDetails.staffNo;
-    
-    console.log('hodStaffNo', hod)
+    let hod=this.staffDetails.staffNo;    
     const data={
       name:this.item.name,
       hod: this.staffDetails.staffNo,
-      acting_hod:this.item.acting_hod
     }  
- console.log('data', data)
-    this.service.post(`${Constants.BASE_URL}/departments`, data).subscribe({
+
+    this.service.put(`${Constants.BASE_URL}/departments/${this.item.id}`, data).subscribe({
       next: (response: any) => {
         if (response.code === 200) {
           this.isLoading = false;
           this.addHOD()
+          this.openVerticallyCentered(this.content);
+          this.activeModal.close(true);
         }
       },
       complete() {
@@ -127,7 +131,16 @@ export class DepartmentComponent implements OnInit {
     });
   }
 
-  cancel() {
-    this.activeModal.close(true);
+  openVerticallyCentered(content: TemplateRef<any>) {
+    this.modalService.open(content, { centered: true });
   }
+  onCloseClick():void{
+    this.modalService.dismissAll('Close click');
+    this.addHOD()
+  }
+
+  cancel() {
+    this.activeModal.close(false);
+  }
+  
 }

@@ -28,8 +28,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class DepartmentsComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'code', 'name', 'hod', 'active', 'actions'];
-    dataSource = new MatTableDataSource<any>();
+  displayedColumns: string[] = ['no', 'code', 'name', 'hodDetails', 'active', 'actions'];
+  dataSource = new MatTableDataSource<any>();
 
   private modalService = inject(NgbModal);
   @ViewChild('content') content: TemplateRef<any>;
@@ -40,25 +40,42 @@ export class DepartmentsComponent implements OnInit {
   ){ }
 
   ngOnInit(): void {
-    this.getItems() 
+    this.getItems() ;
+
   }
 
   getItems(): void {
     this.service.get(`${Constants.BASE_URL}/departments`, new HttpParams()).subscribe({
       next: (response: any) => {
-        this.dataSource = response.data
+
+        const normalizedData = response.data.map((item: any) => {
+          if (typeof item.deptHead === 'string') {
+            item.deptHead = { staffNo: item.deptHead, firstName: '',lastName: ''};
+            
+          }
+          return item;
+        });
+        this.dataSource = new MatTableDataSource(normalizedData);
       },
-      error: () => { },
-    })
+      error: () => {},
+    });
   }
+  
 
   onEdit(item: any): void {  
     const modalRef = this.modalService.open(DepartmentComponent, { centered: true });
     modalRef.componentInstance.item = item;
+
+    modalRef.result.then(
+      (result) => {
+        if (result === true) {
+          this.getItems();
+        }
+      },
+      (reason) => {
+        
+      }
+    );
   }
-  
-  onDelete(element: any): void {
-    console.log('Deleting', element);
-    // Show a confirmation dialog and delete the row
-  }
+ 
 }

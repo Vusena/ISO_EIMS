@@ -64,7 +64,7 @@
                 <div class="col-md-4 px-1">
                   <div class="small">Date Received</div>
                   <mat-form-field appearance="outline" class="w-100">
-                    <input matInput formControlName="dateReceived" [matDatepicker]="received" placeholder="{{ today | date:'M/d/yyyy' }}" />
+                    <input matInput formControlName="dateReceived" [max]="today" [matDatepicker]="received" placeholder="{{ today | date:'M/d/yyyy' }}" />
                     <mat-datepicker-toggle matIconSuffix [for]="received"></mat-datepicker-toggle>
                     <mat-datepicker #received></mat-datepicker>
                     <mat-error *ngIf="formGroup.get('dateReceived').hasError('required')">
@@ -76,7 +76,7 @@
                 <div class="col-md-4 px-1">
                   <div class="small">Date Surrendered</div>
                   <mat-form-field appearance="outline" class="w-100">
-                    <input matInput formControlName="dateSurrendered"  [matDatepicker]="surrendered" placeholder="{{ today | date:'M/d/yyyy' }}">
+                    <input matInput formControlName="dateSurrendered" [max]="today"  [matDatepicker]="surrendered" placeholder="{{ today | date:'M/d/yyyy' }}">
                     <mat-datepicker-toggle matIconSuffix [for]="surrendered"></mat-datepicker-toggle>
                     <mat-datepicker #surrendered></mat-datepicker>
                     <mat-error *ngIf="formGroup.get('dateSurrendered').hasError('required')">

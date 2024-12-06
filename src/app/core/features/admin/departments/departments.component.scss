@@ -66,18 +66,30 @@
 }
 
 .small-icon {
-    font-size: 14px; 
-    
-    }
-    
-    .icon-text {
-    font-size: 14px; 
-    }
-    
-    .action-icon {
+    font-size: 14px;
+
+}
+
+.icon-text {
+    font-size: 14px;
+}
+
+.action-icon {
     cursor: pointer;
     display: flex;
     align-items: center;
-    }
-    
-   
+}
+
+.mat-table {
+    width: 100%;
+}
+
+.mat-header-cell,
+.mat-cell {
+    padding: 8px;
+    font-size: 14px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}

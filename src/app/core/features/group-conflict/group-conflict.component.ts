@@ -16,6 +16,7 @@ import { NotificationService } from 'app/core/services/notification.service';
   styleUrls: ['./group-conflict.component.scss'],
   encapsulation: ViewEncapsulation.None // Apply styles globally
 })
+
 export class GroupConflictComponent implements OnInit {
   history: any;
   page = 0;
@@ -535,7 +536,7 @@ export class GroupConflictComponent implements OnInit {
     formData.append('declaration', JSON.stringify(declaration));
     formData.append('file', this.declarationForm.get('file').value);
 
-    this.service.post(`${Constants.BASE_URL}/coi-group/initiate`, formData).subscribe({
+    this.service.post(`${Constants.BASE_URL}/departments/hod`, formData).subscribe({
       next: (response: any) => {
         if (response.code === 200) {
           this.isLoading = false;
