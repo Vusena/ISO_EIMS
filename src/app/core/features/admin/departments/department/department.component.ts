@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, input, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from 'app/core/services/http.service';
 import { HttpsService } from 'app/core/services/https.service';
 import { Constants } from 'app/core/utils/constants';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 @Component({
   selector: 'app-department',
   standalone: true,
@@ -19,22 +20,27 @@ import { Constants } from 'app/core/utils/constants';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatIconModule,
+    MatTableModule
   ],
   templateUrl: './department.component.html',
-  styleUrl: './department.component.scss'
+  styleUrl: './department.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 
 export class DepartmentComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
-
   @Input() item: any;
 
-  formGroup: FormGroup;
-
-  isLoading = false
-
+  searchForm: FormGroup;
+  isLoading = false;
   searchText: string = '';
+  searchResults: any[] = [];
+  showSearchResults = false;
+  staffDetails: any;
+  staffName: string;
+  staffNo: any;
+  HODResults:boolean=false;
 
   alert = {
     type: "success",
@@ -44,68 +50,68 @@ export class DepartmentComponent implements OnInit {
   }
 
   constructor(
-    private service: HttpsService,
-    private formBuilder: FormBuilder
+    private service: HttpsService  
   ) { }
 
 
   ngOnInit() {
-    this.formGroup = new FormGroup({
-      code: new FormControl({ value: this.item.code , disabled: true }),
-      name: new FormControl(this.item.name, Validators.required),
-      hod: new FormControl(this.item.hod, Validators.required),
-      acting_hod: new FormControl(this.item.acting_hod),
-    })
+   console.log(this.item)
   }
 
   close(flag: boolean) {
     this.activeModal.close(flag);
   }
 
-
-
-
   onSearch(event: any): void {
     event.preventDefault();
     const data = { staffNo: this.searchText };
     this.service.post(`${Constants.BASE_URL}/coi-group/search`, data).subscribe({
       next: (response: any) => {
-        let staff = response.data;
-        //this.showSearchResults = true;
-        //this.staffName = staff.name;
-        //this.staffNo = staff.staffNo;
+        this.staffDetails = response.data;
+        this.showSearchResults = true;
+        this.staffName = this.staffDetails.name;
+        this.staffNo=this.staffDetails.staffNo;
+        this.alert.isOpen = false;
       },
       error: (error) => {
+        console.log(error)
+        this.alert.isOpen = true;
         this.alert.message = error.message;
         this.alert.title = "Oops!";
         this.alert.type = "danger";
-
-        this.alert.isOpen = true;
       }
     })
+  }
+
+  addHOD(): void {
+    this.staffNo = this.staffDetails.staffNo;
+    this.showSearchResults=false;
+    this.HODResults=true;    
+  }
+  toggleSearch():void{
+    this.HODResults=false;
   }
 
   onCloseAlert(): void {
     this.alert.isOpen = false;
   }
 
-
-
-  submit() {
-    this.isLoading = true;
-    const formValues = this.formGroup.getRawValue();
-    const data = {
-      code: formValues.code,
-      name: formValues.name,
-      hod: formValues.hod,
-      acting_hod: formValues.acting_hod
-    };
-
+  onSubmit() {
+    this.isLoading = true;  
+    let hod=this.staffDetails.staffNo;
+    
+    console.log('hodStaffNo', hod)
+    const data={
+      name:this.item.name,
+      hod: this.staffDetails.staffNo,
+      acting_hod:this.item.acting_hod
+    }  
+ console.log('data', data)
     this.service.post(`${Constants.BASE_URL}/departments`, data).subscribe({
       next: (response: any) => {
         if (response.code === 200) {
           this.isLoading = false;
-          
+          this.addHOD()
         }
       },
       complete() {
@@ -113,11 +119,9 @@ export class DepartmentComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading = false;
-
         this.alert.message = error.message;
         this.alert.title = "Oops!";
         this.alert.type = "danger";
-
         this.alert.isOpen = true;
       },
     });

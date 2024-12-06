@@ -189,7 +189,6 @@ export class GroupConflictComponent implements OnInit {
         this.alertSearch.message = error.message;
         this.alertSearch.title = "Oops!";
         this.alertSearch.type = "danger";
-
         this.alertSearch.isOpen = true;
       }
     })
