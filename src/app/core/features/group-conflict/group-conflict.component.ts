@@ -535,8 +535,7 @@ export class GroupConflictComponent implements OnInit {
     const formData = new FormData();
     formData.append('declaration', JSON.stringify(declaration));
     formData.append('file', this.declarationForm.get('file').value);
-
-    this.service.post(`${Constants.BASE_URL}/departments/hod`, formData).subscribe({
+    this.service.post(`${Constants.BASE_URL}/coi-group/initiate`, formData).subscribe({
       next: (response: any) => {
         if (response.code === 200) {
           this.isLoading = false;

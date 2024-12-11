@@ -1,6 +1,6 @@
 <div class="modal-content px-2 responsive-width">
     <div class="modal-header">
-        <h3 class="modal-title" style="font-weight: bold; color: #741110;" >Department Particulars</h3>
+        <h3 class="modal-title" style="font-weight: bold; color: #741110;">Department Particulars</h3>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
             (click)="activeModal.dismiss('Cross click')"></button>
     </div>
@@ -22,7 +22,12 @@
                 <tr>
                     <td>{{ item.code }}</td>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.deptHead.staffNo }}: {{ item.deptHead.firstName }} {{ item.deptHead.lastName }}</td>
+                    <td *ngIf="item.deptHead; else noDeptHead">
+                        {{ item.deptHead.staffNo }}: {{ item.deptHead.firstName }} {{ item.deptHead.lastName }}
+                    </td>
+                    <ng-template #noDeptHead>
+                        <td> </td>
+                    </ng-template>
                 </tr>
             </tbody>
         </table>
@@ -50,7 +55,7 @@
                 <div class="d-flex justify-content-between">
                     <p class="fw-bold">HOD Details</p>
                     <div>
-                        <button class="custom-button" (click)="toggleSearch()"> Clear                            
+                        <button class="custom-button" (click)="toggleSearch()"> Clear
                         </button>
                     </div>
                 </div>
@@ -71,19 +76,19 @@
                     </table>
                 </div>
                 <div class="row my-2">
-                    
-                        <div class="col-6 mt-2">
-                            <button type="button" (click)="cancel()" class="btn btn-block btn-rounded outlined-button">
-                                Cancel <img src="assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
-                            </button>
-                        </div>
-                        <div class="col-6 mt-2">
-                            <button type="button" class="btn btn-block btn-rounded filled-button"
+
+                    <div class="col-6 mt-2">
+                        <button type="button" (click)="cancel()" class="btn btn-block btn-rounded outlined-button">
+                            Cancel <img src="assets/icons/main-layout-icons/clear-icon.svg" alt="Clear Icon">
+                        </button>
+                    </div>
+                    <div class="col-6 mt-2">
+                        <button type="button" class="btn btn-block btn-rounded filled-button"
                             (click)="onSubmit()">Submit
-                                <img src="./assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit" />
-                            </button>
-                        </div>
-                                     
+                            <img src="./assets/icons/main-layout-icons/submit.svg" class="pb-1" alt="Submit" />
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -107,17 +112,17 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-      <div class="col d-flex justify-content-center">
-        <p class="success">SUCCESS</p>
-      </div>
-      <button type="button" class="btn-close" aria-label="Close" (click)="onCloseClick()"></button>
+        <div class="col d-flex justify-content-center">
+            <p class="success">SUCCESS</p>
+        </div>
+        <button type="button" class="btn-close" aria-label="Close" (click)="onCloseClick()"></button>
     </div>
     <lottie-player slot="end" autoplay loop src="assets/img/animations/Success.json" style="height: 150px;">
     </lottie-player>
     <div class="col text-center">
-      <p style="font-size: 15px; font-weight: bold;">Your task has been submitted successfully.</p>
+        <p style="font-size: 15px; font-weight: bold;">Your task has been submitted successfully.</p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
+        <button type="button" class="btn btn-secondary" (click)="onCloseClick()">Close</button>
     </div>
-  </ng-template>
+</ng-template>
